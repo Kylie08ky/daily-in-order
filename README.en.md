@@ -10,6 +10,21 @@ Daily in Order is a personal workspace with Chinese, English and German interfac
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
+## Screenshots
+
+English sign-in page:
+
+![Daily in Order English sign-in screen with a green palette and personal account access](docs/images/sign-in-en.jpg)
+
+<details>
+<summary>View the daily intake module (local test data, Chinese UI)</summary>
+
+![Daily intake screen showing calories, protein, exercise expenditure and meal entries](docs/images/nutrition-demo-zh.jpg)
+
+</details>
+
+These are actual app screenshots of an empty sign-in form or a local test account, with no real user records. Nutrition figures are illustrative only. The English sign-in capture predates the German language selector. [Screenshot notes](docs/images/README.md)
+
 ## Features
 
 | Area | What it does |
@@ -113,6 +128,19 @@ To manage all users' feedback, create a `feedbackAdmins/{uid}` document in the F
 - Clearing site data, storage eviction or device loss can affect unsynchronized records. Export JSON backups regularly.
 - A full restore replaces the current workspace; back it up first. CSV and ICS are exchange formats, not full backups. ICS import supports the common recurrence rules implemented in the app, not every calendar feature.
 - This is an actively evolving personal project. The repository's tests describe the tested scope; review dependencies and your deployment configuration before running a public service.
+
+## Maintenance and release workflow
+
+Future feature changes follow this workflow without a separate reminder to synchronize GitHub:
+
+1. **Implement and verify**: complete the relevant code and checks while preserving existing records and preview/production data isolation.
+2. **Synchronize GitHub and both READMEs**: review `README.md` and `README.en.md` for every feature change, update affected descriptions, instructions and images in both languages, then commit and push to this repository.
+3. **Deploy to preview first**: provide the preview URL and a change summary for the project owner to test. A GitHub push does not automatically deploy the website.
+4. **Promote only after confirmation**: release the exact reviewed Hosting version only after the project owner explicitly approves the current preview. Further feature changes require another preview and confirmation.
+
+Releases update application functionality; they do not copy test data or overwrite user records. Documentation-only or README-image changes are pushed to GitHub without a website deployment. Database rule/index changes require a separate check of their production impact.
+
+See [Maintenance and releases](docs/MAINTENANCE.md) for the full agreement. Coding assistants and maintenance tools should read [AGENTS.md](AGENTS.md) first.
 
 ## Project structure and checks
 
