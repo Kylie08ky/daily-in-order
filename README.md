@@ -25,6 +25,31 @@
 
 截图来自实际应用的空白登录页或本地测试账号，不包含真实用户数据。营养数字仅用于界面演示。[截图说明](docs/images/README.md)
 
+### 今日概览、时间轴与专注计时
+
+以下截图使用本地 Firebase 模拟器中的虚构账号与任务；未导入、读取或展示真实用户记录。可选生活模块在本组演示中关闭，突出日程与项目。
+
+<details>
+<summary>今日概览：待办清单、项目进度和今日随记</summary>
+
+![今日概览测试界面：六项示例任务、项目进度与虚构随记](docs/images/today-demo-zh.jpg)
+
+</details>
+
+<details>
+<summary>当日时间轴：连续投入记录与待执行安排</summary>
+
+![时间轴测试界面：九点开始的连续投入与后续阅读安排](docs/images/timeline-demo-zh.jpg)
+
+</details>
+
+<details>
+<summary>沉浸专注：倒计时与实时增长的虚拟激励</summary>
+
+![专注计时测试界面：当前任务、剩余时间、虚拟成长值与暂停结束操作](docs/images/focus-demo-zh.jpg)
+
+</details>
+
 ## 功能与使用
 
 | 模块 | 可以做什么 |

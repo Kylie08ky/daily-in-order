@@ -25,6 +25,31 @@ English sign-in page:
 
 These are actual app screenshots of an empty sign-in form or a local test account, with no real user records. Nutrition figures are illustrative only. The English sign-in capture predates the German language selector. [Screenshot notes](docs/images/README.md)
 
+### Today, timeline and focus timer
+
+These screenshots use fictional accounts and tasks in local Firebase emulators. No real user records were imported, read or displayed. Optional lifestyle modules are disabled in this demo to highlight scheduling and projects.
+
+<details>
+<summary>Today: a task list, project progress and daily notes</summary>
+
+![Today dashboard with six synthetic tasks, project progress and fictional daily notes](docs/images/today-demo-en.jpg)
+
+</details>
+
+<details>
+<summary>Daily timeline: consecutive time records and upcoming plans</summary>
+
+![Daily timeline showing consecutive work sessions starting at nine and a later reading plan](docs/images/timeline-demo-en.jpg)
+
+</details>
+
+<details>
+<summary>Full-screen focus: a countdown and growing virtual rewards</summary>
+
+![Focus timer with the current task, remaining time, virtual growth points and session controls](docs/images/focus-demo-en.jpg)
+
+</details>
+
 ## Features
 
 | Area | What it does |
