@@ -27,3 +27,5 @@ Captured on 2026-11-04 from the local development app using the `demo-friends-is
 No real workspace, personal export or production database was used. The temporary account setup scripts and emulator records are not part of the published repository, and no demo content was added to new-user defaults.
 
 没有使用真实工作台、个人导出或生产数据库。临时账号初始化脚本和模拟器记录不进入公开仓库，演示内容也不会成为新用户默认数据。
+
+- `quick-start-zh.jpg` / `quick-start-en.jpg`: v0.7.0 quick-entry dialog, local `demo-friends-isolation` synthetic account. Plain-list input only, no cloud AI call and no personal records. Captured at normal desktop viewport.

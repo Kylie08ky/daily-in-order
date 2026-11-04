@@ -12,7 +12,13 @@ This repository contains application source, tests and deployment scripts. It do
 
 ## Screenshots
 
-All five screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
+All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
+
+### Quick start (v0.7.0 preview)
+
+Write down what you want to do, then review an editable draft. No project or goal setup required.
+
+![Quick start with synthetic local task input](docs/images/quick-start-en.jpg)
 
 ### Today
 
@@ -57,7 +63,13 @@ Chinese UI with illustrative test entries. The nutrition figures are not dietary
 | Review and backup | Review time trends, back up/restore full JSON state, and import/export task CSV and calendar ICS files |
 | Onboarding and feedback | Choose modules, set goals, follow a usage walkthrough, submit feedback and see its status |
 
-Start small: **create a project → add a task → assign a date or time → focus or log progress → review your activity**.
+**Preview v0.7.0: write a list → review the draft → get started.** New accounts see Quick Start; existing accounts use Quick add. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
+
+Optional **Organize with AI** uses Firebase AI Logic / Gemini Developer API to create an editable draft from natural language, with follow-up revisions. Only the current input and selected draft are sent after consent, not existing workspace records. AI cannot save tasks or invent actual work. Repeating rules are not created in this first version; review the draft. List entry works offline; AI requires a connection. These changes are preview-first; production may still run the previous release.
+
+The trial has a **10-attempt daily browser counter per account on each device (UTC)**, including failed attempts. This is not a server-side account quota, abuse control or spending cap; changing devices or clearing storage resets it. Provider free-tier limits also apply. A no-cost trial requires Firebase **Spark with no Cloud Billing account**. Exhausted quotas stop requests; the app never upgrades billing.
+
+To enable AI yourself, follow [Firebase AI Logic setup](https://firebase.google.com/docs/ai-logic/get-started?platform=web) for Gemini Developer API and App Check, then set the three AI variables from `.env.example` in `.env.local`. Restrict the App Check site key to your preview hostname; review production domain setup separately before promoting. Never add a Gemini secret key, enable Cloud Functions, or link billing for this feature. App Check policies are project-wide: do not change production enforcement without review. See [free-plan conditions](https://firebase.google.com/docs/ai-logic/pricing) and [Google AI data-use terms](https://ai.google.dev/gemini-api/terms). Emulator projects always disable real AI calls; local tests use synthetic responses.
 
 Switch languages in the interface or use `?lang=zh`, `?lang=en` or `?lang=de`. Your task names, notes and book titles are not automatically translated. CSV column headers currently remain in Chinese.
 
