@@ -65,6 +65,8 @@
 
 可选「AI 帮我整理」通过 Firebase AI Logic / Gemini Developer API 把自然语言整理成可编辑草稿，也可继续描述修改。只有同意后才发送本次输入和选中草稿，不自动读取原有工作台记录；AI 不直接保存，不生成实际投入。重复规则第一版不自动创建，需自行核对草稿。清单录入可离线，AI 需要联网。该功能先在预览验收，在线正式版以已发布版本为准。
 
+云端 AI 还需要 Google App Check 验证通过。若浏览器出现验证失败（例如 403），输入会保留，可改用普通清单；应用不会跳过验证，也不会自动改用收费接口。
+
 AI 试用设有**本设备每账号每天 10 次尝试（UTC）**的浏览器计数，包括失败请求；这不是服务端账号配额，也不是防滥用或费用上限，清空存储/换设备会重置。服务商免费配额另有限制。零付费试用依赖 Firebase **Spark、未关联 Cloud Billing**；额度耗尽时停止调用，不自动升级。
 
 自行启用：按 [Firebase AI Logic 文档](https://firebase.google.com/docs/ai-logic/get-started?platform=web) 配置 Gemini Developer API 和 App Check，在 `.env.local` 填写 `.env.example` 中的三个 AI 配置项。App Check 站点密钥仅允许自己的预览域名；正式发布前另行审阅正式域名配置。不要放入 Gemini 密钥，不要为本功能启用 Cloud Functions 或绑定结算账户。App Check 策略为项目级，勿未经审核改变正式环境的校验策略。查看 [免费方案条件](https://firebase.google.com/docs/ai-logic/pricing) 和 [Google AI 数据使用条款](https://ai.google.dev/gemini-api/terms)。本地模拟器始终关闭真实 AI 请求，测试只使用虚构返回。

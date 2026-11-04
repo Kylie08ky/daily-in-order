@@ -1866,5 +1866,6 @@ export const german:Record<string,string> = {
   "先写清单再开始，支持批量预览、编辑与撤销；项目和目标可以以后设置。": "Beginne mit einer Liste. Prüfe, bearbeite und widerrufe mehrere Aufgaben; Projekte und Ziele folgen später.",
   "可选云端 AI 整理，先确认发送文字，再检查草稿；没有填写的实际投入不会自动补写。": "Optionale Cloud-KI: Übermittlung bestätigen und Entwürfe vor dem Speichern prüfen. Tatsächlicher Aufwand wird nie erfunden.",
   "AI 整理仅在你同意后发送本次输入与选中的草稿给 Google AI，不会自动发送已有任务、笔记或财务记录。普通清单解析在本机完成。": "Die KI sendet nach Zustimmung nur diese Eingabe und den ausgewählten Entwurf an Google AI. Bestehende Aufgaben, Notizen und Finanzdaten werden nicht automatisch gesendet. Einfache Listen werden lokal verarbeitet.",
-  "Google AI 数据使用说明": "Datennutzung durch Google AI"
+  "Google AI 数据使用说明": "Datennutzung durch Google AI",
+  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "Die App-Prüfung ist fehlgeschlagen. Versuche es später im gewohnten Browser oder nutze die Listeneingabe. Dieser Text wird nicht an die KI gesendet."
 };

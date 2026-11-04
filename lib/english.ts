@@ -1866,5 +1866,6 @@ export const english:Record<string,string> = {
   "先写清单再开始，支持批量预览、编辑与撤销；项目和目标可以以后设置。": "Start with a list. Preview, edit and undo a batch; set up projects and goals later.",
   "可选云端 AI 整理，先确认发送文字，再检查草稿；没有填写的实际投入不会自动补写。": "Optional cloud AI: consent before sending text, review drafts before saving. Actual work is never invented.",
   "AI 整理仅在你同意后发送本次输入与选中的草稿给 Google AI，不会自动发送已有任务、笔记或财务记录。普通清单解析在本机完成。": "AI organization sends only this input and selected draft to Google AI after consent. Existing tasks, notes and finances are not automatically sent. Plain list parsing runs locally.",
-  "Google AI 数据使用说明": "Google AI data usage"
+  "Google AI 数据使用说明": "Google AI data usage",
+  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "App verification failed. Try your usual browser later or use list entry. This text will not be sent to AI."
 };

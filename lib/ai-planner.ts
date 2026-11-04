@@ -1,10 +1,12 @@
 import {auth,firebaseApp,firebaseProject,deviceProject} from './firebase';
 import {plannerPrompt,parseAIPlan,type DraftItem} from './quick-capture';
 import {language} from './i18n';
+import type {AppCheck} from 'firebase/app-check';
 
 export const aiConfigured=import.meta.env.VITE_AI_ENABLED==='true'&&!!import.meta.env.VITE_APPCHECK_SITE_KEY&&!firebaseProject.startsWith('demo-');
-let appCheckReady:Promise<unknown>|undefined;
+let appCheckReady:Promise<AppCheck>|undefined;
 let running=false;
+class TrialError extends Error{}
 export async function organizeWithAI(text:string,date:string,draft:DraftItem[]=[]){
  if(!aiConfigured)throw Error('AI 免费试用尚未配置，可以先使用清单录入。');
  const user=auth.currentUser;
@@ -20,17 +22,19 @@ export async function organizeWithAI(text:string,date:string,draft:DraftItem[]=[
  try{
   localStorage.setItem(key,String(used+1));
   appCheckReady??=import('firebase/app-check').then(({initializeAppCheck,ReCaptchaEnterpriseProvider})=>initializeAppCheck(firebaseApp,{provider:new ReCaptchaEnterpriseProvider(import.meta.env.VITE_APPCHECK_SITE_KEY),isTokenAutoRefreshEnabled:true})).catch(e=>{appCheckReady=undefined;throw e;});
-  await appCheckReady;
+  const check=await appCheckReady;
+  const {getToken}=await import('firebase/app-check');
+  try{await getToken(check,false);}catch{throw new TrialError('应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。');}
   const {getAI,getGenerativeModel,GoogleAIBackend}=await import('firebase/ai');
   const model=getGenerativeModel(getAI(firebaseApp,{backend:new GoogleAIBackend()}),{model:import.meta.env.VITE_AI_MODEL||'gemini-3.8-flash',generationConfig:{responseMimeType:'application/json',temperature:0.2,maxOutputTokens:6000}},{timeout:45000});
   const result=await model.generateContent(prompt);
-  if(auth.currentUser?.uid!==user.uid)throw Error('账号已切换，草稿未保存。');
+  if(auth.currentUser?.uid!==user.uid)throw new TrialError('账号已切换，草稿未保存。');
   return parseAIPlan(result.response.text());
  }catch(e){
   // Do not expose raw provider output, request contents or tokens in the UI.
   const code=String((e as {code?:string})?.code||'');
   if(code.includes('429')||code.includes('quota'))throw Error('免费 AI 额度暂时用完，请稍后重试，或使用清单录入。');
-  if(e instanceof Error&&e.message==='账号已切换，草稿未保存。')throw e;
+  if(e instanceof TrialError)throw e;
   throw Error('AI 暂时无法生成有效草稿。原来的内容还在，请稍后重试，或使用清单录入。');
  }finally{running=false;}
 }
