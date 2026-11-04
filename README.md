@@ -12,43 +12,35 @@
 
 ## 界面预览
 
-中文登录页：
+以下五张截图直接展示，无需展开。全部来自空白登录页或本地虚构测试账号，不含真实用户记录。[截图说明](docs/images/README.md)
 
-![日常有序中文登录界面，绿色配色与独立账号入口](docs/images/sign-in-zh.jpg)
+### 今日概览
 
-<details>
-<summary>查看每日摄入界面（本地测试数据）</summary>
-
-![每日摄入界面：热量、蛋白质、运动消耗与分餐记录](docs/images/nutrition-demo-zh.jpg)
-
-</details>
-
-截图来自实际应用的空白登录页或本地测试账号，不包含真实用户数据。营养数字仅用于界面演示。[截图说明](docs/images/README.md)
-
-### 今日概览、时间轴与专注计时
-
-以下截图使用本地 Firebase 模拟器中的虚构账号与任务；未导入、读取或展示真实用户记录。可选生活模块在本组演示中关闭，突出日程与项目。
-
-<details>
-<summary>今日概览：待办清单、项目进度和今日随记</summary>
+待办清单、项目进度和今日随记。本组演示关闭了可选生活模块，突出日程与项目。
 
 ![今日概览测试界面：六项示例任务、项目进度与虚构随记](docs/images/today-demo-zh.jpg)
 
-</details>
+### 当日时间轴
 
-<details>
-<summary>当日时间轴：连续投入记录与待执行安排</summary>
+连续的实际投入记录与后续安排，在同一条时间轴中显示。
 
 ![时间轴测试界面：九点开始的连续投入与后续阅读安排](docs/images/timeline-demo-zh.jpg)
 
-</details>
+### 沉浸专注
 
-<details>
-<summary>沉浸专注：倒计时与实时增长的虚拟激励</summary>
+当前任务、倒计时与实时增长的虚拟激励。
 
 ![专注计时测试界面：当前任务、剩余时间、虚拟成长值与暂停结束操作](docs/images/focus-demo-zh.jpg)
 
-</details>
+### 登录界面
+
+![日常有序中文登录界面，绿色配色与独立账号入口](docs/images/sign-in-zh.jpg)
+
+### 每日摄入
+
+营养数字仅用于界面演示，不是饮食建议。
+
+![每日摄入界面：热量、蛋白质、运动消耗与分餐记录](docs/images/nutrition-demo-zh.jpg)
 
 ## 功能与使用
 

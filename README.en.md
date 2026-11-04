@@ -12,43 +12,37 @@ This repository contains application source, tests and deployment scripts. It do
 
 ## Screenshots
 
-English sign-in page:
+All five screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
 
-![Daily in Order English sign-in screen with a green palette and personal account access](docs/images/sign-in-en.jpg)
+### Today
 
-<details>
-<summary>View the daily intake module (local test data, Chinese UI)</summary>
-
-![Daily intake screen showing calories, protein, exercise expenditure and meal entries](docs/images/nutrition-demo-zh.jpg)
-
-</details>
-
-These are actual app screenshots of an empty sign-in form or a local test account, with no real user records. Nutrition figures are illustrative only. The English sign-in capture predates the German language selector. [Screenshot notes](docs/images/README.md)
-
-### Today, timeline and focus timer
-
-These screenshots use fictional accounts and tasks in local Firebase emulators. No real user records were imported, read or displayed. Optional lifestyle modules are disabled in this demo to highlight scheduling and projects.
-
-<details>
-<summary>Today: a task list, project progress and daily notes</summary>
+A task list, project progress and daily notes. Optional lifestyle modules are disabled in this demo to highlight scheduling and projects.
 
 ![Today dashboard with six synthetic tasks, project progress and fictional daily notes](docs/images/today-demo-en.jpg)
 
-</details>
+### Daily timeline
 
-<details>
-<summary>Daily timeline: consecutive time records and upcoming plans</summary>
+Consecutive time records and upcoming plans appear on the same timeline.
 
 ![Daily timeline showing consecutive work sessions starting at nine and a later reading plan](docs/images/timeline-demo-en.jpg)
 
-</details>
+### Full-screen focus
 
-<details>
-<summary>Full-screen focus: a countdown and growing virtual rewards</summary>
+The current task, a countdown and growing virtual rewards.
 
 ![Focus timer with the current task, remaining time, virtual growth points and session controls](docs/images/focus-demo-en.jpg)
 
-</details>
+### Sign-in screen
+
+The English sign-in capture predates the German language selector.
+
+![Daily in Order English sign-in screen with a green palette and personal account access](docs/images/sign-in-en.jpg)
+
+### Daily intake
+
+Chinese UI with illustrative test entries. The nutrition figures are not dietary advice.
+
+![Daily intake screen showing calories, protein, exercise expenditure and meal entries](docs/images/nutrition-demo-zh.jpg)
 
 ## Features
 
