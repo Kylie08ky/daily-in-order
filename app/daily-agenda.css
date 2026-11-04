@@ -1,0 +1,92 @@
+/* One bounded daily workspace. The list and clock share the same footprint. */
+:root .app-shell .home-dashboard .dashboard-main{height:clamp(620px,76vh,790px);align-items:stretch;gap:20px}
+:root .app-shell .home-dashboard .dashboard-agenda{min-height:0;display:block;height:100%}
+:root .app-shell .home-dashboard .dashboard-schedule{height:100%;margin:0;padding:22px;display:flex;flex-direction:column;min-height:0;box-sizing:border-box}
+:root .app-shell .home-dashboard .dashboard-section-head{flex:none;margin:0 0 18px;align-items:center}
+:root .app-shell .home-dashboard .dashboard-section-head .eyebrow{display:none}
+:root .app-shell .home-dashboard .dashboard-section-head h2{margin:0 0 8px;font-size:20px;line-height:1.4}
+:root .app-shell .home-dashboard .dashboard-section-head .tabs{background:#ffffff0d;padding:4px;border-radius:10px}
+:root .app-shell .home-dashboard .dashboard-section-head .tabs button{padding:7px 10px;font-size:12px}
+:root .app-shell .home-dashboard .agenda-content{flex:1;min-height:0;display:flex;flex-direction:column}
+:root .app-shell .home-dashboard .agenda-content>.unified-timeline{height:100%;display:flex;flex-direction:column;min-height:0}
+:root .app-shell .home-dashboard .agenda-content .dashboard-time-scroll{flex:1;min-height:0;max-height:none;padding-top:0;border:1px solid #75816b;border-radius:10px}
+:root .app-shell .home-dashboard .dashboard-agenda-actions{flex:none;padding-top:14px;margin-top:0;min-height:44px}
+:root .app-shell .home-dashboard .dashboard-overview{height:100%;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,.9fr) minmax(0,1.15fr);gap:20px;min-height:0}
+:root .app-shell .home-dashboard .dashboard-projects{margin:0;min-height:0;display:flex;flex-direction:column;padding:22px}
+:root .app-shell .home-dashboard .dashboard-project-grid{min-height:0;max-height:none;flex:1;overflow:auto;scrollbar-gutter:stable;gap:0}
+:root .app-shell .home-dashboard .dashboard-project{padding:16px 8px 16px 0;border-bottom:1px solid #b8c6a62b;background:transparent}
+:root .app-shell .home-dashboard .dashboard-project-title{margin-bottom:9px}
+:root .app-shell .home-dashboard .dashboard-project-title b{font-size:21px}
+:root .app-shell .home-dashboard .dashboard-project-meta{margin:8px 0 0}
+:root .app-shell .home-dashboard .dashboard-project>small{display:none}
+:root .app-shell .home-dashboard .dashboard-overview .note{min-height:0;margin:0;padding:22px;display:flex;flex-direction:column;gap:12px}
+:root .app-shell .home-dashboard .dashboard-overview .note h3{font-size:17px;margin:0;flex:none}
+:root .app-shell .home-dashboard .dashboard-overview .note textarea{height:auto;min-height:0;flex:1;resize:none;padding:13px 15px;line-height:1.85;font-size:14px;border:1px solid #83927466;border-radius:10px;background:#ffffff08;color:#f1f4e9;scrollbar-width:thin}
+:root .app-shell .home-dashboard .dashboard-overview .note>.row{flex:none}
+:root .app-shell .home-dashboard .dashboard-overview .note>small{display:none}
+:root .app-shell .home-dashboard .overdue-entry{margin-top:16px}
+.agenda-list-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable;padding-right:8px}
+.agenda-filters{display:flex;gap:5px;flex:none;margin:0 0 8px}
+:root .app-shell .agenda-filters button{border:0;background:transparent;color:#dbe3d1;padding:7px 10px;font-size:12px;border-radius:7px}
+:root .app-shell .agenda-filters button[aria-pressed=true]{background:#d3ddc1;color:#2e3d2c}
+.agenda-filters span{margin-left:4px;font-variant-numeric:tabular-nums;opacity:.85}
+:root .app-shell .task-row .task-actions{display:flex;gap:3px;flex-wrap:nowrap;align-items:center;flex:none}
+:root .app-shell .task-row .task-actions .icon-btn{display:inline-flex;justify-content:center;align-items:center;width:30px;height:30px;min-height:30px;padding:6px;border:0;border-radius:7px;background:transparent;color:inherit;position:relative;flex:none}
+:root .app-shell .task-row .task-actions .icon-btn:hover,:root .app-shell .task-row .task-actions .icon-btn:focus-visible{background:#d1ddbf;color:#2b3b28}
+:root .app-shell .task-row .task-actions .task-focus-button{background:#c6d9a923;color:#d9ecc4}
+:root .app-shell .task-row .task-actions .task-focus-button:disabled{display:inline-flex;opacity:.25;cursor:default}
+:root .app-shell .task-row .task-actions .icon-btn svg{width:16px;height:16px}
+:root .app-shell .agenda-list-scroll .task-row{margin:0;padding:17px 0;align-items:center;gap:10px;border-bottom:1px solid #bac7ae33}
+:root .app-shell .agenda-list-scroll .task-row .task-body{padding:0;min-width:0;flex:1}
+:root .app-shell .agenda-list-scroll .task-row .task-body strong{font-size:14px;line-height:1.5}
+:root .app-shell .agenda-list-scroll .task-row .task-body>small{font-size:11px;margin-top:5px;line-height:1.5}
+:root .app-shell .agenda-list-scroll .task-investment{font-size:11px;line-height:1.5;margin-top:7px;gap:5px;max-width:100%}
+:root .app-shell .agenda-list-scroll .task-investment progress{height:3px;background:#65715d;accent-color:#b6cda0}
+:root .app-shell .task-investment progress::-webkit-progress-bar{background:#6c7665;border-radius:6px}
+:root .app-shell .task-investment progress::-webkit-progress-value{background:#adc595;border-radius:6px}
+:root .app-shell .agenda-list-scroll .task-row.done .task-body{opacity:.72}
+
+/* These event classes deliberately avoid the older short-block overrides. */
+:root .unified-timeline .agenda-event{position:absolute;box-sizing:border-box;border-left:3px solid var(--task-color);border-radius:7px;padding:4px 8px;background:#e7eddb;color:#283b2b;overflow:hidden;box-shadow:none;min-width:0}
+:root .unified-timeline .agenda-event.recorded{background:#d5e3c5;border-left-color:#7f9d62}
+:root .unified-timeline .agenda-event.dragging{z-index:10;box-shadow:0 4px 16px #0003}
+:root .unified-timeline .agenda-event button{background:transparent;border:0;color:#293a2a;min-height:0;border-radius:0;box-shadow:none}
+:root .unified-timeline .agenda-event-time{display:flex;align-items:center;gap:4px;width:100%;height:19px;padding:0 28px 0 0;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;cursor:grab;touch-action:none;text-align:left}
+:root .unified-timeline .agenda-event-time .recorded-label{margin-left:auto;font-size:10px;color:#4a5e40}
+:root .unified-timeline .agenda-event-title{display:block;width:100%;text-align:left;padding:0 26px 0 0;font-size:13px;font-weight:600;line-height:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root .unified-timeline .agenda-event>small{font-size:11px;display:block;margin-top:3px;color:#4a5e40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root .unified-timeline .agenda-event .agenda-event-focus{position:absolute;right:5px;top:5px;padding:3px;width:24px;height:24px;display:flex;justify-content:center;align-items:center;border-radius:6px}
+:root .unified-timeline .agenda-event-focus:hover{background:#b5c9a0}
+:root .unified-timeline .agenda-event-done{padding:3px 0;font-size:11px;margin-top:7px}
+:root .unified-timeline .agenda-event-resize{position:absolute;bottom:0;left:0;width:100%;height:5px;padding:0;cursor:ns-resize;touch-action:none}
+:root .unified-timeline .agenda-event.micro{display:flex;align-items:center;gap:5px;padding:0 5px}
+:root .unified-timeline .agenda-event.micro .agenda-event-time{width:auto;flex:none;font-size:10px;padding:0;height:100%}
+:root .unified-timeline .agenda-event.micro .recorded-label,:root .unified-timeline .agenda-event.micro .agenda-event-focus{display:none}
+:root .unified-timeline .agenda-event.micro .agenda-event-title{font-size:12px;padding:0}
+:root .unified-timeline .timeline-intro{margin:0 0 12px}
+:root .unified-timeline .timeline-intro small{font-size:12px!important;color:inherit;opacity:.85}
+
+@media(max-width:1050px){
+ :root .app-shell .home-dashboard .dashboard-main{height:auto;grid-template-columns:1fr}
+ :root .app-shell .home-dashboard .dashboard-agenda{height:620px}
+ :root .app-shell .home-dashboard .dashboard-overview{height:340px;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);align-items:stretch}
+}
+@media(max-width:650px){
+ :root .app-shell .home-dashboard .dashboard-agenda{height:600px;max-height:85dvh;min-height:460px}
+ :root .app-shell .home-dashboard .dashboard-schedule,:root .app-shell .home-dashboard .dashboard-projects,:root .app-shell .home-dashboard .dashboard-overview .note{padding:16px}
+ :root .app-shell .home-dashboard .dashboard-overview{height:auto;display:grid;grid-template-columns:1fr;grid-template-rows:300px 300px}
+ :root .app-shell .home-dashboard .dashboard-section-head h2{font-size:18px}
+ :root .app-shell .home-dashboard .dashboard-section-head .tabs button{padding:7px;font-size:11px}
+ :root .app-shell .task-row{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px}
+ :root .app-shell .task-row .task-body{min-width:0}
+ :root .app-shell .task-row .task-actions{grid-column:2;margin:0;justify-content:flex-end}
+ :root .app-shell .task-row .task-actions .icon-btn{width:30px;height:30px}
+ :root .app-shell .home-dashboard .dashboard-section-head{gap:8px}
+ :root .unified-timeline .agenda-event-title{font-size:12px}
+}
+
+:root .app-shell .home-dashboard .agenda-filters button{color:#dce5d1!important;background:transparent!important}:root .app-shell .home-dashboard .agenda-filters button[aria-pressed=true]{color:#2d3d29!important;background:#d3ddc1!important}
+
+:root .app-shell .agenda-list-scroll .task-investment>small{display:none}
+
+:root .app-shell .home-dashboard .dashboard-overview{grid-row:auto}

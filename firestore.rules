@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owner(uid) {
+      return request.auth != null && request.auth.uid == uid && request.auth.token.email_verified == true;
+    }
+    match /{space}/{uid}/workspace/current {
+      allow get: if space in ['users','previewUsers'] && owner(uid);
+      allow create, update: if space in ['users','previewUsers'] && owner(uid)
+        && request.resource.data.keys().hasOnly(['ownerId','revision','updatedAt','chunks','schemaVersion'])
+        && request.resource.data.ownerId == uid
+        && request.resource.data.schemaVersion == 1
+        && request.resource.data.revision is int && request.resource.data.revision >= 0
+        && request.resource.data.updatedAt is string
+        && request.resource.data.chunks is int && request.resource.data.chunks >= 1 && request.resource.data.chunks <= 64
+        && ((!exists(/databases/$(database)/documents/$(space)/$(uid)/workspace/current) && request.resource.data.revision == 0)
+          || (exists(/databases/$(database)/documents/$(space)/$(uid)/workspace/current) && request.resource.data.revision == resource.data.revision + 1));
+    }
+    match /{space}/{uid}/chunks/{chunk} {
+      allow get: if space in ['users','previewUsers'] && owner(uid);
+      allow create, update: if space in ['users','previewUsers'] && owner(uid)
+        && request.resource.data.keys().hasOnly(['ownerId','revision','data'])
+        && request.resource.data.ownerId == uid
+        && request.resource.data.data is string && request.resource.data.data.size() <= 600000
+        && request.resource.data.revision is int
+        && request.resource.data.revision == getAfter(/databases/$(database)/documents/$(space)/$(uid)/workspace/current).data.revision;
+      allow delete: if space in ['users','previewUsers'] && owner(uid);
+    }
+    function verified() { return request.auth != null && request.auth.token.email_verified == true; }
+    function feedbackAdmin() { return verified() && exists(/databases/$(database)/documents/feedbackAdmins/$(request.auth.uid)) && get(/databases/$(database)/documents/feedbackAdmins/$(request.auth.uid)).data.enabled == true; }
+    function imageValid(value) { return value is string && value.size() <= 180000 && value.matches('data:image/jpeg;base64,[A-Za-z0-9+/=]+'); }
+    match /feedbackAdmins/{uid} { allow get: if owner(uid); }
+    match /{feedbackSpace}/{id} {
+      allow read: if feedbackSpace in ['feedback','previewFeedback'] && verified() && (resource.data.ownerId == request.auth.uid || feedbackAdmin());
+      allow create: if feedbackSpace in ['feedback','previewFeedback'] && verified()
+        && request.resource.data.keys().hasAll(['ownerId','kind','content','contact','images','status','reply','createdAt','updatedAt'])
+        && request.resource.data.keys().hasOnly(['ownerId','kind','content','contact','images','status','reply','createdAt','updatedAt'])
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.kind in ['出问题了','想要新功能','其他','夸夸']
+        && request.resource.data.content is string && request.resource.data.content.size() > 0 && request.resource.data.content.size() <= 2000
+        && request.resource.data.contact is string && request.resource.data.contact.size() <= 200
+        && request.resource.data.images is list && request.resource.data.images.size() <= 3
+        && (request.resource.data.images.size() < 1 || imageValid(request.resource.data.images[0]))
+        && (request.resource.data.images.size() < 2 || imageValid(request.resource.data.images[1]))
+        && (request.resource.data.images.size() < 3 || imageValid(request.resource.data.images[2]))
+        && request.resource.data.status == 'new' && request.resource.data.reply == ''
+        && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+      allow update: if feedbackSpace in ['feedback','previewFeedback'] && feedbackAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','reply','updatedAt'])
+        && request.resource.data.status in ['new','reviewing','resolved']
+        && request.resource.data.reply is string && request.resource.data.reply.size() <= 2000
+        && request.resource.data.updatedAt == request.time;
+    }
+    // Everything else remains private and deny-by-default.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

@@ -1,0 +1,12 @@
+.app-status{margin:0 0 16px;max-width:100%;color:#32422f}.app-status-toggle{background:#e8eee1!important;color:#32422f!important;border:1px solid #c8d1be!important;padding:8px 14px!important;font-size:14px!important}.app-status-body{background:#f7f8f2;color:#263423;border:1px solid #c8d1be;border-radius:16px;padding:20px;margin-top:10px;line-height:1.7}.app-status-body p{max-width:85ch}.app-status-body pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto}.app-status-body ol{max-height:300px;overflow:auto}.connection{flex-wrap:wrap;gap:8px}.connection span{overflow-wrap:anywhere}@media(max-width:640px){input,select,textarea{font-size:16px!important}.main{padding-bottom:calc(24px + env(safe-area-inset-bottom))!important}.app-shell{padding-top:env(safe-area-inset-top)}.app-status-body{padding:14px}.app-status-body button{min-height:44px}.modal{max-width:calc(100vw - 20px);max-height:calc(100dvh - 32px);overflow:auto}.connection{height:auto!important;min-height:32px}.app-status-toggle{min-height:40px}}
+/* Explicit colors on light status surfaces, including photographic themes. */
+.app-shell .main .error-banner,.app-shell .main .error-banner button{color:#673f25;font-size:14px;line-height:1.6}
+.app-shell .main .app-status-body,.app-shell .main .app-status-body p,.app-shell .main .app-status-body small{color:#263423}
+.sync-warning{display:flex;justify-content:space-between;align-items:center;gap:16px;background:#f5eadc;border:1px solid #c6a27c;border-radius:12px;padding:14px 18px;margin-bottom:12px}
+.app-shell .main .sync-warning,.app-shell .main .sync-warning p{color:#583d24;font-size:14px;line-height:1.6}
+.sync-warning p{margin:4px 0 0}.sync-warning strong{font-size:15px}
+.sync-actions{display:flex;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.app-shell .main .sync-actions button,.app-shell .main .sync-actions a{color:#31412b;background:#fffdf8;border:1px solid #b9ba9f;border-radius:8px;padding:8px 12px;font-size:14px;text-decoration:none}
+@media(max-width:640px){.sync-warning{align-items:flex-start;flex-direction:column;padding:14px}.sync-actions{width:100%}.sync-actions button,.sync-actions a{min-height:44px}}
+
+.app-shell .main .preview-banner{padding:14px 18px;margin-bottom:16px;border:1px solid #a6b78e;border-radius:12px;background:#e8efdb;color:#304324;font-size:14px}.app-shell .main .preview-banner p{color:#435835;font-size:14px;line-height:1.7;margin-top:5px}

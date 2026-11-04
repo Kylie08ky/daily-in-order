@@ -1,0 +1,79 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "feedback",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ownerId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "previewFeedback",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ownerId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "chunks",
+      "fieldPath": "data",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "feedback",
+      "fieldPath": "images",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "feedback",
+      "fieldPath": "content",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "feedback",
+      "fieldPath": "contact",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "feedback",
+      "fieldPath": "reply",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "previewFeedback",
+      "fieldPath": "images",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "previewFeedback",
+      "fieldPath": "content",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "previewFeedback",
+      "fieldPath": "contact",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "previewFeedback",
+      "fieldPath": "reply",
+      "indexes": []
+    }
+  ]
+}

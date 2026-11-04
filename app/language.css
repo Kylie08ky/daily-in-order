@@ -1,0 +1,16 @@
+.language-switch{display:flex;justify-content:flex-end;align-items:center;gap:4px;padding:8px 18px;background:#f5f7ef;color:#29473c;border-bottom:1px solid #d4ded1;min-height:44px}.language-switch button{padding:4px 12px;font-size:13px;border-radius:16px;background:transparent;color:#29473c;border:1px solid transparent;min-height:30px}.language-switch button[aria-pressed=true]{background:#29473c;color:#fff}.language-switch button:focus-visible{outline:2px solid #789764;outline-offset:2px}html:is([lang=en],[lang=de]) .sidebar .nav-item{white-space:normal}html:is([lang=en],[lang=de]) .welcome-steps{flex-wrap:wrap}html:is([lang=en],[lang=de]) .life-section-tabs{flex-wrap:nowrap;overflow-x:auto}html:is([lang=en],[lang=de]) .life-section-tabs button{white-space:nowrap}html:is([lang=en],[lang=de]) .settings-toggle-row{gap:16px}html:is([lang=en],[lang=de]) .auth-password-toggle{min-width:58px}html:is([lang=en],[lang=de]) .welcome-step-actions{flex-wrap:wrap}html:is([lang=en],[lang=de]) .head-controls{flex-wrap:wrap}html:is([lang=en],[lang=de]) .settings-nav button{white-space:normal}html:is([lang=en],[lang=de]) .life-summary-strip{flex-wrap:wrap}html:is([lang=en],[lang=de]) .life-summary-strip>div{min-width:140px}
+@media(max-width:650px){html:is([lang=en],[lang=de]) .app-shell .sidebar nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}html:is([lang=en],[lang=de]) .app-shell .sidebar nav button{min-width:0;min-height:64px;height:auto;padding:8px 3px;white-space:normal}html:is([lang=en],[lang=de]) .app-shell .sidebar nav button span{white-space:normal;line-height:1.25;overflow-wrap:normal}html:is([lang=en],[lang=de]) .settings-week-grid{grid-template-columns:repeat(2,minmax(0,1fr))}html:is([lang=en],[lang=de]) .life-section-nav{overflow-x:auto}html:is([lang=en],[lang=de]) .life-section-nav button{white-space:nowrap}}
+html:is([lang=en],[lang=de]) .brand small{display:none}html:is([lang=en],[lang=de]) .welcome-steps li{min-width:0}html:is([lang=en],[lang=de]) .welcome-steps span{overflow-wrap:anywhere}
+
+html[lang=de] .settings-card,html[lang=de] .life-summary-strip,html[lang=de] .auth-card{overflow-wrap:break-word;hyphens:auto}html[lang=de] .auth-password-toggle{min-width:88px}
+
+html:is([lang=en],[lang=de]) .app-shell .sidebar nav button{white-space:normal;text-align:left}
+html:is([lang=en],[lang=de]) .app-shell .sidebar nav button span{min-width:0;overflow-wrap:break-word}
+@media(max-width:650px){
+ html:is([lang=en],[lang=de]) .app-shell .sidebar .brand{padding-right:78px}
+ html:is([lang=en],[lang=de]) .app-shell .sidebar .new-task{width:34px;height:34px;padding:6px}
+ html:is([lang=en],[lang=de]) .app-shell .sidebar .new-task span{display:none!important}
+ html:is([lang=en],[lang=de]) .app-shell .sidebar-bottom{right:58px}
+ html[lang=de] .modal .fields{grid-template-columns:1fr}
+}
+@media(min-width:651px){html[lang=de] .app-shell .sidebar nav button{gap:8px;padding-left:10px;padding-right:10px}html[lang=de] .app-shell .sidebar nav button span{hyphens:auto}}

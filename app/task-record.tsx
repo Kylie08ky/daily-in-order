@@ -1,0 +1,48 @@
+import {t as ui,tr,locale} from '../lib/i18n';
+import SessionEditor from './session-editor';
+import {useEffect,useRef,useState} from 'react';
+import {createPortal} from 'react-dom';
+import {X,Play,Pencil} from 'lucide-react';
+import {type State,type Task,type Command,formatTime as fmt} from '../lib/model';
+import {localInstant,localParts,progressSource} from '../lib/task-investment';
+import DurationInput from './duration-input';
+import './task-record.css';
+type Mutate=(c:Command,message?:string)=>Promise<boolean>;
+export function TaskProgress({task}:{task:Task}){
+ const time=progressSource(task)==='time',percent=time&&task.minutes?Math.min(100,Math.round((task.actual||0)/task.minutes*100)):task.progress;
+ return <div className="task-investment"><span>{time?ui("时长投入"):ui("完成进度")} <b>{percent}%</b> {ui("· 累计")}{fmt(task.actual||0)}{task.minutes?ui(" / 预计 ")+fmt(task.minutes):''}</span><progress max={100} value={percent} aria-label={task.title+ui("进度")}/>{time&&percent>=100&&task.progress<100&&<small>{ui("已达到预计用时，做完后可标记整项完成。")}</small>}</div>;
+}
+export default function TaskRecord({task,state,busy,mutate,close,edit,focus,error,initialSessionId}:{initialSessionId?:string;task:Task;state:State;busy:boolean;mutate:Mutate;close:()=>void;edit:()=>void;focus:()=>void;error:string}){
+ const dialog=useRef<HTMLDialogElement>(null),[minutes,setMinutes]=useState<number|null>(null),[date,setDate]=useState(localParts(Date.now(),state.settings.timezone).date),[timed,setTimed]=useState(false),[start,setStart]=useState(''),[end,setEnd]=useState(''),[mode,setMode]=useState(progressSource(task)),[percent,setPercent]=useState(task.progress),[note,setNote]=useState(''),[issue,setIssue]=useState('');
+ const allHistory=state.sessions.filter(x=>x.taskId===task.id).slice().reverse(),history=allHistory.filter(x=>!x.deletedAt),deleted=allHistory.filter(x=>x.deletedAt);
+ const [editing,setEditing]=useState<string|null>(initialSessionId||null),[tab,setTab]=useState<'add'|'history'>(initialSessionId||history.length?'history':'add');
+ useEffect(()=>{const el=dialog.current;el?.showModal();return()=>el?.close();},[]);
+ const save=async(complete=false)=>{setIssue('');try{
+  const times=timed?{startedAt:localInstant(start,state.settings.timezone),endedAt:localInstant(end,state.settings.timezone)}:{};
+  if(!complete&&!timed&&!minutes&&mode===progressSource(task)&&(mode!=='manual'||percent===task.progress)){setIssue('填一段用时，或调整完成百分比后再保存。');return;}
+  const ok=await mutate({type:'task.record',payload:{id:task.id,minutes:timed?0:minutes||0,date,...times,progressSource:mode,...(complete?{progress:100}:mode==='manual'?{progress:percent}:{}),note}},complete?ui("整项任务已完成。"):ui("投入已保存，累计与进度已更新。"));if(ok)close();
+ }catch(e){setIssue(e instanceof Error?e.message:'记录未保存。');}};
+ return createPortal(<dialog ref={dialog} className="modal task-detail" aria-label={ui("事项进展")} onCancel={e=>{e.preventDefault();close();}}>
+  <header><div><small>{ui("事项进展")}</small><h2>{task.title}</h2></div><button type="button" className="icon-btn" aria-label={ui("关闭进展记录")} onClick={close}><X/></button></header>
+  <div className="task-detail-scroll">
+   <div className="detail-summary"><div><small>{ui("累计投入")}</small><strong>{fmt(task.actual||0)}</strong></div><div><small>{ui("预计用时")}</small><strong>{task.minutes?fmt(task.minutes):ui("未设定")}</strong></div><div><small>{task.progress===100?ui("任务状态"):mode==='time'?ui("按用时推进"):ui("完成进度")}</small><strong>{task.progress===100?ui("已完成"):Math.min(100,mode==='time'&&task.minutes?Math.round((task.actual||0)/task.minutes*100):task.progress)+'%'}</strong></div></div>
+   <div className="detail-actions">{task.progress<100&&<button type="button" className="primary" onClick={focus}><Play size={15}/>{ui("开始专注")}</button>}<button type="button" onClick={edit}><Pencil size={15}/>{ui("编辑事项")}</button></div>
+   <div className="detail-tabs"><button type="button" aria-pressed={tab==='add'} onClick={()=>setTab('add')}>{ui("补记投入")}</button><button type="button" aria-pressed={tab==='history'} onClick={()=>setTab('history')}>{ui("投入记录")}<span>{history.length}</span></button></div>
+   {tab==='add'?<form onSubmit={e=>{e.preventDefault();void save();}}><fieldset disabled={busy}>
+    <p className="detail-description">{ui("填这一次的用时即可，系统会累加。具体几点做的，可以不填。")}</p>
+    <DurationInput label={ui("这次投入了多久")} value={minutes} max={1440} onChange={setMinutes}/>
+    <details className="detail-options"><summary>{ui("日期与具体时间（选填）")}</summary><label>{ui("记录日期")}<input type="date" value={date} onInput={e=>setDate(e.currentTarget.value)} onChange={e=>setDate(e.target.value)}/></label><label className="record-check"><input type="checkbox" checked={timed} onChange={e=>setTimed(e.target.checked)}/>{ui("填写具体起止，自动计算本次用时")}</label>{timed&&<div className="fields cols-2"><label>{ui("实际开始")}<input type="datetime-local" required value={start} onInput={e=>setStart(e.currentTarget.value)} onChange={e=>setStart(e.target.value)}/></label><label>{ui("实际结束")}<input type="datetime-local" required value={end} onInput={e=>setEnd(e.currentTarget.value)} onChange={e=>setEnd(e.target.value)}/></label></div>}</details>
+    <details className="detail-options"><summary>{ui("更新完成百分比")}</summary><label>{ui("进度怎么计算")}<select aria-label={ui("进度怎么计算")} value={mode} onChange={e=>setMode(e.target.value as 'time'|'manual')}><option value="time">{ui("累计用时 ÷ 预计用时")}</option><option value="manual">{ui("我自己填写百分比")}</option></select></label>{mode==='manual'&&<label>{ui("当前完成进度")}<input aria-label={ui("当前完成进度")} type="number" min={0} max={100} required value={percent} onChange={e=>setPercent(Number(e.target.value))}/><small>{ui("填写当前总进度，不是本次增加量。")}</small></label>}</details>
+    <label>{ui("做了什么")}<input maxLength={1000} value={note} onChange={e=>setNote(e.target.value)} placeholder={ui("可不填")}/></label>
+    {(issue||error)&&<p role="alert" className="inline-error">{issue||error}</p>}
+    <div className="detail-save"><button type="button" onClick={close}>{ui("取消")}</button><button className="primary" type="submit">{ui("保存这次投入")}</button></div>
+   </fieldset></form>:<div className="detail-history">
+    {history.map(x=><article key={x.id}><div className="history-heading"><div><strong>{x.seconds?fmt(x.seconds/60):ui("进度更新")}</strong><small>{x.date} · {x.source==='manual'?ui("手动记录"):ui("专注记录")}</small></div><div className="history-actions"><button type="button" title={ui("修改这一段投入")} aria-label={ui("修改投入 ")+x.date+' '+fmt(x.seconds/60)} disabled={busy} onClick={()=>setEditing(editing===x.id?null:x.id)}><Pencil size={15}/></button><button type="button" disabled={busy} onClick={()=>void mutate({type:'session.delete',payload:{id:x.id}},ui("记录已删除，可在下方恢复。"))}>{ui("删除")}</button></div></div>
+    {x.spans?.length?x.spans.map((b,i)=>{const a=localParts(Date.parse(b.startedAt),state.settings.timezone),z=localParts(Date.parse(b.endedAt),state.settings.timezone);return <p className="history-time" key={i}>{a.date!==x.date?a.date+' ':''}{a.time} — {z.date!==a.date?z.date+' ':''}{z.time}</p>;}):<p className="history-time">{ui("仅记录用时")}{x.source!=='manual'?ui(" · 这条旧记录未保存起止"):''}</p>}
+    {x.note&&<p>{x.note}</p>}{editing===x.id&&<SessionEditor key={x.id} session={x} timezone={state.settings.timezone} busy={busy} mutate={mutate} close={()=>setEditing(null)}/>}</article>)}
+    {!history.length&&<p className="detail-description">{ui("还没有分段记录。可以开始专注，或只补记一段用时。")}</p>}{error&&<p role="alert" className="inline-error">{ui(error)}</p>}
+    {!!deleted.length&&<details className="detail-options"><summary>{ui("已删除 ·")}{deleted.length}</summary>{deleted.map(x=><div className="deleted-record" key={x.id}><span>{x.date} · {fmt(x.seconds/60)}</span><button type="button" disabled={busy} onClick={()=>void mutate({type:'session.restore',payload:{id:x.id}},ui("记录已恢复。"))}>{ui("恢复")}</button></div>)}</details>}
+   </div>}
+  </div>
+ </dialog>,document.body);
+}

@@ -1,0 +1,175 @@
+/* Navigation is shared across every page; scenic themes style only the content. */
+.app-shell .sidebar{background:#535d49;color:#f2f5e9;border:0;border-radius:0;backdrop-filter:none}
+.app-shell .sidebar nav button,.app-shell .sidebar-bottom>button{color:#edf1e4;font-size:14px}
+.app-shell .sidebar nav button[aria-current=page],.app-shell .sidebar-bottom>button[aria-current=page]{background:#b7c99a;color:#26321f}
+.app-shell .sidebar nav button:hover,.app-shell .sidebar-bottom>button:hover{background:#748462;color:white}
+.app-shell .sidebar .new-task{background:#c0d2a2;color:#293622;border-color:#c0d2a2}
+.app-shell .sidebar .monogram,.app-shell .sidebar .profile>span{background:#7f936a;color:#fff;border-color:#a2b88a}
+.app-shell .sidebar .brand strong,.app-shell .sidebar .profile strong{color:#f3f6e9}
+.app-shell .sidebar .brand small,.app-shell .sidebar-bottom p,.app-shell .sidebar .profile small{color:#d6e0c7}
+.app-shell .sidebar nav small{color:inherit}
+
+/* Keep the room visible around the main panel, with an almost solid text surface. */
+.app-shell:is(.view-today,.view-reading) .main{width:calc(100% - 40px);margin:20px;min-height:calc(100dvh - 40px);padding:24px;background:#30352fed;border-color:#c6c9b952;backdrop-filter:blur(18px);color:#faf9f4;--muted:#e0e5d6;font-size:16px;line-height:1.65}
+.app-shell:is(.view-today,.view-reading) .main .panel,.app-shell.view-today .dash-card,.app-shell.view-reading .reading-shelf-sidebar{background:#444b40f5;border-color:#89947b80;color:#faf9f4}
+.app-shell:is(.view-today,.view-reading) .main small{font-size:14px;line-height:1.6;color:#e3e8da}
+.app-shell:is(.view-today,.view-reading) .main button{font-size:14px;line-height:1.5}
+.app-shell:is(.view-today,.view-reading) .main p{font-size:15px;line-height:1.75}
+.app-shell:is(.view-today,.view-reading) .main .eyebrow{font-size:12px;letter-spacing:1.5px;color:#e4e8dc}
+.app-shell:is(.view-today,.view-reading) .connection,.app-shell:is(.view-today,.view-reading) .connection small{font-size:12px;color:#e1e7d5}
+.app-shell:is(.view-today,.view-reading) .page-head h1,.app-shell:is(.view-today,.view-reading) .life-head h1{font-size:30px;font-weight:600;color:#fff}
+.app-shell:is(.view-today,.view-reading) .page-head p,.app-shell:is(.view-today,.view-reading) .life-head p{font-size:15px;color:#edf0e4}
+.app-shell:is(.view-today,.view-reading) .hint,.app-shell:is(.view-today,.view-reading) .dash-caption,.app-shell:is(.view-today,.view-reading) .dash-empty,.app-shell:is(.view-today,.view-reading) .muted{font-size:14px;color:#e1e7d6}
+
+.app-shell.view-today .dashboard-main{grid-template-columns:minmax(280px,.8fr) minmax(0,1.8fr)}
+.app-shell.view-today .dashboard-section-head h2,.app-shell.view-today .scene-section-heading h2{font-size:21px;font-weight:600}
+.app-shell.view-today .dashboard-time-scroll{background:#343d30;border-color:#a3b49370}
+.app-shell.view-today .hour-line>span{font-size:12px;color:#f4f5ec;left:-43px}
+.app-shell.view-today .timeline{margin-left:46px;border-color:#b5c2a670}
+.app-shell.view-today .hour-line{border-color:#bbc8aa65;background:repeating-linear-gradient(to bottom,transparent 0,transparent 18px,#ffffff14 18px,#ffffff14 19px)}
+.app-shell.view-today .time-block,.app-shell.view-today .time-block.complete{opacity:1;color:#23301d;background:#edf1e3}
+.app-shell.view-today .time-block .move-handle{font-size:11px;color:#35452a}
+.app-shell.view-today .time-block .time-title{font-size:13px;font-weight:600;line-height:1.3;color:#24321c}
+.app-shell.view-today .time-block.short .time-title{font-size:12px}
+.app-shell.view-today .time-block>small{font-size:11px;line-height:1.3;color:#3b4932}
+.app-shell.view-today .time-block .time-done{font-size:11px;color:#263a20}
+.app-shell.view-today .task-body strong{font-size:15px;line-height:1.5}
+.app-shell.view-today .task-body small{font-size:13px;color:#e0e7d6}
+.app-shell.view-today .dashboard-unscheduled h3{font-size:17px}
+.app-shell.view-today .dashboard-project{background:#35402ef2;border-color:#9fad8e80;color:#fff;padding:16px}
+.app-shell.view-today .dashboard-project-title strong{font-size:16px}
+.app-shell.view-today .dashboard-project-title b{font-size:21px;color:#eff6dd}
+.app-shell.view-today .dashboard-project-meta{font-size:13px;line-height:1.6;color:#e5ebdb;flex-wrap:wrap}
+.app-shell.view-today .dashboard-project>small{font-size:13px}
+.app-shell.view-today .dashboard-agenda>.live-focus{background:#424c3bf5}
+.app-shell.view-today .dashboard-agenda .wealth-meter{background:#293523e0;border-color:#9dad8177}
+.app-shell.view-today .dashboard-agenda .wealth-caption{font-size:14px;color:#eff3df}
+.app-shell.view-today .dashboard-agenda .wealth-caption>small{font-size:12px}
+.app-shell.view-today .dashboard-agenda .wealth-meta{font-size:12px;color:#e1e8d2}
+.app-shell.view-today .dashboard-agenda .wealth-unit{font-size:12px;color:#e0e9ce}
+.app-shell.view-today .dashboard-agenda .metric{background:#46513ef5;border-color:#a0ad8c66}
+.app-shell.view-today .dashboard-agenda .metric>div{font-size:14px}
+.app-shell.view-today .dashboard-agenda .metric small{font-size:13px}
+.app-shell.view-today .dash-card-head h3{font-size:17px}.app-shell.view-today .dash-card-head small{font-size:13px}
+.app-shell.view-today .dash-big>strong{font-size:30px}.app-shell.view-today .dash-big>span{font-size:14px;color:#e6ecdc}
+.app-shell.view-today .dash-progress-row strong,.app-shell.view-today .dash-book-title strong{font-size:15px;color:#fff}
+.app-shell.view-today .dash-progress-row span,.app-shell.view-today .dash-book-title span,.app-shell.view-today .dash-habit>span{font-size:14px;color:#edf1e5}
+.app-shell.view-today .dash-sleep,.app-shell.view-today .dash-workout strong{font-size:15px;color:#ecf0e3}
+.app-shell.view-today .dash-workout{background:#313d28}
+.app-shell.view-today .dash-budget{background:#263623f5}.app-shell.view-today .dash-budget-facts>div,.app-shell.view-today .dash-bills>div,.app-shell.view-today .dash-bills details>div{font-size:14px}.app-shell.view-today .dash-budget-facts b{font-size:16px}
+.app-shell.view-today .dash-budget-facts>small{font-size:13px!important}
+.app-shell.view-today .home-dashboard>.dashboard-life{grid-template-columns:repeat(2,minmax(0,1fr))}
+.app-shell.view-today .note textarea{background:#273522;color:#fff;font-size:15px;border-color:#adbc9966}
+
+/* A stronger dark scrim supports readable text over photographic heroes. */
+.app-shell.view-today .reading-spotlight{background-image:linear-gradient(90deg,#05090ff5 0%,#080d16c9 48%,#080c1420 85%),url('/scenes/library.png');padding:28px}
+.app-shell.view-today .spotlight-copy{width:75%}
+.app-shell.view-today .spotlight-copy h2{font-size:clamp(28px,2.6vw,40px);font-weight:600}
+.app-shell.view-today .spotlight-copy>p{font-size:16px;color:#f3f1e9}
+.app-shell.view-today .spotlight-progress{max-width:400px}.app-shell.view-today .spotlight-progress>div:first-child{font-size:16px}.app-shell.view-today .spotlight-progress small{font-size:14px;color:#eeeedd}
+.app-shell.view-today .spotlight-copy .spotlight-empty{font-size:15px;color:#e3e8dc}
+.app-shell.view-today .scene-tag{font-size:13px;color:white;background:#1e2926db}
+.app-shell.view-today .scene-primary,.app-shell.view-today .scene-outline{font-size:15px;padding:11px 18px}
+.app-shell.view-today .scene-progress-deck{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.app-shell.view-today .scene-progress-card{min-height:270px;padding:18px 15px}
+.app-shell.view-today .scene-card-content{background:linear-gradient(transparent,#0d130cdd 35%);margin:0 -15px -18px;padding:85px 15px 18px;width:calc(100% + 30px)}
+.app-shell.view-today .scene-card-content>strong{font-size:17px;font-weight:600;color:white}
+.app-shell.view-today .scene-card-content>b{font-size:28px;color:#fff}
+.app-shell.view-today .scene-habits .scene-card-content>b{font-size:21px}
+.app-shell.view-today .scene-card-content>small{font-size:14px;line-height:1.65;color:#f0f2e9}
+.app-shell.view-today .scene-card-link{font-size:13px;color:#ecf2e4}
+
+.app-shell.view-reading .reading-layout{grid-template-columns:minmax(235px,.8fr) minmax(0,2fr)}
+.app-shell.view-reading .reading-shelf-sidebar{border:1px solid #89947b80;border-radius:20px;padding:22px 18px;min-width:0}
+.app-shell.view-reading .reading-year .progress{background:#ffffff24}.app-shell.view-reading .reading-year .progress>span{background:#d6e7bb}
+.app-shell.view-reading .reading-shelf-sidebar h3{font-size:19px;font-weight:600}
+.app-shell.view-reading .reading-continue{grid-template-columns:45px minmax(0,1fr);gap:12px}
+.app-shell.view-reading .reading-continue strong{font-size:15px;line-height:1.5}
+.app-shell.view-reading .reading-continue small{font-size:13px;color:#e3e9d7}
+.app-shell.view-reading .reading-year{border-color:#a8b59680}.app-shell.view-reading .reading-year>strong span{font-size:16px}.app-shell.view-reading .reading-year p{font-size:15px;color:#e8eedc}
+.app-shell.view-reading .reading-feature{background-image:linear-gradient(90deg,#04080cf5,#080e16c9 53%,#0a101c30),url('/scenes/library.png');padding:30px}
+.app-shell.view-reading .reading-feature>div:first-child{max-width:80%}
+.app-shell.view-reading .reading-feature p{font-size:16px;color:#f0f0e6}
+.app-shell.view-reading .reading-feature .eyebrow{font-size:12px;color:#fff;background:#26312bd9}
+.app-shell.view-reading .reading-feature button{font-size:15px}
+.app-shell.view-reading .life-metric{background:#414d37f5;border-color:#a4b09066}.app-shell.view-reading .life-metric small{font-size:15px;color:#eaf0df}.app-shell.view-reading .life-metric p{font-size:14px;color:#e3ead5}
+.app-shell.view-reading .life-page>.row h2{font-size:21px}.app-shell.view-reading .inline-label{font-size:14px}
+.app-shell.view-reading .bookshelf{grid-template-columns:repeat(4,minmax(0,1fr))}
+.app-shell.view-reading .book-item{background:#182219f5;border-color:#8d9f7566}.app-shell.view-reading .book-item>.row h3{font-size:16px;line-height:1.5}
+.app-shell.view-reading .book-item>small,.app-shell.view-reading .book-item .book-dates{font-size:14px;color:#e0e8d4}.app-shell.view-reading .book-item .text-btn{font-size:14px}
+.app-shell.view-reading .book-cover small,.app-shell.view-reading .book-cover>span{font-size:12px;color:#f4ead2}
+.app-shell.view-reading .book-cover strong{font-size:24px}
+
+/* Modal forms always use their original opaque, light surface. */
+.app-shell:is(.view-today,.view-reading) dialog{color:#303b29}
+.app-shell:is(.view-today,.view-reading) dialog small,.app-shell:is(.view-today,.view-reading) dialog .hint{color:#536347}
+.app-shell:is(.view-today,.view-reading) dialog .muted{color:#536347}
+.view-fitness .fitness-feature{background-position:70% center}.scene-fitness:before{background-position:76% center}
+
+@media(min-width:1700px){.app-shell.view-today .scene-progress-deck{grid-template-columns:repeat(5,minmax(0,1fr))}.app-shell.view-today .home-dashboard>.dashboard-life{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1250px){.app-shell:is(.view-today,.view-reading) .main{width:calc(100% - 28px);margin:14px;padding:20px;min-height:calc(100dvh - 28px)}.app-shell.view-today .dashboard-main{grid-template-columns:minmax(260px,.8fr) minmax(0,1.5fr)}.app-shell.view-reading .bookshelf{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1100px){.app-shell.view-today .dashboard-main{grid-template-columns:1fr}.app-shell.view-today .dashboard-overview{grid-row:1}.app-shell.view-today .dashboard-agenda{display:grid;grid-template-columns:1fr 1fr;gap:16px}.app-shell.view-today .dashboard-schedule,.app-shell.view-today .dashboard-carryover{grid-column:1/-1}.app-shell.view-today .dashboard-agenda>.live-focus{margin:0}.app-shell.view-today .dashboard-agenda>.metrics{margin:0}.app-shell.view-reading .reading-layout{grid-template-columns:minmax(215px,.8fr) minmax(0,1.8fr)}}
+@media(max-width:1000px){.app-shell .sidebar nav button,.app-shell .sidebar-bottom>button{font-size:14px}}
+@media(max-width:760px){.app-shell.view-reading .reading-layout{display:flex;flex-direction:column}.app-shell.view-reading .reading-feature{order:0}.app-shell.view-reading .reading-shelf-sidebar{order:1}.app-shell.view-reading .bookshelf{grid-template-columns:repeat(2,minmax(0,1fr))}.app-shell.view-today .scene-progress-deck{grid-template-columns:repeat(2,minmax(0,1fr))}.app-shell.view-today .scene-progress-card:last-child{grid-column:1/-1;min-height:220px}.app-shell.view-today .home-dashboard>.dashboard-life{grid-template-columns:1fr}}
+@media(max-width:560px){.app-shell .sidebar nav{grid-template-columns:repeat(6,minmax(0,1fr))}.app-shell .sidebar nav button>span{font-size:10px}.app-shell .sidebar nav button{gap:7px;padding:9px 1px}.app-shell:is(.view-today,.view-reading) .main{width:calc(100% - 16px);margin:8px;padding:16px;border-radius:20px}.app-shell:is(.view-today,.view-reading) .main small{font-size:13px}.app-shell:is(.view-today,.view-reading) .main p{font-size:15px}.app-shell.view-today .dashboard-agenda{display:flex;flex-direction:column}.app-shell.view-today .dashboard-agenda>*{width:100%}.app-shell.view-today .scene-progress-card{padding:15px 12px;min-height:260px}.app-shell.view-today .scene-card-content{margin:0 -12px -15px;padding:85px 12px 15px;width:calc(100% + 24px)}.app-shell.view-today .scene-card-content>b{font-size:26px}.app-shell.view-today .scene-habits .scene-card-content>b{font-size:19px}.app-shell.view-today .scene-card-content>small{font-size:13px}.app-shell.view-today .spotlight-copy{width:100%}.app-shell.view-today .reading-spotlight{padding:24px 20px;min-height:370px}.app-shell.view-reading .reading-feature{padding:24px 20px}.app-shell.view-reading .reading-feature>div:first-child{max-width:100%}.app-shell.view-reading .book-cover strong{font-size:21px}.app-shell.view-reading .book-item{padding:10px}.app-shell.view-reading .book-item .row{flex-wrap:wrap}.view-fitness .fitness-feature{background-position:78% center}}
+@media print{.app-shell:is(.view-today,.view-reading) .main{width:100%;margin:0;color:#222;background:white}}
+
+.missing-time{margin-bottom:20px}.missing-time .task-row.done{opacity:1}.missing-time .task-row.done .task-body strong{color:var(--text,#30362c);text-decoration:none}.course-card .row.wrap{margin-top:16px;gap:8px}.course-card .hint{overflow-wrap:anywhere}.skill-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+
+/* Light dialogs stay readable even when opened over a photographic page. */
+.app-shell .modal{color:#303b29}
+.app-shell .modal .hint,.app-shell .modal .muted,.app-shell .modal small{color:#536347;font-size:14px;line-height:1.65}
+.app-shell .modal label,.app-shell .modal .duration-input legend{font-size:14px;color:#303b29}
+.app-shell .modal input{font-size:16px;color:#303b29}
+.app-shell .modal input::placeholder{color:#68735f;opacity:1}
+.duration-input{min-width:0;margin:0 0 16px}
+.duration-input legend{margin-bottom:8px}
+.duration-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.duration-parts label{display:flex;align-items:center;gap:6px;margin:0;white-space:nowrap}
+.duration-parts input{min-width:0;width:100%;margin:0}
+.duration-help{margin-top:0}
+
+/* Content themes pair foregrounds with their surfaces, including utility cards. */
+.app-shell:is(.view-today,.view-reading) .main{--text:#f6f8ef;--muted:#dce4d2}
+.app-shell:is(.view-today,.view-reading) .main button:where(:not(.text-btn,.icon-btn,.task-body,.check-btn,.time-title,.move-handle,.resize-handle,.time-done,.dashboard-project,.scene-progress-card,.scene-outline,.book-cover)){color:#293622}
+.app-shell:is(.view-today,.view-reading) .main :is(.text-btn,.icon-btn){color:#f0f5e7}
+.app-shell:is(.view-today,.view-reading) .main :is(.text-btn,.icon-btn):hover{background:#ffffff20}
+.app-shell:is(.view-today,.view-reading) .main .tabs button{color:#eaf0df}
+.app-shell:is(.view-today,.view-reading) .main .tabs button[aria-pressed=true]{color:#293622}
+.app-shell:is(.view-today,.view-reading) .main :is(.safety-number span,.calculation p,.focus-growth,.timeline-help,.data-row small){color:#dce5d1;font-size:14px}
+.app-shell:is(.view-today,.view-reading) .dashboard-secondary :is(p,summary,.data-row,button){font-size:14px;line-height:1.7}
+.app-shell:is(.view-today,.view-reading) .main .home-signals{background:#34402e;color:#f6f8ef}
+.app-shell:is(.view-today,.view-reading) .main .home-signals :is(small,strong span){color:#e0e8d5;font-size:13px}
+.app-shell:is(.view-today,.view-reading) .main .safety .data-row button{background:#f7f8f0;color:#293622}
+.app-shell:is(.view-today,.view-reading) .main .date-nav button{color:#f6f8ef}
+.app-shell:is(.view-today,.view-reading) .main :is(.usage-guide,.app-status-body){--text:#293622;--muted:#526246;background:#f3f6e9;color:#293622}
+.app-shell:is(.view-today,.view-reading) .main :is(.usage-guide,.app-status-body) :is(p,small,.hint,.text-btn,.icon-btn,.eyebrow){color:#526246}
+.app-shell:is(.view-today,.view-reading) .main .usage-guide .primary{background:#64764f;color:#fff}
+.app-shell .modal{--text:#303b29;--muted:#536347}
+.app-shell:is(.view-today,.view-reading) .modal :is(.text-btn,.icon-btn){color:#303b29}
+button:disabled{opacity:.7}
+
+.app-shell.view-today .main :is(.dashboard-project-empty p,.dash-big span){color:#e0e8d5}
+/* Shared light surfaces use readable secondary text, rather than pale decorative green. */
+.app-shell:where(:not(.view-today,.view-reading)) .main{--muted:#3e5034}
+.app-shell:where(:not(.view-today,.view-reading)) .main :is(small,.hint,.muted,.eyebrow,.connection,.page-footer,.life-head>div>p,.page-head>div>p,.life-empty,.life-empty p){color:#3e5034}
+.app-shell:where(:not(.view-today,.view-reading)) .main .text-btn{color:#3d542f}
+.app-shell:where(:not(.view-today,.view-reading)) .main .primary{background:#61734d;color:#fff}
+.app-shell:where(:not(.view-today,.view-reading)) .main .primary:hover{background:#4c6138}
+.app-shell .main .finance-feature :is(small,p,.eyebrow,.finance-feature-bottom){color:#e3edda}
+.app-shell.view-fitness .main .fitness-feature{background-image:linear-gradient(90deg,#184b92ed 0%,#356bb5a3 45%,transparent 75%),url('/scenes/workout-v2.png')}
+.app-shell.view-fitness .main .fitness-feature :is(p,small,.eyebrow){color:#fff}
+.app-shell.view-today .main .dash-big>div,.app-shell.view-reading .main .life-empty p{color:#e0e8d5}
+
+.app-shell .main :is(.week-labels,.cell-add,.top-stats>span,.top-stats strong,.empty,.empty p,.range-label,.weekly-settings label,.export-grid p,.sleep-axis,.sleep-row,.no-sleep,.budget-number span,.life-metric p){color:#405335}
+.app-shell .main .day-cell.today .cell-head>button:first-child{background:#586e43;color:#fff}
+.app-shell .main .habits-feature :is(.eyebrow,p,small){color:#f0f5e7}
+.app-shell .main .live-focus{background-color:#41483d}
+.app-shell .main .live-focus :is(p,small,.hint,.wealth-caption,.wealth-meta,.wealth-unit){color:#e9efde}
+.app-shell .main .live-focus .focus-controls .primary{background:#c6d6a8;color:#293622}
+.app-shell.view-fitness .main .fitness-week{background:#30649a}
+.app-shell.view-fitness .main .fitness-week :is(p,small,span){color:#f2f7ff}
+.app-shell.view-fitness .main .fitness-stat :is(p,em,.weight-empty){color:#435c70;font-size:14px}
+.app-shell.view-today .main :is(.dash-big div,.empty,.empty p,.life-metric p){color:#e0e8d5}
+.app-shell:where(:not(.view-today,.view-reading)) .main .safety-number span{color:#405335}
+.app-shell.view-today .main .dash-big em{color:#e0e8d5}

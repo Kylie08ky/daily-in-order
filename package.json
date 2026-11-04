@@ -1,0 +1,38 @@
+{
+  "name": "daily-in-order",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 52700",
+    "build": "tsc --noEmit && vite build && node scripts/build-sw.mjs && node scripts/audit-build.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 52700",
+    "test": "node --test tests/*.test.mjs",
+    "test:rules": "firebase emulators:exec --only firestore,auth --project demo-friends-isolation \"node --test --test-concurrency=1 tests/emulator/*.test.mjs\"",
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:preview": "node scripts/deploy.mjs",
+    "release:friends": "node scripts/release-friends.mjs",
+    "emulators": "firebase emulators:start --only auth,firestore --project demo-friends-isolation"
+  },
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "lucide-react": "1.31.0",
+    "zod": "3.25.76",
+    "firebase": "13.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/node": "22.19.19",
+    "@vitejs/plugin-react": "6.0.2",
+    "vite": "8.0.13",
+    "typescript": "5.9.3",
+    "firebase-tools": "15.34.2",
+    "@firebase/rules-unit-testing": "6.0.0",
+    "fake-indexeddb": "6.2.4"
+  },
+  "engines": {
+    "node": ">=24.12.0"
+  }
+}

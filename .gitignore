@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.firebase/
+.runtime/
+outputs/
+coverage/
+*.log
+.env*
+!.env.example
+.firebaserc
+*service-account*.json
+*serviceAccount*.json
+*.pem
+.DS_Store

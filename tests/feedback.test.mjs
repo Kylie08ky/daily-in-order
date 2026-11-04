@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {validateFeedback} from '../lib/feedback.ts';
+test('feedback trims inputs and rejects unsafe or oversized attachments',()=>{const d={kind:'其他',content:' 建议 ',contact:' ',images:[]};assert.equal(validateFeedback(d).content,'建议');for(const patch of [{content:' '},{content:'x'.repeat(2001)},{kind:'invalid'},{contact:'x'.repeat(201)},{images:['javascript:alert(1)']},{images:Array(4).fill('data:image/jpeg;base64,YQ==')}])assert.throws(()=>validateFeedback({...d,...patch}));});
