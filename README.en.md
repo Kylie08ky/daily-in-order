@@ -14,7 +14,7 @@ This repository contains application source, tests and deployment scripts. It do
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
 
-### Quick start (v0.7.1 preview)
+### Quick start (v0.7.2 preview)
 
 AI-assisted setup is shown on the first visit; manual entry and skip remain available. This screenshot uses a synthetic local account and does not show a live AI request.
 
@@ -63,7 +63,7 @@ Chinese UI with illustrative test entries. The nutrition figures are not dietary
 | Review and backup | Review time trends, back up/restore full JSON state, and import/export task CSV and calendar ICS files |
 | Onboarding and feedback | Choose modules, set goals, follow a usage walkthrough, submit feedback and see its status |
 
-**Preview v0.7.1: write a list → review the draft → get started.** After registration and email verification, new users see **Get started with AI**, with editable examples, manual list entry and skip. The sidebar has a single **AI assistant** entry, with AI and **Write my own list** available inside. Today keeps both AI assistant and **Quick add** for direct manual entry. Examples only fill the input and are never sent automatically. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
+**Preview v0.7.2: write a list → review the draft → get started.** After registration and email verification, new users see **Get started with AI**, with editable examples, manual list entry and skip. The sidebar has a single **AI assistant** entry, with AI and **Write my own list** available inside. Today keeps both AI assistant and **Quick add** for direct manual entry. Examples only fill the input and are never sent automatically. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
 
 Optional **Organize with AI** uses Firebase AI Logic / Gemini Developer API to create an editable draft from natural language, with follow-up revisions. Only the current input and selected draft are sent after consent, not existing workspace records. AI cannot save tasks or invent actual work. Repeating rules are not created in this first version; review the draft. List entry works offline; AI requires a connection. These changes are preview-first; production may still run the previous release.
 
@@ -72,6 +72,11 @@ Cloud AI also requires Google App Check verification. If a browser fails verific
 The trial has a **10-attempt daily browser counter per account on each device (UTC)**, including failed attempts. This is not a server-side account quota, abuse control or spending cap; changing devices or clearing storage resets it. Provider free-tier limits also apply. A no-cost trial requires Firebase **Spark with no Cloud Billing account**. Exhausted quotas stop requests; the app never upgrades billing.
 
 To enable AI yourself, follow [Firebase AI Logic setup](https://firebase.google.com/docs/ai-logic/get-started?platform=web) for Gemini Developer API and App Check, then set the three AI variables from `.env.example` in `.env.local`. Restrict the App Check site key to your preview hostname; review production domain setup separately before promoting. Never add a Gemini secret key, enable Cloud Functions, or link billing for this feature. App Check policies are project-wide: do not change production enforcement without review. See [free-plan conditions](https://firebase.google.com/docs/ai-logic/pricing) and [Google AI data-use terms](https://ai.google.dev/gemini-api/terms). Emulator projects always disable real AI calls; local tests use synthetic responses.
+
+
+The default task-drafting model is `gemini-3.5-flash-lite`, which supports no-cost calls; configure it with `VITE_AI_MODEL`.
+
+Run `npm run check:ai` before release. This read-only check verifies that the Firebase App Check, reCAPTCHA Enterprise, Firebase AI Logic and Generative Language APIs are enabled, a site key is configured, and Cloud Billing is not linked. The preview deploy script runs it too. Configuring a reCAPTCHA key alone does not enable the App Check API. Allow service permissions to propagate after enabling an API, then reload and retry. A passing preflight still requires a real browser draft-generation smoke test. Verification, configuration, quota, network/service and invalid-draft failures have separate messages without exposing raw provider responses.
 
 Switch languages in the interface or use `?lang=zh`, `?lang=en` or `?lang=de`. Your task names, notes and book titles are not automatically translated. CSV column headers currently remain in Chinese.
 

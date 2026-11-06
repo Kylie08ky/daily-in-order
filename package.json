@@ -1,9 +1,10 @@
 {
   "name": "daily-in-order",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "private": true,
   "type": "module",
   "scripts": {
+    "check:ai": "node scripts/check-ai-setup.mjs",
     "dev": "vite --host 127.0.0.1 --port 52700",
     "build": "tsc --noEmit && vite build && node scripts/build-sw.mjs && node scripts/audit-build.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 52700",

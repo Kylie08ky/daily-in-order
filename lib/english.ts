@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "AI 请求配置无效，请联系维护者检查（AI-400）。你的输入已保留。": "The AI request configuration is invalid. Please contact the maintainer (AI-400). Your input is preserved.",
+  "AI 服务暂时异常，请稍后重试（AI-5XX）。你的输入已保留。": "The AI service is temporarily unavailable. Try later (AI-5XX). Your input is preserved.",
+  "AI 网络请求未完成，请稍后重试（AI-NETWORK）。你的输入已保留。": "The AI network request did not complete. Try later (AI-NETWORK). Your input is preserved.",
+  "AI 返回的草稿格式不完整，请重试或缩短描述（AI-DRAFT）。你的输入已保留。": "AI returned an incomplete draft. Retry or shorten your request (AI-DRAFT). Your input is preserved.",
+
+  "AI 服务配置尚未完成，请联系维护者检查服务启用状态。你的输入已保留。": "AI service setup is incomplete. Ask the maintainer to check enabled services. Your input is preserved.",
+  "AI 登录状态已过期，请重新登录后重试。你的输入已保留。": "Your AI sign-in session expired. Sign in again and retry. Your input is preserved.",
+  "AI 服务拒绝了请求，请联系维护者检查访问配置（AI-403）。你的输入已保留。": "The AI service denied this request. Ask the maintainer to check access settings (AI-403). Your input is preserved.",
+  "当前 AI 模型不可用，请联系维护者检查模型配置（AI-404）。你的输入已保留。": "The AI model is unavailable. Ask the maintainer to check model settings (AI-404). Your input is preserved.",
+  "AI 响应超时，请稍后重试。你的输入已保留。": "The AI request timed out. Try again later. Your input is preserved.",
+  "安全验证未完成。若维护者刚修复配置，请刷新页面后再试；也可先用清单录入。本次文字未发送给 AI。": "Security verification did not complete. If the maintainer just fixed setup, reload and retry, or use list entry. This text was not sent to AI.",
 
   "AI 助手": "AI assistant",
   "AI 帮我开始": "Get started with AI",

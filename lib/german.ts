@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+  "AI 请求配置无效，请联系维护者检查（AI-400）。你的输入已保留。": "Die KI-Anfrage ist falsch konfiguriert. Bitte die Administration kontaktieren (AI-400). Deine Eingabe bleibt erhalten.",
+  "AI 服务暂时异常，请稍后重试（AI-5XX）。你的输入已保留。": "Der KI-Dienst ist vorübergehend nicht verfügbar. Bitte später versuchen (AI-5XX). Deine Eingabe bleibt erhalten.",
+  "AI 网络请求未完成，请稍后重试（AI-NETWORK）。你的输入已保留。": "Die KI-Netzwerkanfrage wurde nicht abgeschlossen. Bitte später versuchen (AI-NETWORK). Deine Eingabe bleibt erhalten.",
+  "AI 返回的草稿格式不完整，请重试或缩短描述（AI-DRAFT）。你的输入已保留。": "Die KI lieferte einen unvollständigen Entwurf. Bitte erneut versuchen oder die Beschreibung kürzen (AI-DRAFT). Deine Eingabe bleibt erhalten.",
+
+  "AI 服务配置尚未完成，请联系维护者检查服务启用状态。你的输入已保留。": "Die KI-Konfiguration ist unvollständig. Bitte die aktivierten Dienste prüfen lassen. Deine Eingabe bleibt erhalten.",
+  "AI 登录状态已过期，请重新登录后重试。你的输入已保留。": "Deine KI-Anmeldung ist abgelaufen. Bitte erneut anmelden. Deine Eingabe bleibt erhalten.",
+  "AI 服务拒绝了请求，请联系维护者检查访问配置（AI-403）。你的输入已保留。": "Der KI-Dienst hat die Anfrage abgelehnt. Bitte die Zugriffskonfiguration prüfen lassen (AI-403). Deine Eingabe bleibt erhalten.",
+  "当前 AI 模型不可用，请联系维护者检查模型配置（AI-404）。你的输入已保留。": "Das KI-Modell ist nicht verfügbar. Bitte die Modellkonfiguration prüfen lassen (AI-404). Deine Eingabe bleibt erhalten.",
+  "AI 响应超时，请稍后重试。你的输入已保留。": "Die KI-Anfrage hat zu lange gedauert. Bitte später erneut versuchen. Deine Eingabe bleibt erhalten.",
+  "安全验证未完成。若维护者刚修复配置，请刷新页面后再试；也可先用清单录入。本次文字未发送给 AI。": "Die Sicherheitsprüfung wurde nicht abgeschlossen. Nach einer Konfigurationskorrektur bitte die Seite neu laden. Alternativ kannst du eine Liste eingeben. Der Text wurde nicht an die KI gesendet.",
 
   "AI 助手": "KI-Assistent",
   "AI 帮我开始": "Mit KI starten",

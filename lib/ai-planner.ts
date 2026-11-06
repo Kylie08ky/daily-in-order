@@ -1,6 +1,7 @@
 import {auth,firebaseApp,firebaseProject,deviceProject} from './firebase';
 import {plannerPrompt,parseAIPlan,type DraftItem} from './quick-capture';
 import {language} from './i18n';
+import {aiFailure,verificationDeadline} from './ai-errors';
 import type {AppCheck} from 'firebase/app-check';
 
 export const aiConfigured=import.meta.env.VITE_AI_ENABLED==='true'&&!!import.meta.env.VITE_APPCHECK_SITE_KEY&&!firebaseProject.startsWith('demo-');
@@ -24,17 +25,15 @@ export async function organizeWithAI(text:string,date:string,draft:DraftItem[]=[
   appCheckReady??=import('firebase/app-check').then(({initializeAppCheck,ReCaptchaEnterpriseProvider})=>initializeAppCheck(firebaseApp,{provider:new ReCaptchaEnterpriseProvider(import.meta.env.VITE_APPCHECK_SITE_KEY),isTokenAutoRefreshEnabled:true})).catch(e=>{appCheckReady=undefined;throw e;});
   const check=await appCheckReady;
   const {getToken}=await import('firebase/app-check');
-  try{await getToken(check,false);}catch{throw new TrialError('应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。');}
+  try{await verificationDeadline(getToken(check,false));}catch{throw new TrialError('安全验证未完成。若维护者刚修复配置，请刷新页面后再试；也可先用清单录入。本次文字未发送给 AI。');}
   const {getAI,getGenerativeModel,GoogleAIBackend}=await import('firebase/ai');
-  const model=getGenerativeModel(getAI(firebaseApp,{backend:new GoogleAIBackend()}),{model:import.meta.env.VITE_AI_MODEL||'gemini-3.8-flash',generationConfig:{responseMimeType:'application/json',temperature:0.2,maxOutputTokens:6000}},{timeout:45000});
+  const model=getGenerativeModel(getAI(firebaseApp,{backend:new GoogleAIBackend()}),{model:import.meta.env.VITE_AI_MODEL||'gemini-3.5-flash-lite',generationConfig:{responseMimeType:'application/json',temperature:0.2,maxOutputTokens:6000}},{timeout:45000});
   const result=await model.generateContent(prompt);
   if(auth.currentUser?.uid!==user.uid)throw new TrialError('账号已切换，草稿未保存。');
-  return parseAIPlan(result.response.text());
+  try{return parseAIPlan(result.response.text());}catch{throw new TrialError('AI 返回的草稿格式不完整，请重试或缩短描述（AI-DRAFT）。你的输入已保留。');}
  }catch(e){
   // Do not expose raw provider output, request contents or tokens in the UI.
-  const code=String((e as {code?:string})?.code||'');
-  if(code.includes('429')||code.includes('quota'))throw Error('免费 AI 额度暂时用完，请稍后重试，或使用清单录入。');
   if(e instanceof TrialError)throw e;
-  throw Error('AI 暂时无法生成有效草稿。原来的内容还在，请稍后重试，或使用清单录入。');
+  throw Error(aiFailure(e));
  }finally{running=false;}
 }
