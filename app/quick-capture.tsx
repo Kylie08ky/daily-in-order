@@ -8,9 +8,9 @@ import DurationInput from './duration-input';
 import './quick-capture.css';
 
 type Row=DraftItem&{id:string;selected:boolean};
-export default function QuickCapture({state,date,firstLogin,mutate,busy,error,onClose,onGoals,onForm}:{state:State;date:string;firstLogin:boolean;mutate:(c:Command)=>Promise<boolean>;busy:boolean;error:string;onClose:()=>void;onGoals:()=>void;onForm:()=>void}){
+export default function QuickCapture({state,date,firstLogin,initialMode='ai',mutate,busy,error,onClose,onGoals,onForm}:{state:State;date:string;firstLogin:boolean;initialMode?:'ai'|'list';mutate:(c:Command)=>Promise<boolean>;busy:boolean;error:string;onClose:()=>void;onGoals:()=>void;onForm:()=>void}){
  const dialog=useRef<HTMLDialogElement>(null),locked=useRef(false),first=useRef(firstLogin);
- const [mode,setMode]=useState<'list'|'ai'>('list'),[step,setStep]=useState(0),[text,setText]=useState(''),[target,setTarget]=useState(date),[rows,setRows]=useState<Row[]>([]),[notes,setNotes]=useState(''),[consent,setConsent]=useState(false),[localError,setLocalError]=useState(''),[working,setWorking]=useState(false),[revision,setRevision]=useState(''),[added,setAdded]=useState<Task[]>([]),[savedIds,setSavedIds]=useState<string[]>([]),[undone,setUndone]=useState(false);
+ const [mode,setMode]=useState<'list'|'ai'>(initialMode),[step,setStep]=useState(0),[text,setText]=useState(''),[target,setTarget]=useState(date),[rows,setRows]=useState<Row[]>([]),[notes,setNotes]=useState(''),[consent,setConsent]=useState(false),[localError,setLocalError]=useState(''),[working,setWorking]=useState(false),[revision,setRevision]=useState(''),[added,setAdded]=useState<Task[]>([]),[savedIds,setSavedIds]=useState<string[]>([]),[undone,setUndone]=useState(false);
  const mounted=useRef(true),heading=useRef<HTMLHeadingElement>(null);
  useEffect(()=>{mounted.current=true;dialog.current?.showModal();return()=>{mounted.current=false;dialog.current?.close();};},[]);
  useEffect(()=>{heading.current?.focus();},[step]);
@@ -39,12 +39,13 @@ export default function QuickCapture({state,date,firstLogin,mutate,busy,error,on
  const undo=()=>void run(async()=>{if(await mutate({type:'quick.undo',payload:added}))setUndone(true);});
  const switchMode=(next:'list'|'ai')=>{setMode(next);setLocalError('');};
  return <dialog ref={dialog} className="modal quick-capture" aria-labelledby="quick-title" onCancel={e=>{e.preventDefault();if(!disabled)close();}}>
-  <header className="quick-head"><div><span className="eyebrow">DAILY IN ORDER</span><h2 ref={heading} tabIndex={-1} id="quick-title">{ui(step===0?'今天，你想做些什么？':step===1?'检查一下，再加入清单':undone?'已撤销本次添加':'清单准备好了')}</h2></div><button type="button" className="icon-btn" aria-label={ui('关闭')} disabled={disabled} onClick={close}><X size={20}/></button></header>
+  <header className="quick-head"><div><span className="eyebrow">DAILY IN ORDER</span><h2 ref={heading} tabIndex={-1} id="quick-title">{ui(step===0?(mode==='ai'?(first.current?'AI 帮我开始':'AI 助手'):'今天，你想做些什么？'):step===1?'检查一下，再加入清单':undone?'已撤销本次添加':'清单准备好了')}</h2></div><button type="button" className="icon-btn" aria-label={ui('关闭')} disabled={disabled} onClick={close}><X size={20}/></button></header>
   <ol className="quick-steps" aria-label={ui('引导进度')}>{['写下想法','确认草稿','开始行动'].map((label,i)=><li key={label} aria-current={step===i?'step':undefined}><span>{i<step?<Check size={13}/>:i+1}</span>{ui(label)}</li>)}</ol>
   <div className="quick-body"><fieldset disabled={disabled}>
    {step===0&&<>
-    <p className="quick-lead">{ui('不用先建项目或设置目标。写下要做的事，确认后就能开始。')}</p>
-    <div className="quick-modes"><button type="button" aria-pressed={mode==='list'} onClick={()=>switchMode('list')}><ListPlus size={20}/><span><strong>{ui('清单录入')}</strong><small>{ui('每行一项 · 支持粘贴 · 离线可用')}</small></span></button><button type="button" aria-pressed={mode==='ai'} onClick={()=>switchMode('ai')}><Sparkles size={20}/><span><strong>{ui('AI 帮我整理')}</strong><small>{ui('描述想法，生成可编辑草稿')}</small></span></button></div>
+    <p className="quick-lead">{ui(mode==='ai'?'把今天想做的事告诉 AI，帮你整理成任务和时间安排。确认草稿后才会保存。':'不用先建项目或设置目标。写下要做的事，确认后就能开始。')}</p>
+    <div className="quick-modes"><button type="button" aria-pressed={mode==='ai'} onClick={()=>switchMode('ai')}><Sparkles size={20}/><span><strong>{ui('AI 帮我整理')}</strong><small>{ui('描述想法，生成可编辑草稿')}</small></span></button><button type="button" aria-pressed={mode==='list'} onClick={()=>switchMode('list')}><ListPlus size={20}/><span><strong>{ui('自己写清单')}</strong><small>{ui('每行一项 · 支持粘贴 · 离线可用')}</small></span></button></div>
+    {mode==='ai'&&<div className="quick-examples"><span>{ui('不知道怎么开始？试试这样说')}</span>{['明天阅读 30 分钟，晚上 7 点运动 45 分钟。','今天准备演示文稿，再整理资料，具体时间先不定。'].map(example=><button type="button" key={example} onClick={()=>setText(ui(example))}>{ui(example)}</button>)}<small>{ui('点击只填入示例，可以修改，不会直接发送。')}</small></div>}
     <label className="quick-date">{ui('默认安排日期')}<input type="date" value={target} onChange={e=>setTarget(e.target.value)}/><small>{ui('留空则放入任务池；每项还可以单独调整。')}</small></label>
     <label>{ui(mode==='list'?'写下或粘贴清单':'告诉 AI 你想做什么')}<textarea autoFocus rows={6} maxLength={INPUT_LIMIT} value={text} onChange={e=>setText(e.target.value)} placeholder={ui(mode==='list'?'整理资料\n阅读 20 页\n散步 | 18:00 | 30':'明天想读半小时书、准备演示文稿，晚上 7 点运动 45 分钟。帮我整理成清单。')}/></label>
     <div className="quick-hint"><span>{ui(mode==='list'?'每行一个事项。可选格式：事项 | 09:00 | 30（分钟）。不自动识别自然语言时间。':'只发送本次输入和你修改中的草稿，不读取其他个人记录。')}</span><small>{text.length} / {INPUT_LIMIT}</small></div>

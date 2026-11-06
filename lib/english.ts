@@ -1,5 +1,17 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+
+  "AI 助手": "AI assistant",
+  "AI 帮我开始": "Get started with AI",
+  "把今天想做的事告诉 AI，帮你整理成任务和时间安排。确认草稿后才会保存。": "Tell AI what you want to do. It will draft tasks and a schedule for you to review before saving.",
+  "自己写清单": "Write my own list",
+  "不知道怎么开始？试试这样说": "Not sure where to start? Try an example",
+  "明天阅读 30 分钟，晚上 7 点运动 45 分钟。": "Tomorrow, read for 30 minutes and exercise for 45 minutes at 7 pm.",
+  "今天准备演示文稿，再整理资料，具体时间先不定。": "Today, prepare a presentation and organize my files. Leave the times open.",
+  "点击只填入示例，可以修改，不会直接发送。": "Click to fill in an editable example. Nothing is sent automatically.",
+  "AI 助手，从第一次使用开始": "AI assistance from the first visit",
+  "新用户直接看到 AI 入门，可用一句话整理安排，也可以自己写清单或跳过。": "New users start with AI-assisted setup, with options to write a list manually or skip.",
+  "侧栏和今日概览新增独立 AI 助手入口，日后随时继续整理。": "A dedicated AI assistant entry in the sidebar and Today makes it easy to return.",
   "按需开启模块，记录每日摄入": "Choose modules and track daily intake",
   "首次引导先选择需要的学习、阅读、作息、运动和财务模块，未选的隐藏，设置中随时调整。": "Choose your learning, reading, sleep, fitness and finance modules during setup. Unselected modules stay hidden; change them anytime in Settings.",
   "运动新增可选的每日摄入：个人热量与蛋白质参考目标，每餐记录、编辑、删除与恢复。": "Fitness now includes optional daily intake: calorie and protein targets, meal logging, editing, removal and recovery.",

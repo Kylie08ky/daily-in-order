@@ -28,4 +28,11 @@ No real workspace, personal export or production database was used. The temporar
 
 没有使用真实工作台、个人导出或生产数据库。临时账号初始化脚本和模拟器记录不进入公开仓库，演示内容也不会成为新用户默认数据。
 
-- `quick-start-zh.jpg` / `quick-start-en.jpg`: v0.7.0 quick-entry dialog, local `demo-friends-isolation` synthetic account. Plain-list input only, no cloud AI call and no personal records. Captured at normal desktop viewport.
+- `quick-start-zh.jpg` / `quick-start-en.jpg`: v0.7.1 AI introduction and assistant, local `demo-friends-isolation` synthetic account. Empty input, no cloud AI call and no personal records. Captured at normal desktop viewport.
+
+
+### AI entry update / AI 入口更新（2026-11-06）
+
+Replaced both `quick-start-zh.jpg` and `quick-start-en.jpg` with the AI-first introduction and standalone assistant. Captured in the local emulator using a synthetic account and empty input. No cloud AI requests or real user records are included.
+
+中英快速开始截图已更新为 AI 入门与独立助手，使用本地模拟器虚构账号及空白输入，未调用云端 AI，不含真实用户记录。

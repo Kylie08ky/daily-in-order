@@ -14,9 +14,9 @@ This repository contains application source, tests and deployment scripts. It do
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
 
-### Quick start (v0.7.0 preview)
+### Quick start (v0.7.1 preview)
 
-Write down what you want to do, then review an editable draft. No project or goal setup required.
+AI-assisted setup is shown on the first visit; manual entry and skip remain available. This screenshot uses a synthetic local account and does not show a live AI request.
 
 ![Quick start with synthetic local task input](docs/images/quick-start-en.jpg)
 
@@ -63,7 +63,7 @@ Chinese UI with illustrative test entries. The nutrition figures are not dietary
 | Review and backup | Review time trends, back up/restore full JSON state, and import/export task CSV and calendar ICS files |
 | Onboarding and feedback | Choose modules, set goals, follow a usage walkthrough, submit feedback and see its status |
 
-**Preview v0.7.0: write a list → review the draft → get started.** New accounts see Quick Start; existing accounts use Quick add. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
+**Preview v0.7.1: write a list → review the draft → get started.** After registration and email verification, new users see **Get started with AI**, with editable examples, manual list entry and skip. A dedicated **AI assistant** in the sidebar and Today opens AI directly on later visits; **Quick add** still opens manual entry. Examples only fill the input and are never sent automatically. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
 
 Optional **Organize with AI** uses Firebase AI Logic / Gemini Developer API to create an editable draft from natural language, with follow-up revisions. Only the current input and selected draft are sent after consent, not existing workspace records. AI cannot save tasks or invent actual work. Repeating rules are not created in this first version; review the draft. List entry works offline; AI requires a connection. These changes are preview-first; production may still run the previous release.
 

@@ -1,5 +1,17 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+
+  "AI 助手": "KI-Assistent",
+  "AI 帮我开始": "Mit KI starten",
+  "把今天想做的事告诉 AI，帮你整理成任务和时间安排。确认草稿后才会保存。": "Sag der KI, was du vorhast. Sie erstellt Aufgaben und einen Zeitplan, die du vor dem Speichern prüfst.",
+  "自己写清单": "Liste selbst schreiben",
+  "不知道怎么开始？试试这样说": "Noch keine Idee? Probiere ein Beispiel",
+  "明天阅读 30 分钟，晚上 7 点运动 45 分钟。": "Morgen 30 Minuten lesen und um 19 Uhr 45 Minuten Sport machen.",
+  "今天准备演示文稿，再整理资料，具体时间先不定。": "Heute eine Präsentation vorbereiten und Unterlagen sortieren. Die Uhrzeiten bleiben offen.",
+  "点击只填入示例，可以修改，不会直接发送。": "Ein Klick fügt ein bearbeitbares Beispiel ein. Es wird nichts automatisch gesendet.",
+  "AI 助手，从第一次使用开始": "KI-Unterstützung ab dem ersten Besuch",
+  "新用户直接看到 AI 入门，可用一句话整理安排，也可以自己写清单或跳过。": "Neue Nutzer starten mit der KI-Einführung und können auch selbst eine Liste schreiben oder überspringen.",
+  "侧栏和今日概览新增独立 AI 助手入口，日后随时继续整理。": "Ein eigener KI-Assistent in der Seitenleiste und Tagesübersicht bleibt jederzeit erreichbar.",
   "按需开启模块，记录每日摄入": "Module wählen und tägliche Ernährung erfassen",
   "首次引导先选择需要的学习、阅读、作息、运动和财务模块，未选的隐藏，设置中随时调整。": "Wähle beim Einrichten die Module für Lernen, Lesen, Schlaf, Sport und Finanzen. Nicht gewählte Module bleiben ausgeblendet; du kannst sie jederzeit in den Einstellungen ändern.",
   "运动新增可选的每日摄入：个人热量与蛋白质参考目标，每餐记录、编辑、删除与恢复。": "Im Sportbereich gibt es jetzt optional die tägliche Ernährung: Kalorien- und Proteinziele sowie Mahlzeiten zum Erfassen, Bearbeiten, Entfernen und Wiederherstellen.",
