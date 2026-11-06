@@ -1,8 +1,4 @@
-/* The language header is measured, so zoom, text scaling and safe areas cannot
-   push a full-viewport sidebar below the window. Only its navigation scrolls. */
-:root{--language-bar-height:47px}
-:root .language-switch{position:sticky;top:0;z-index:30;flex-wrap:wrap;padding-top:calc(8px + env(safe-area-inset-top,0px))}
-:root .app-shell{min-height:calc(100dvh - var(--language-bar-height))}
+/* Navigation scrolls inside the viewport; the profile/settings entry stays visible. */
 :root .app-shell .sidebar-bottom{flex:none;margin-top:0;padding-top:12px;min-width:0}
 :root .app-shell .sidebar-bottom>p{margin:0 8px 10px}
 :root .app-shell .sidebar-bottom>.profile-settings{display:flex;align-items:center;gap:10px;padding:12px 8px;width:100%;min-height:64px;text-align:left;border-top:1px solid #ffffff26;border-radius:8px;white-space:normal}
@@ -13,7 +9,7 @@
 :root .app-shell .profile-settings>svg{flex:none;color:#d5e3d8}
 :root .app-shell .profile-settings:focus-visible{outline:2px solid #e0edbf;outline-offset:-2px}
 @media(min-width:651px){
- :root .app-shell .sidebar{top:var(--language-bar-height);height:calc(100dvh - var(--language-bar-height));min-height:0;overflow:hidden;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+ :root .app-shell .sidebar{top:0;height:100dvh;padding-top:calc(24px + env(safe-area-inset-top,0px));min-height:0;overflow:hidden;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
  :root .app-shell .sidebar>.brand,:root .app-shell .sidebar>.collapse-btn,:root .app-shell .sidebar>.new-task{flex-shrink:0}
  :root .app-shell .sidebar>nav{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable}
  :root .app-shell .sidebar>nav>button{flex-shrink:0}
@@ -25,7 +21,7 @@
  :root .app-shell .sidebar-bottom>.profile-settings{justify-content:center;padding:12px 4px;min-height:48px}
 }
 @media(min-width:651px) and (max-height:700px){
- :root .app-shell .sidebar{padding-top:12px}
+ :root .app-shell .sidebar{padding-top:calc(12px + env(safe-area-inset-top,0px))}
  :root .app-shell .sidebar .brand{margin-bottom:12px}
  :root .app-shell .sidebar .new-task{margin-bottom:12px}
  :root .app-shell .sidebar-bottom>p{display:none}
@@ -35,6 +31,6 @@
  :root .app-shell .sidebar-bottom{position:static;margin-top:10px;padding:0}
  :root .app-shell .sidebar-bottom>p{display:none}
  :root .app-shell .sidebar-bottom>.profile-settings{min-height:58px;padding:10px 4px}
- :root .app-shell{padding-top:0}
+ :root .app-shell{padding-top:env(safe-area-inset-top,0px)}
 }
 @media print{.language-switch{display:none!important}}

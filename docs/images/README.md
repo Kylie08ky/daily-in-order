@@ -48,3 +48,9 @@ Updated both quick-start screenshots using a synthetic local emulator account. C
 Replaced `today-demo-zh.jpg` and `today-demo-en.jpg` with local emulator captures at 1280 × 720. Each synthetic account has three projects and six tasks, all unfinished, with partial recorded time; life modules are enabled to exercise a scrolling sidebar. Avatar, name and Settings remain visible below the navigation. Timeline and focus screenshots remain earlier examples.
 
 两张今日概览图片已替换为 1280 × 720 本地模拟器截图：中英文虚构账号各有三个项目、六项未完成任务及部分投入记录，开启生活模块以检查长目录滚动。头像、名称和设置在目录下方保持可见。时间轴与专注图片仍为较早的演示截图。
+
+### Language in Settings / 设置内语言切换（v0.8.2，2026-11-06）
+
+Refreshed both Today screenshots with the same synthetic local accounts and 1280 × 720 viewport after moving the language selector into Settings. The workspace no longer has a top language bar.
+
+语言切换移到设置页后，使用同类本地虚构账号重新截图；两张今日概览均为 1280 × 720，工作台顶部不再显示语言栏。

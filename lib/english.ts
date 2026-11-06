@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "语言切换移到设置": "Language switching moves to Settings",
+  "在设置页直接切换中文、英语与德语，顶部不再占用一行。": "Switch between Chinese, English and German in Settings, without an extra bar above your workspace.",
+  "界面语言": "Interface language",
   "侧栏不再被语言栏挤出屏幕": "A sidebar that fits below the language bar",
   "按语言栏实际高度调整侧栏，目录单独滚动，底部入口保持可见。": "The sidebar follows the language bar height. Navigation scrolls independently while the bottom control stays visible.",
   "设置、头像和个人名称合成一个入口，电脑与手机都能直接打开。": "Settings, avatar and your name share one entry on desktop and mobile.",

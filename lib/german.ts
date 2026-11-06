@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+  "语言切换移到设置": "Sprachauswahl in den Einstellungen",
+  "在设置页直接切换中文、英语与德语，顶部不再占用一行。": "Chinesisch, Englisch und Deutsch direkt in den Einstellungen wählen, ohne zusätzliche Leiste über dem Arbeitsbereich.",
+  "界面语言": "Sprache der Oberfläche",
   "侧栏不再被语言栏挤出屏幕": "Die Seitenleiste passt unter die Sprachauswahl",
   "按语言栏实际高度调整侧栏，目录单独滚动，底部入口保持可见。": "Die Seitenleiste passt sich der Höhe der Sprachauswahl an. Die Navigation scrollt separat, der untere Zugang bleibt sichtbar.",
   "设置、头像和个人名称合成一个入口，电脑与手机都能直接打开。": "Einstellungen, Avatar und Name bilden einen gemeinsamen Zugang auf Computer und Smartphone.",

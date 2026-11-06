@@ -1,4 +1,4 @@
-import LanguageSwitch,{useLanguage} from '../app/language-switch';
+import LanguageSwitch,{LanguageMetadata,useLanguage} from '../app/language-switch';
 import {t as ui,tr,locale} from '../lib/i18n';
 import React,{useEffect,useState} from 'react';
 import {createRoot} from 'react-dom/client';
@@ -40,9 +40,9 @@ function App(){useLanguage();
  <button disabled={busy} type="submit" className="primary auth-submit">{busy?ui("请稍候…"):mode==='register'?ui("注册并发送验证邮件"):mode==='reset'?ui("发送重置邮件"):ui("登录")}</button>
  </form><div className="auth-links"><button disabled={busy} onClick={()=>{setMode(mode==='register'?'login':'register');setError('');setNotice('');}}>{mode==='register'?ui("已有账号，去登录"):ui("还没有账号？注册")}</button>{mode!=='reset'&&<button disabled={busy} onClick={()=>{setMode('reset');setError('');setNotice('');}}>{ui("忘记密码")}</button>}{mode==='reset'&&<button onClick={()=>setMode('login')}>{ui("返回登录")}</button>}</div></>}
  {error&&<p className="auth-error" role="alert">{ui(error)}</p>}{notice&&<p className="auth-notice" role="status">{ui(notice)}</p>}
- <p className="auth-foot">{ui("邮箱用于登录、验证及找回密码。请在共享设备上退出登录。")}</p></section></main>;
+ <p className="auth-foot">{ui("邮箱用于登录、验证及找回密码。请在共享设备上退出登录。")}</p><LanguageSwitch/></section></main>;
 }
-createRoot(document.getElementById('root')!).render(<><LanguageSwitch/><App/></>);
+createRoot(document.getElementById('root')!).render(<><LanguageMetadata/><App/></>);
 
 import '../app/identity.css';
 
