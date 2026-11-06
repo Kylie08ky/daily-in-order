@@ -1,5 +1,14 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+  "项目模块可展开和收起": "Projektmodule ein- und ausklappen",
+  "收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。": "Eingeklappte Module zeigen weiterhin Anzahl und Fortschritt. Einzeln oder alle ausklappen; beim Hinzufügen einer Aufgabe öffnet sich das Modul.",
+  "收起模块": "Modul einklappen",
+  "展开模块": "Modul ausklappen",
+  "全部收起": "Alle einklappen",
+  "全部展开": "Alle ausklappen",
+  "展开": "Ausklappen",
+  "添加事项": "Aufgabe hinzufügen",
+
   "语言切换移到设置": "Sprachauswahl in den Einstellungen",
   "在设置页直接切换中文、英语与德语，顶部不再占用一行。": "Chinesisch, Englisch und Deutsch direkt in den Einstellungen wählen, ohne zusätzliche Leiste über dem Arbeitsbereich.",
   "界面语言": "Sprache der Oberfläche",

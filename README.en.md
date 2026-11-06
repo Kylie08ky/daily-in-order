@@ -12,6 +12,8 @@ This repository contains application source, tests and deployment scripts. It do
 
 **v0.8.2 released:** Switch between Chinese, English and German beside the Settings heading; your choice is remembered on this device. The workspace no longer has a language bar at the top. Navigation scrolls independently, with avatar, name and Settings combined in one bottom entry. Promoted unchanged to production on 2026-11-06 after preview approval, without copying preview data.
 
+**v0.8.3 preview:** Project modules start collapsed while keeping completion counts and progress visible. Click a module heading to expand or collapse it, or use Expand all / Collapse all. Adding a task opens its module. Expansion choices remain while navigating within the current workspace session. Production remains on v0.8.2.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)

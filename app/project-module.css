@@ -1,0 +1,15 @@
+.project-module .project-module-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.project-module-header h3{flex:1;min-width:0;margin:0}
+.project-module-header .module-disclosure{display:flex;align-items:center;gap:10px;width:100%;padding:8px 0;background:transparent;border:0;color:inherit;text-align:left;border-radius:8px;white-space:normal;min-height:40px}
+.module-disclosure .module-name{font-size:17px;font-weight:650;overflow-wrap:anywhere}
+.module-disclosure small{flex:none;font-size:13px;font-weight:400;margin:0}
+.module-disclosure .module-toggle-label{margin-left:auto;flex:none;font-size:12px;font-weight:400;opacity:.8}
+.module-disclosure>svg{flex:none;transform:rotate(-90deg)}
+.module-disclosure[aria-expanded=true]>svg{transform:rotate(0)}
+.project-module-header .module-add{flex:none;font-size:13px;display:flex;align-items:center;gap:5px}
+.project-module .module-disclosure:focus-visible{outline:2px solid #789764;outline-offset:4px}
+.project-module-content[hidden]{display:none}
+.project-module>.progress{margin-bottom:0}
+.project-module-content:not([hidden]){margin-top:12px}
+.project-module-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){.project-module .project-module-header{gap:10px}.module-disclosure .module-name{font-size:15px}.module-disclosure .module-toggle-label{display:none}.project-module-header .module-add{font-size:12px;padding:8px 0}.project-module-header .module-disclosure{gap:6px}}

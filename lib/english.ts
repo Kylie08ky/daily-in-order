@@ -1,5 +1,14 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "项目模块可展开和收起": "Expand and collapse project modules",
+  "收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。": "Collapsed modules retain completion counts and progress. Expand one or all modules; adding a task opens its module.",
+  "收起模块": "Collapse module",
+  "展开模块": "Expand module",
+  "全部收起": "Collapse all",
+  "全部展开": "Expand all",
+  "展开": "Expand",
+  "添加事项": "Add task",
+
   "语言切换移到设置": "Language switching moves to Settings",
   "在设置页直接切换中文、英语与德语，顶部不再占用一行。": "Switch between Chinese, English and German in Settings, without an extra bar above your workspace.",
   "界面语言": "Interface language",

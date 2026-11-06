@@ -5,6 +5,7 @@ import BrandMark from './brand-mark';
 declare const __APP_VERSION__:string;
 type Update={date:string;title:string;items:string[]};
 const recent:Update[]=[
+ {date:'2026-11-06',title:'项目模块可展开和收起',items:['收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。']},
  {date:'2026-11-06',title:'语言切换移到设置',items:['在设置页直接切换中文、英语与德语，顶部不再占用一行。']},
  {date:'2026-11-06',title:'侧栏不再被语言栏挤出屏幕',items:['按语言栏实际高度调整侧栏，目录单独滚动，底部入口保持可见。','设置、头像和个人名称合成一个入口，电脑与手机都能直接打开。']},
  {date:'2026-11-06',title:'通过对话，开始自己的工作台',items:['AI 入门与操作引导连通，可一次确认创建项目、任务和日程，支持继续对话修改。','老用户可在设置 → 使用指南重新打开；同名项目复用，已有记录保留。']},
