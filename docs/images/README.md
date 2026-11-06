@@ -42,3 +42,9 @@ Replaced both `quick-start-zh.jpg` and `quick-start-en.jpg` with the AI-first in
 Updated both quick-start screenshots using a synthetic local emulator account. Chinese shows the automatic first-login introduction; English shows reopening it from Settings → User guide. The project/task draft adapter used in local UI testing is a fixture, not a real AI response; these entry screenshots show no generated results. No real user records or production data were used.
 
 两张快速开始截图已更新：中文展示首次登录自动引导，英文展示从设置 → 使用指南重新打开。均使用本地模拟器虚构账号。本地界面验收使用虚构草稿适配器，不代表真实 AI 返回；本组入口截图不含生成结果，也未使用真实用户或生产数据。
+
+### Sidebar fit / 侧栏适配（v0.8.1，2026-11-06）
+
+Replaced `today-demo-zh.jpg` and `today-demo-en.jpg` with local emulator captures at 1280 × 720. Each synthetic account has three projects and six tasks, all unfinished, with partial recorded time; life modules are enabled to exercise a scrolling sidebar. Avatar, name and Settings remain visible below the navigation. Timeline and focus screenshots remain earlier examples.
+
+两张今日概览图片已替换为 1280 × 720 本地模拟器截图：中英文虚构账号各有三个项目、六项未完成任务及部分投入记录，开启生活模块以检查长目录滚动。头像、名称和设置在目录下方保持可见。时间轴与专注图片仍为较早的演示截图。

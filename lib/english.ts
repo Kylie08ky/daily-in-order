@@ -1,5 +1,9 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "侧栏不再被语言栏挤出屏幕": "A sidebar that fits below the language bar",
+  "按语言栏实际高度调整侧栏，目录单独滚动，底部入口保持可见。": "The sidebar follows the language bar height. Navigation scrolls independently while the bottom control stays visible.",
+  "设置、头像和个人名称合成一个入口，电脑与手机都能直接打开。": "Settings, avatar and your name share one entry on desktop and mobile.",
+
   "查看项目": "View project",
   "查看时间轴": "View timeline",
   "查看任务池": "View task pool",

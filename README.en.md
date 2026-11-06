@@ -10,6 +10,8 @@ Daily in Order is a personal workspace with Chinese, English and German interfac
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
+**v0.8.1 preview:** The sidebar fits the actual language-bar height. Navigation scrolls independently, with avatar, name and Settings combined in one bottom entry. Browser tabs and installed desktop apps share this layout. Production remains on the approved v0.8.0 release.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
@@ -22,7 +24,7 @@ AI-assisted setup is shown on the first visit; manual entry and skip remain avai
 
 ### Today
 
-A task list, project progress and daily notes. Optional lifestyle modules are disabled in this demo to highlight scheduling and projects.
+A task list, project progress and daily notes. The v0.8.1 preview screenshot shows independent navigation scrolling and the bottom Settings entry in a shorter window, using synthetic records with lifestyle modules enabled.
 
 ![Today dashboard with six synthetic tasks, project progress and fictional daily notes](docs/images/today-demo-en.jpg)
 
