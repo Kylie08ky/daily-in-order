@@ -1,5 +1,5 @@
 import {auth,firebaseApp,firebaseProject,deviceProject} from './firebase';
-import {plannerPrompt,parseAIPlan,type DraftItem} from './quick-capture';
+import {plannerPrompt,parseAIPlan,type PlanTask,type DraftProject,type ConversationTurn} from './quick-capture';
 import {language} from './i18n';
 import {aiFailure,verificationDeadline} from './ai-errors';
 import type {AppCheck} from 'firebase/app-check';
@@ -8,13 +8,13 @@ export const aiConfigured=import.meta.env.VITE_AI_ENABLED==='true'&&!!import.met
 let appCheckReady:Promise<AppCheck>|undefined;
 let running=false;
 class TrialError extends Error{}
-export async function organizeWithAI(text:string,date:string,draft:DraftItem[]=[]){
+export async function organizeWithAI(text:string,date:string,draft:PlanTask[]=[],projects:DraftProject[]=[],referenceDate=date,history:ConversationTurn[]=[]){
  if(!aiConfigured)throw Error('AI 免费试用尚未配置，可以先使用清单录入。');
  const user=auth.currentUser;
  if(!user?.emailVerified)throw Error('请先登录并验证邮箱。');
  if(!navigator.onLine)throw Error('AI 整理需要联网，清单录入可以离线使用。');
  if(running)throw Error('AI 正在整理，请稍候。');
- const prompt=plannerPrompt(text,date,language(),draft);
+ const prompt=plannerPrompt(text,date,language(),draft,projects,referenceDate,history);
  const key=`${deviceProject}:${user.uid}:ai-trial:${new Date().toISOString().slice(0,10)}`;
  let used=0;
  try{used=Number(localStorage.getItem(key)||0);if(!Number.isFinite(used))used=10;}catch{throw Error('无法读取本设备试用次数，请检查浏览器存储权限。');}

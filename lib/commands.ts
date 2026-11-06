@@ -87,6 +87,6 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
  for(const t of s.tasks)if(t.progressSource==='time')refreshTimeProgress(t);
  moveRelatedChildren(s,input);
  initializeDay(s,instant);
- if(['task.save','task.schedule','project.save','capacity.save','settings.save','tasks.arrange','template.use','tasks.import','task.delete','task.restore','project.delete','project.restore'].includes(command.type))s.targets[today]=recommendations(s,today);
+ if(['quick.add','quick.undo','task.save','task.schedule','project.save','capacity.save','settings.save','tasks.arrange','template.use','tasks.import','task.delete','task.restore','project.delete','project.restore'].includes(command.type))s.targets[today]=recommendations(s,today);
  return validateState(s);
 }

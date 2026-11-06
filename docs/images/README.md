@@ -36,3 +36,9 @@ No real workspace, personal export or production database was used. The temporar
 Replaced both `quick-start-zh.jpg` and `quick-start-en.jpg` with the AI-first introduction and standalone assistant. Captured in the local emulator using a synthetic account and empty input. No cloud AI requests or real user records are included.
 
 中英快速开始截图已更新为 AI 入门与独立助手，使用本地模拟器虚构账号及空白输入，未调用云端 AI，不含真实用户记录。
+
+### Conversational onboarding / 对话式入门（v0.8.0）
+
+Updated both quick-start screenshots using a synthetic local emulator account. Chinese shows the automatic first-login introduction; English shows reopening it from Settings → User guide. The project/task draft adapter used in local UI testing is a fixture, not a real AI response; these entry screenshots show no generated results. No real user records or production data were used.
+
+两张快速开始截图已更新：中文展示首次登录自动引导，英文展示从设置 → 使用指南重新打开。均使用本地模拟器虚构账号。本地界面验收使用虚构草稿适配器，不代表真实 AI 返回；本组入口截图不含生成结果，也未使用真实用户或生产数据。

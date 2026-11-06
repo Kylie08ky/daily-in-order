@@ -14,7 +14,7 @@ This repository contains application source, tests and deployment scripts. It do
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
 
-### Quick start (v0.7.2 preview)
+### Quick start (v0.8.0 preview)
 
 AI-assisted setup is shown on the first visit; manual entry and skip remain available. This screenshot uses a synthetic local account and does not show a live AI request.
 
@@ -63,9 +63,11 @@ Chinese UI with illustrative test entries. The nutrition figures are not dietary
 | Review and backup | Review time trends, back up/restore full JSON state, and import/export task CSV and calendar ICS files |
 | Onboarding and feedback | Choose modules, set goals, follow a usage walkthrough, submit feedback and see its status |
 
-**Preview v0.7.2: write a list → review the draft → get started.** After registration and email verification, new users see **Get started with AI**, with editable examples, manual list entry and skip. The sidebar has a single **AI assistant** entry, with AI and **Write my own list** available inside. Today keeps both AI assistant and **Quick add** for direct manual entry. Examples only fill the input and are never sent automatically. Paste one task per line, select and edit dates and hours/minutes, then add the batch. Dates and start times are optional; undated tasks go to the task pool. Undo is available after adding, but refuses batches containing tasks that were edited or started to protect progress. Set up modules, goals and projects later.
+**Preview v0.8.0: describe a goal → refine it in conversation → confirm once.** After registration and email verification, new users automatically see **Get started with AI**. Describe your goals and available time to draft projects, linked tasks and schedules. Continue the conversation or edit the draft directly, then confirm once to create projects and tasks and place scheduled tasks on the timeline. No second round of forms is required. Dates and start times are optional; undated tasks go to the task pool.
 
-Optional **Organize with AI** uses Firebase AI Logic / Gemini Developer API to create an editable draft from natural language, with follow-up revisions. Only the current input and selected draft are sent after consent, not existing workspace records. AI cannot save tasks or invent actual work. Repeating rules are not created in this first version; review the draft. List entry works offline; AI requires a connection. These changes are preview-first; production may still run the previous release.
+Returning users can open the same flow from **Settings → User guide → Reopen welcome guide**, or the sidebar **AI assistant**. The manual walkthrough also offers **Get started with AI**. Reopening does not clear existing records. A single active project with the same name is matched locally and reused without changing its goal or dates; ambiguous or archived names require a change. After saving, open the project, timeline or task pool, or undo this batch. Existing projects are never undone; undo refuses newly created records that have since been edited, focused on, or referenced elsewhere.
+
+Optional **Organize with AI** uses Firebase AI Logic / Gemini Developer API to produce an editable draft. After consent, it sends the current request, up to six recent conversation messages, and selected project/task drafts, never automatically reading existing workspace records. AI cannot save directly, invent actual work, or check conflicts against your existing calendar; review before confirming. Recurrence rules are not created in this first version; repeating requests draft only the next occurrence with an explanation. Manual lists work offline and onboarding can be skipped; AI requires a connection. These changes are preview-first; production follows the reviewed release.
 
 Cloud AI also requires Google App Check verification. If a browser fails verification (for example, 403), input is preserved and plain list entry remains available. The app does not bypass verification or switch to a paid provider.
 
