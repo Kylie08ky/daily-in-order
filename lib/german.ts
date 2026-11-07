@@ -1,5 +1,18 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+  "项目进度计算方式": "Projektfortschritt berechnen",
+  "按任务完成度": "Nach Aufgabenfortschritt",
+  "按投入时长": "Nach erfasster Zeit",
+  "进度计算方式已更新。": "Fortschrittsberechnung aktualisiert.",
+  "按已记录用时与预计用时计算；达到 100% 不会自动完成任务。": "Erfasste Zeit im Verhältnis zur geplanten Dauer; 100 % schließt Aufgaben nicht automatisch ab.",
+  "已投入 {0} / 预计 {1}": "Erfasst {0} / Geplant {1}",
+  "先填写任务预计用时，再查看时长进度。": "Geschätzte Dauer eintragen, um den Zeitfortschritt zu sehen.",
+  "按各项任务的当前完成百分比平均计算。": "Durchschnitt des aktuellen Fortschritts aller Aufgaben.",
+  "未设预计用时的任务不参与时长比例。": "Aufgaben ohne geschätzte Dauer zählen nicht zum Zeitverhältnis.",
+  "未设预计用时": "Keine geschätzte Dauer",
+  "项目进度由你选择": "Projektfortschritt selbst festlegen",
+  "按投入时长或任务完成度查看进度，项目总览与模块同步切换。": "Zwischen erfasster Zeit und Aufgabenfortschritt wählen; Projektübersicht und Module folgen derselben Einstellung.",
+
   "项目模块可展开和收起": "Projektmodule ein- und ausklappen",
   "收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。": "Eingeklappte Module zeigen weiterhin Anzahl und Fortschritt. Einzeln oder alle ausklappen; beim Hinzufügen einer Aufgabe öffnet sich das Modul.",
   "收起模块": "Modul einklappen",

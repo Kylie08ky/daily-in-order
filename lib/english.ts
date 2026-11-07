@@ -1,5 +1,18 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "项目进度计算方式": "Project progress calculation",
+  "按任务完成度": "By task progress",
+  "按投入时长": "By recorded time",
+  "进度计算方式已更新。": "Progress calculation updated.",
+  "按已记录用时与预计用时计算；达到 100% 不会自动完成任务。": "Recorded time divided by estimated time; reaching 100% does not complete tasks automatically.",
+  "已投入 {0} / 预计 {1}": "Recorded {0} / Estimated {1}",
+  "先填写任务预计用时，再查看时长进度。": "Add task estimates to see time progress.",
+  "按各项任务的当前完成百分比平均计算。": "Average of the current completion percentage of each task.",
+  "未设预计用时的任务不参与时长比例。": "Tasks without time estimates are excluded from the time ratio.",
+  "未设预计用时": "No time estimate",
+  "项目进度由你选择": "Choose how to measure project progress",
+  "按投入时长或任务完成度查看进度，项目总览与模块同步切换。": "Choose recorded time or task progress; project overviews and modules use the same setting.",
+
   "项目模块可展开和收起": "Expand and collapse project modules",
   "收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。": "Collapsed modules retain completion counts and progress. Expand one or all modules; adding a task opens its module.",
   "收起模块": "Collapse module",
