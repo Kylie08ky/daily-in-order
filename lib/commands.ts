@@ -1,3 +1,4 @@
+import {applyMonthlyCommand} from './monthly-planning.ts';
 import {quickCommand} from './quick-capture.ts';
 import {changeSession} from './session-records.ts';
 import {addRecordedSeconds,refreshTimeProgress,localParts} from './task-investment.ts';
@@ -12,6 +13,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
  const s=structuredClone(input),today=businessDate(s.settings,instant),now=instant.toISOString();
  const task=(id:string)=>{const t=s.tasks.find(t=>t.id===id);if(!t)throw new Error('事项不存在。');return t;};
  switch(command.type){
+  case 'monthly.goal.save':case 'monthly.goal.remove':applyMonthlyCommand(s,command);break;
   case 'quick.add':case 'quick.undo':quickCommand(s,command,now);break;
   case 'task.save':{
    const p=z.object({id:idString,task:taskInput,repeat:repeatSchema.nullable().optional(),scope:z.enum(['one','future','series']).default('one')}).parse(command.payload);assertTask(s,p.task);if(p.task.parentId&&(p.repeat&&(!s.tasks.some(t=>t.id===p.id&&t.seriesId)||p.scope!=='one')))throw new Error('包含关系请只编辑单次日程。');

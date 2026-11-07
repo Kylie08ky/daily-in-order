@@ -20,6 +20,8 @@ This repository contains application source, tests and deployment scripts. It do
 
 **v0.8.6 preview:** Move-up and move-down controls beside each module heading let you reorder all groups, including Unassigned, on desktop and mobile. The order is saved with the project and survives reloads without moving or changing its tasks. Production remains on v0.8.2.
 
+**v0.9.0 preview:** Monthly goals let you select projects, set time budgets and optional outcomes, then split whole minutes proportionally by each week’s in-month days. Adjust weekly amounts or save an unallocated balance. Monthly and weekly tabs distinguish targets, scheduled task estimates and actual time. Schedule existing unscheduled tasks, update tasks in the selected week, add tasks or open the weekly calendar. Actuals reuse focus/manual records and recalculate after edits or deletions; no duplicate tasks are created. Cross-month weeks count only the selected month, and saved plans retain their original week-start setting. Production remains on v0.8.2.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)

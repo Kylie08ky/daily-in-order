@@ -5,6 +5,7 @@ import BrandMark from './brand-mark';
 declare const __APP_VERSION__:string;
 type Update={date:string;title:string;items:string[]};
 const recent:Update[]=[
+ {date:'2026-11-07',title:'从月度目标到每周安排',items:['选择本月项目与投入时长，按当月天数分到各周，再安排任务；实际投入自动汇总。']},
  {date:'2026-11-07',title:'项目进度由你选择',items:['按投入时长或任务完成度查看进度，项目总览与模块同步切换。']},
  {date:'2026-11-06',title:'项目模块可展开和收起',items:['收起时保留完成数量和进度条，可逐个或全部展开，添加事项时自动展开对应模块。']},
  {date:'2026-11-06',title:'语言切换移到设置',items:['在设置页直接切换中文、英语与德语，顶部不再占用一行。']},
