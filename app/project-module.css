@@ -23,3 +23,10 @@
 .project-detail-head .head-controls>button{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;width:auto;min-height:40px;padding:9px 14px;white-space:nowrap;line-height:20px;border-radius:10px}
 .project-detail-head .head-controls>button>svg{flex:none}
 @media(max-width:1000px){.page-head.project-detail-head{flex-direction:row}.project-detail-head .head-controls{justify-content:flex-start}}
+
+.project-module-header .module-header-actions{display:flex;align-items:center;gap:14px;flex:none}
+.module-order-actions{display:flex;gap:2px;align-items:center}
+.module-order-actions .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:1px solid #cdd7c0;border-radius:8px;color:#40563b;background:transparent}
+.module-order-actions .icon-btn:hover:not(:disabled){background:#e5ebdc}
+.module-order-actions .icon-btn:disabled{opacity:.3;cursor:default}
+@media(max-width:560px){.project-module .project-module-header{flex-wrap:wrap}.project-module-header h3{flex-basis:100%}.project-module-header .module-header-actions{width:100%;justify-content:space-between}.module-order-actions .icon-btn{width:36px;height:36px}}

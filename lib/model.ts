@@ -11,7 +11,7 @@ export const repeatSchema=z.object({frequency:z.enum(['daily','weekdays','weekly
 export const taskInput=z.object({progressSource:z.enum(['time','manual']).optional(),parentId:z.string().max(100).default(''),relation:z.enum(['contained','parallel']).default('contained'),activity:activityLink.nullable().default(null),title:z.string().trim().min(1,'请填写标题').max(200),note:z.string().max(4000).default(''),projectId:z.string().max(100).default(''),moduleId:z.string().max(100).default(''),category:z.string().trim().min(1).max(40).default('默认'),date:optionalDate.default(''),start:optionalTime.default(''),minutes:z.number().int().min(0).max(1440).default(30),actual:z.number().int().min(0).max(100000).nullable().default(null),progress:z.number().int().min(0).max(100).default(0),deadline:optionalDate.default('')});
 export const taskSchema=taskInput.extend({id:idString,seriesId:z.string().max(100).default(''),occurrence:optionalDate.default(''),createdAt:z.string(),completedAt:z.string().nullable().default(null),deletedAt:z.string().nullable().default(null),order:z.number().default(0)});
 export const progressBasisSchema=z.enum(['tasks','time']);
-export const projectInput=z.object({progressBasis:progressBasisSchema.optional(),name:z.string().trim().min(1).max(80),note:z.string().max(4000).default(''),color:z.string().regex(/^#[a-f\d]{6}$/i).default('#a7bb91'),start:optionalDate.default(''),deadline:optionalDate.default(''),status:z.enum(['active','completed','archived']).default('active'),goals:z.array(z.object({id:idString,title:z.string().min(1).max(100),current:z.number().min(0),target:z.number().positive(),unit:z.string().max(20)})).max(20).default([])});
+export const projectInput=z.object({moduleOrder:z.array(z.union([idString,z.literal('')])).max(101).optional(),progressBasis:progressBasisSchema.optional(),name:z.string().trim().min(1).max(80),note:z.string().max(4000).default(''),color:z.string().regex(/^#[a-f\d]{6}$/i).default('#a7bb91'),start:optionalDate.default(''),deadline:optionalDate.default(''),status:z.enum(['active','completed','archived']).default('active'),goals:z.array(z.object({id:idString,title:z.string().min(1).max(100),current:z.number().min(0),target:z.number().positive(),unit:z.string().max(20)})).max(20).default([])});
 export const projectSchema=projectInput.extend({id:idString,order:z.number().default(0),deletedAt:z.string().nullable().default(null)});
 export const moduleSchema=z.object({id:idString,projectId:idString,name:z.string().trim().min(1).max(100),order:z.number().default(0)});
 export const seriesSchema=z.object({id:idString,from:dateString,rule:repeatSchema,template:taskInput,active:z.boolean().default(true)});
@@ -43,6 +43,13 @@ export const liveProjects=(s:State)=>s.projects.filter(p=>!p.deletedAt);
 export const finished=(t:Task)=>t.progress===100;
 export const spent=(t:Task)=>t.actual??0;
 export const capacity=(s:State,date:string)=>s.capacity[date]??s.settings.weekly[weekday(date)];
+/** Saved display order also includes the virtual unassigned group (empty ID). */
+export function projectModuleGroups(s:State,projectId:string):Module[]{
+ const groups=[...s.modules.filter(m=>m.projectId===projectId).sort((a,b)=>a.order-b.order),{id:'',projectId,name:'未分模块',order:Number.MAX_SAFE_INTEGER}];
+ const saved=s.projects.find(p=>p.id===projectId)?.moduleOrder??[],rank=new Map<string,number>();
+ for(const id of saved)if(!rank.has(id))rank.set(id,rank.size);
+ return groups.sort((a,b)=>(rank.get(a.id)??saved.length)-(rank.get(b.id)??saved.length));
+}
 /** Display progress only: never changes completion, actual time or planning totals. */
 export function aggregateProgress(tasks:Task[],basis:'tasks'|'time'='tasks'){
  const active=tasks.filter(t=>!t.deletedAt),timed=active.filter(t=>t.minutes>0);

@@ -18,6 +18,8 @@ This repository contains application source, tests and deployment scripts. It do
 
 **v0.8.5 preview:** Project header actions use compact horizontal buttons with single-line icon and text labels. With long project names or narrow windows, the action group moves below the heading instead of squeezing buttons into vertical tiles. Production remains on v0.8.2.
 
+**v0.8.6 preview:** Move-up and move-down controls beside each module heading let you reorder all groups, including Unassigned, on desktop and mobile. The order is saved with the project and survives reloads without moving or changing its tasks. Production remains on v0.8.2.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)

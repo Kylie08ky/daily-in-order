@@ -1,5 +1,12 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "调整模块顺序：{0}": "Reorder module: {0}",
+  "上移模块：{0}": "Move module up: {0}",
+  "下移模块：{0}": "Move module down: {0}",
+  "上移模块": "Move module up",
+  "下移模块": "Move module down",
+  "模块顺序已保存。": "Module order saved.",
+  "模块不存在或不属于此项目。": "The module does not exist or belongs to another project.",
   "项目进度计算方式": "Project progress calculation",
   "按任务完成度": "By task progress",
   "按投入时长": "By recorded time",
