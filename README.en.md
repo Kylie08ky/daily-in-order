@@ -16,6 +16,8 @@ This repository contains application source, tests and deployment scripts. It do
 
 **v0.8.4 preview:** Each project can use recorded time or task progress. Its overall, dashboard and module progress follow the same account-saved choice. Time progress is recorded duration divided by estimated duration for tasks with estimates, capped at 100%; tasks without estimates are excluded, and an empty estimate total prompts you to add estimates. Task progress retains the average task completion percentage. Switching does not change tasks, records or time statistics; older projects default to task progress. Production remains on v0.8.2.
 
+**v0.8.5 preview:** Project header actions use compact horizontal buttons with single-line icon and text labels. With long project names or narrow windows, the action group moves below the heading instead of squeezing buttons into vertical tiles. Production remains on v0.8.2.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
