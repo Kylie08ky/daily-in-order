@@ -1,3 +1,4 @@
+import {learningRows} from './learning-transfer.ts';
 import {nutritionTargets} from './nutrition.ts';
 import {z} from 'zod';
 import {financeBudgets,paymentCurrency} from './finance.ts';
@@ -83,7 +84,7 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
   if(p.table==='transactions'||p.table==='bills'){const value=r as {bucket:string};if(value.bucket!=='other'&&s.life.budgets.some(b=>b.id===value.bucket&&b.deletedAt)&&!(rows(p.table).some(old=>old.id===r.id&&(old as unknown as {bucket:string}).bucket===value.bucket)))throw new Error('预算已归档，请选择其他预算。');}
   upsert(p.table,r);
  }else if(command.type==='life.remove'||command.type==='life.restore'){
-  const p=z.object({table,id:z.string()}).parse(command.payload);let r=rows(p.table).find(x=>x.id===p.id);if(!r&&p.table==='budgets'){const legacy=financeBudgets(s).find(b=>b.id===p.id);if(legacy){s.life.budgets.push(legacy);r=legacy;}}if(!r)throw new Error('记录不存在。');r.deletedAt=command.type==='life.remove'?now:null;
+  const p=z.object({table,id:z.string()}).parse(command.payload);let r=rows(p.table).find(x=>x.id===p.id);if(!r&&p.table==='budgets'){const legacy=financeBudgets(s).find(b=>b.id===p.id);if(legacy){s.life.budgets.push(legacy);r=legacy;}}if(!r)throw new Error('记录不存在。');if(command.type==='life.remove'&&p.table==='courses'&&(learningRows(s).some(x=>x.owner===p.id)||s.life.courses.some(c=>c.id===p.id&&c.initial>0)||s.life.entries.some(e=>e.kind==='german'&&e.refId===p.id&&e.units>0)))throw Error('仍有任务、记录或模板归属此子项，请先检查并重新关联。');r.deletedAt=command.type==='life.remove'?now:null;
   if(p.table==='transactions'){const expense=r as z.infer<typeof transactionSchema>;const reminder=s.tasks.find(t=>expense.billKey&&t.id==='bill:'+expense.billKey&&!t.deletedAt);if(reminder){reminder.progress=r.deletedAt?0:100;reminder.completedAt=r.deletedAt?null:now;}}
   if(p.table==='entries'){const e=r as Entry,t=s.tasks.find(x=>x.id===e.taskId);if(t?.id==='activity:'+e.id&&!s.life.entries.some(x=>x.id!==e.id&&!x.deletedAt&&x.taskId===t.id)){t.deletedAt=r.deletedAt;}}
  }else if(command.type==='life.checkin'){

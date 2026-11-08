@@ -1,3 +1,4 @@
+import {LearningLinkEditor} from './learning-reassign';
 import {t as ui,tr,locale} from '../lib/i18n';
 import SessionEditor from './session-editor';
 import {useEffect,useRef,useState} from 'react';
@@ -27,6 +28,7 @@ export default function TaskRecord({task,state,busy,mutate,close,edit,focus,erro
   <div className="task-detail-scroll">
    <div className="detail-summary"><div><small>{ui("累计投入")}</small><strong>{fmt(task.actual||0)}</strong></div><div><small>{ui("预计用时")}</small><strong>{task.minutes?fmt(task.minutes):ui("未设定")}</strong></div><div><small>{task.progress===100?ui("任务状态"):mode==='time'?ui("按用时推进"):ui("完成进度")}</small><strong>{task.progress===100?ui("已完成"):Math.min(100,mode==='time'&&task.minutes?Math.round((task.actual||0)/task.minutes*100):task.progress)+'%'}</strong></div></div>
    <div className="detail-actions">{task.progress<100&&<button type="button" className="primary" onClick={focus}><Play size={15}/>{ui("开始专注")}</button>}<button type="button" onClick={edit}><Pencil size={15}/>{ui("编辑事项")}</button></div>
+   {(!task.activity||task.activity.kind==='german')&&<details className="detail-options"><summary>{ui("所属学习子项")}</summary><LearningLinkEditor state={state} selection={{kind:'task',id:task.id}} mutate={mutate} busy={busy} onDone={close}/></details>}
    <div className="detail-tabs"><button type="button" aria-pressed={tab==='add'} onClick={()=>setTab('add')}>{ui("补记投入")}</button><button type="button" aria-pressed={tab==='history'} onClick={()=>setTab('history')}>{ui("投入记录")}<span>{history.length}</span></button></div>
    {tab==='add'?<form onSubmit={e=>{e.preventDefault();void save();}}><fieldset disabled={busy}>
     <p className="detail-description">{ui("填这一次的用时即可，系统会累加。具体几点做的，可以不填。")}</p>

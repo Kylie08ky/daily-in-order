@@ -1,3 +1,4 @@
+import {applyLearningTransfer} from './learning-transfer.ts';
 import {recordTaskReadingPage} from './reading-progress.ts';
 import {applyMonthlyCommand} from './monthly-planning.ts';
 import {quickCommand} from './quick-capture.ts';
@@ -10,6 +11,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type.startsWith('learning.'))return applyLearningTransfer(input,command,instant,newId);
  if(command.type.startsWith('life.'))return applyLifeCommand(input,command,instant,newId);
  const s=structuredClone(input),today=businessDate(s.settings,instant),now=instant.toISOString();
  const task=(id:string)=>{const t=s.tasks.find(t=>t.id===id);if(!t)throw new Error('事项不存在。');return t;};

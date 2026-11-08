@@ -18,13 +18,11 @@ export function learningInvestment(s:State,from:string,to:string){
  const courses=s.life.courses.filter(c=>!c.deletedAt);
  const minutes=new Map(courses.map(c=>[c.id,0]));
  for(const t of s.tasks.filter(t=>!t.deletedAt)){
-  if(t.activity&&t.activity.kind!=='german')continue;
-  const entry=s.life.entries.find(e=>!e.deletedAt&&e.kind==='german'&&e.taskId===t.id);
-  const id=t.activity?.kind==='german'?t.activity.refId:entry?.refId||germanTarget(s,t)?.id;
+  const id=germanTarget(s,t)?.id;
   if(id&&minutes.has(id))minutes.set(id,minutes.get(id)!+minutesInRange(investment.get(t.id),from,to));
  }
  for(const e of s.life.entries.filter(e=>!e.deletedAt&&!e.taskId&&e.kind==='german'&&e.date>=from&&e.date<=to)){
-  if(minutes.has(e.refId))minutes.set(e.refId,minutes.get(e.refId)!+e.minutes);
+  const id=e.timeRefId||e.refId;if(minutes.has(id))minutes.set(id,minutes.get(id)!+e.minutes);
  }
  const items=courses.map(c=>({...c,minutes:minutes.get(c.id)!}));
  const categories=[...new Set(courses.map(c=>c.category))].map(key=>({key,label:learningCategoryLabel(key),minutes:items.filter(c=>c.category===key).reduce((n,c)=>n+c.minutes,0)}));
