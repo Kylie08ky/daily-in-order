@@ -5,6 +5,7 @@ import BrandMark from './brand-mark';
 declare const __APP_VERSION__:string;
 type Update={date:string;title:string;items:string[]};
 const recent:Update[]=[
+ {date:'2026-11-08',title:'学习模块与独立进度',items:['学习子项按模块汇总实际时长，可设置模块周目标，分别查看周期时长和累计数量。']},
  {date:'2026-11-08',title:'阅读记录改为当前页码',items:['完成每日阅读任务时可填写读到第几页，书房与首页同步更新；原有增量记录保留。']},
  {date:'2026-11-07',title:'从月度目标到每周安排',items:['选择本月项目与投入时长，按当月天数分到各周，再安排任务；实际投入自动汇总。']},
  {date:'2026-11-07',title:'项目进度由你选择',items:['按投入时长或任务完成度查看进度，项目总览与模块同步切换。']},

@@ -2,7 +2,7 @@ import {nutritionTargets} from './nutrition.ts';
 import {z} from 'zod';
 import {financeBudgets,paymentCurrency} from './finance.ts';
 import {type State,type Command,taskInput,businessDate,initializeDay,recommendations,validateState} from './model.ts';
-import {mealSchema,expenditureSchema,nutritionProfileSchema,courseSchema,bookSchema,workoutSchema,entrySchema,habitSchema,checkinSchema,sleepSchema,bodySchema,accountSchema,transactionSchema,billSchema,savingSchema,budgetSchema,lifePreferences,type LifeTable,type Entry} from './life-schema.ts';
+import {mealSchema,expenditureSchema,nutritionProfileSchema,learningCategory,courseSchema,bookSchema,workoutSchema,entrySchema,habitSchema,checkinSchema,sleepSchema,bodySchema,accountSchema,transactionSchema,billSchema,savingSchema,budgetSchema,lifePreferences,type LifeTable,type Entry} from './life-schema.ts';
 import {billOccurrences,refTable,alive,activityStats} from './life-metrics.ts';
 const schemas={meals:mealSchema,expenditures:expenditureSchema,budgets:budgetSchema,courses:courseSchema,books:bookSchema,workouts:workoutSchema,entries:entrySchema,habits:habitSchema,checkins:checkinSchema,sleep:sleepSchema,body:bodySchema,accounts:accountSchema,transactions:transactionSchema,bills:billSchema,savings:savingSchema};
 const table=z.enum(['meals','expenditures','budgets','courses','books','workouts','entries','habits','checkins','sleep','body','accounts','transactions','bills','savings']);
@@ -36,6 +36,19 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
    if(p.action==='complete')s.life.preferences=lifePreferences.parse({...s.life.preferences,...p.goals});
    s.onboarding=p.action==='skip'?'skipped':'completed';
   }
+ }else if(command.type==='life.learning.module'){
+  const p=z.object({category:learningCategory,previous:learningCategory.optional(),weeklyMinutes:z.number().int().min(0).max(10080)}).parse(command.payload);
+  const targets=s.life.preferences.learningModuleWeekly;
+  if(['__proto__','constructor','prototype'].includes(p.category))throw Error('请使用其他模块名称。');
+  if(!p.previous&&(Object.hasOwn(targets,p.category)||s.life.courses.some(c=>!c.deletedAt&&c.category===p.category)))throw Error('模块名称已存在。');
+  if(p.previous&&p.previous!==p.category){
+   if(Object.hasOwn(targets,p.category)||s.life.courses.some(c=>!c.deletedAt&&c.category===p.category))throw Error('模块名称已存在。');
+   for(const c of s.life.courses)if(c.category===p.previous)c.category=p.category;
+   for(const t of s.tasks)if(t.activity?.kind==='german'&&t.activity.category===p.previous)t.activity.category=p.category;
+   for(const series of s.series)if(series.template.activity?.kind==='german'&&series.template.activity.category===p.previous)series.template.activity.category=p.category;
+   delete targets[p.previous];
+  }
+  targets[p.category]=p.weeklyMinutes;
  }else if(command.type==='life.course.progress'){
   const p=z.object({id:z.string(),current:z.number().int().min(0)}).parse(command.payload),c=s.life.courses.find(c=>c.id===p.id&&!c.deletedAt);
   if(!c||c.mode!=='course')throw new Error('请选择课程。');const units=activityStats(s,'german',c.id).units;

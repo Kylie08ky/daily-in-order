@@ -30,3 +30,12 @@ export function learningInvestment(s:State,from:string,to:string){
  const categories=[...new Set(courses.map(c=>c.category))].map(key=>({key,label:learningCategoryLabel(key),minutes:items.filter(c=>c.category===key).reduce((n,c)=>n+c.minutes,0)}));
  return {items,categories,total:items.reduce((n,c)=>n+c.minutes,0)};
 }
+
+// Categories are user-defined first-level modules. Preserve legacy course IDs and links.
+export function learningModules(s:State,data:ReturnType<typeof learningInvestment>){
+ const targets=s.life.preferences.learningModuleWeekly;
+ return [...new Set([...Object.keys(targets),...data.items.map(c=>c.category)])].map(key=>({
+  key,weeklyMinutes:targets[key]??0,items:data.items.filter(c=>c.category===key),
+  minutes:data.items.filter(c=>c.category===key).reduce((n,c)=>n+c.minutes,0)
+ }));
+}
