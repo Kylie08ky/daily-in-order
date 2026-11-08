@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+ "仅显示所选日期的任务；更换日期后请重新选择。": "Only tasks on the selected date are shown. Select again after changing the date.",
+  "读到第几页": "Page reached",
+  "填写当前读到的页码，无需计算本次读了多少页。": "Enter the page you reached; no need to calculate pages read.",
+  "读到第 {0} 页": "Reached page {0}",
+  "当前第 {0} 页，共 {1} 页；可留空稍后补记。": "Currently at page {0} of {1}; leave blank to add it later.",
+  "请先将任务关联到书籍。": "Link this task to a book first.",
+  "页码须为 0 到书籍总页数之间的整数。": "Enter a whole page number between 0 and the total pages.",
+  "请完成任务后记录阅读页码。": "Complete the task before recording the page reached.",
+  "阅读记录改为当前页码": "Record your current reading page",
+  "完成每日阅读任务时可填写读到第几页，书房与首页同步更新；原有增量记录保留。": "Enter the page reached when completing a daily reading task. Library and overview progress update together; existing incremental records are preserved.",
+
   "选择项目": "Choose project",
   "未安排": "Unscheduled",
   "上个月": "Previous month",

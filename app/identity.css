@@ -4,3 +4,5 @@
 @media(min-width:1001px){:root .app-shell:not(.collapsed){grid-template-columns:210px minmax(0,1fr)}}
 @media(max-width:1000px){.brand-mark{width:36px;height:36px}:root .app-shell .sidebar nav button:nth-child(7),:root .app-shell .sidebar nav button:nth-child(12){margin-top:8px}}
 @media(max-width:650px){:root .app-shell .sidebar nav button:nth-child(7),:root .app-shell .sidebar nav button:nth-child(12){margin:0;border:0;padding-top:9px}:root .app-shell .sidebar nav button[aria-current=page]{box-shadow:inset 0 -2px #d9e7b8}:root .app-shell .sidebar{padding-top:15px}:root .app-shell .main .about-page{padding:22px 18px}:root .about-mark{width:48px;height:48px}:root .about-update{padding-left:18px}:root .app-shell .main .page-head h1{font-size:25px}:root .app-shell .sidebar nav button{font-size:11px}}
+
+:root .life-modal .life-fields label>small,:root .modal .reading-page-field small{display:block;color:#526349;font-size:13px;line-height:1.6;margin-top:8px}.reading-page-field{display:block;margin-bottom:20px}

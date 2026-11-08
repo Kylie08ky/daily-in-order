@@ -22,6 +22,10 @@ This repository contains application source, tests and deployment scripts. It do
 
 **v0.9.0 preview:** Monthly goals let you select projects, set time budgets and optional outcomes, then split whole minutes proportionally by each week’s in-month days. Adjust weekly amounts or save an unallocated balance. Monthly and weekly tabs distinguish targets, scheduled task estimates and actual time. Schedule existing unscheduled tasks, update tasks in the selected week, add tasks or open the weekly calendar. Actuals reuse focus/manual records and recalculate after edits or deletions; no duplicate tasks are created. Cross-month weeks count only the selected month, and saved plans retain their original week-start setting. Production remains on v0.8.2.
 
+**v0.9.1 preview:** Reading logs now accept the page reached instead of a page increment. Completing a task linked to a book can record the same checkpoint without creating another task or duplicating time; leave it blank to add later. Legacy increments remain compatible, and edits, deletion or restoration recalculate book progress. Production is unchanged.
+
+Learning, reading and workout logs filter linked task choices by the selected date. Changing the date clears an unsaved task selection; editing an existing log preserves its original task link.
+
 ## Screenshots
 
 All six screenshots are displayed directly, with nothing to expand. They show empty sign-in forms or fictional local test accounts, never real user records. [Screenshot notes](docs/images/README.md)
@@ -86,7 +90,6 @@ Cloud AI also requires Google App Check verification. If a browser fails verific
 The trial has a **10-attempt daily browser counter per account on each device (UTC)**, including failed attempts. This is not a server-side account quota, abuse control or spending cap; changing devices or clearing storage resets it. Provider free-tier limits also apply. A no-cost trial requires Firebase **Spark with no Cloud Billing account**. Exhausted quotas stop requests; the app never upgrades billing.
 
 To enable AI yourself, follow [Firebase AI Logic setup](https://firebase.google.com/docs/ai-logic/get-started?platform=web) for Gemini Developer API and App Check, then set the three AI variables from `.env.example` in `.env.local`. Restrict the App Check site key to explicitly reviewed preview and production hostnames, never all domains. Before the first production release, verify that the production hostnames are allowed. Never add a Gemini secret key, enable Cloud Functions, or link billing for this feature. App Check policies are project-wide: do not change production enforcement without review. See [free-plan conditions](https://firebase.google.com/docs/ai-logic/pricing) and [Google AI data-use terms](https://ai.google.dev/gemini-api/terms). Emulator projects always disable real AI calls; local tests use synthetic responses.
-
 
 The default task-drafting model is `gemini-3.5-flash-lite`, which supports no-cost calls; configure it with `VITE_AI_MODEL`.
 

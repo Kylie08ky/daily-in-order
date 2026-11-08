@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+ "仅显示所选日期的任务；更换日期后请重新选择。": "Nur Aufgaben am gewählten Datum werden angezeigt. Nach einem Datumswechsel bitte neu auswählen.",
+  "读到第几页": "Bis zu welcher Seite gelesen",
+  "填写当前读到的页码，无需计算本次读了多少页。": "Trage die erreichte Seitenzahl ein; du musst die gelesenen Seiten nicht ausrechnen.",
+  "读到第 {0} 页": "Bis Seite {0} gelesen",
+  "当前第 {0} 页，共 {1} 页；可留空稍后补记。": "Aktuell Seite {0} von {1}; kann später ergänzt werden.",
+  "请先将任务关联到书籍。": "Verknüpfe die Aufgabe zuerst mit einem Buch.",
+  "页码须为 0 到书籍总页数之间的整数。": "Gib eine ganze Seitenzahl zwischen 0 und der Gesamtseitenzahl ein.",
+  "请完成任务后记录阅读页码。": "Schließe die Aufgabe ab, bevor du den Lesestand einträgst.",
+  "阅读记录改为当前页码": "Aktuellen Lesestand eintragen",
+  "完成每日阅读任务时可填写读到第几页，书房与首页同步更新；原有增量记录保留。": "Trage beim Abschließen einer täglichen Leseaufgabe die erreichte Seite ein. Bibliothek und Übersicht werden aktualisiert; bisherige Einträge bleiben erhalten.",
+
   "选择项目": "Projekt wählen",
   "未安排": "Ungeplant",
   "上个月": "Vorheriger Monat",
