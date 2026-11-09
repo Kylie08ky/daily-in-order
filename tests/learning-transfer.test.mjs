@@ -67,7 +67,7 @@ test('cross-midnight focus spans retain exact dates and seconds through assignme
  const before=structuredClone(s),amount=total(s,'2026-11-02','2026-11-08').total;s=transfer(s,['eg-old'],'a1');assert.equal(total(s,'2026-11-02','2026-11-08').total,amount);assert.deepEqual(s.sessions,before.sessions);s=run(s,'learning.undo',{id:'batch-a1'});assert.deepEqual(s.tasks,before.tasks);assert.deepEqual(s.sessions,before.sessions);
 });
 
-test('schema 7 upgrades without losing records; schema 8 retains transfer history and rejects future formats',()=>{
- const old=fixture();old.schemaVersion=7;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,8);assert.deepEqual(upgraded.tasks,old.tasks);
- const next=transfer(upgraded,['eg-old'],'a1');assert.deepEqual(validateState(JSON.parse(JSON.stringify(next))),next);assert.throws(()=>validateState({...next,schemaVersion:9}));
+test('schema 7 upgrades without losing records; schema 9 retains transfer history and rejects future formats',()=>{
+ const old=fixture();old.schemaVersion=7;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,9);assert.deepEqual(upgraded.tasks,old.tasks);
+ const next=transfer(upgraded,['eg-old'],'a1');assert.deepEqual(validateState(JSON.parse(JSON.stringify(next))),next);assert.throws(()=>validateState({...next,schemaVersion:10}));
 });

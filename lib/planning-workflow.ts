@@ -1,3 +1,4 @@
+import {calendarTasks,taskPlans} from './task-plans.ts';
 import {z} from 'zod';
 import {type State,type Task,type Command,capacity,liveTasks,finished,offsetDate,minuteOf,validateState,assertTask,dateString} from './model.ts';
 import {calendarOccupancy} from './time-metrics.ts';
@@ -6,14 +7,14 @@ import {monthlyMetrics} from './monthly-planning.ts';
 export function previousMonth(month:string){const d=new Date(month+'-15T12:00:00Z');d.setUTCMonth(d.getUTCMonth()-1);return d.toISOString().slice(0,7);}
 export function monthReview(s:State,month:string){
  const previous=previousMonth(month),plan=s.monthlyPlans.find(p=>p.month===previous),metrics=plan?monthlyMetrics(s,plan):null;
- const tasks=liveTasks(s).filter(t=>!finished(t)&&t.date.startsWith(previous));
+ const tasks=liveTasks(s).filter(t=>!finished(t)&&taskPlans(t).some(p=>p.date.startsWith(previous)));
  const projects=s.projects.filter(p=>!p.deletedAt&&(tasks.some(t=>t.projectId===p.id)||metrics?.goals.some(g=>g.projectId===p.id&&g.actual<g.minutes))).map(p=>{const goal=metrics?.goals.find(g=>g.projectId===p.id),items=tasks.filter(t=>t.projectId===p.id);return {project:p,tasks:items,remaining:goal?Math.max(0,goal.minutes-goal.actual):items.reduce((n,t)=>n+remainingTask(t),0),target:goal?.minutes??0,actual:goal?.actual??0};});
  return {previous,projects,independent:tasks.filter(t=>!t.projectId)};
 }
 export function remainingTask(t:Task){return Math.max(0,t.progressSource==='manual'?Math.round(t.minutes*(1-t.progress/100)):t.minutes-(t.actual||0));}
 export function planningDays(s:State,from:string,to:string,exclude=''){
  if(!dateString.safeParse(from).success||!dateString.safeParse(to).success||from>to)return [];
- const result=[];for(let date=from;date<=to;date=offsetDate(date,1)){const tasks=liveTasks(s).filter(t=>t.date===date&&(!exclude||(t.id!==exclude&&t.parentId!==exclude))),used=calendarOccupancy(tasks),budget=capacity(s,date)*60;result.push({date,tasks:tasks.sort((a,b)=>(a.start||'99').localeCompare(b.start||'99')),budget,...used,remaining:Math.max(0,budget-used.total),over:Math.max(0,used.total-budget)});}return result;
+ const result=[];for(let date=from;date<=to;date=offsetDate(date,1)){const tasks=calendarTasks(s).filter(t=>t.date===date&&(!exclude||(t.id!==exclude&&t.parentId!==exclude))),used=calendarOccupancy(tasks),budget=capacity(s,date)*60;result.push({date,tasks:tasks.sort((a,b)=>(a.start||'99').localeCompare(b.start||'99')),budget,...used,remaining:Math.max(0,budget-used.total),over:Math.max(0,used.total-budget)});}return result;
 }
 export function recommendSlot(s:State,task:Task,from:string,to:string,minutes:number,windowStart='09:00',windowEnd='21:00',notBefore?:{date:string;minute:number}){
  const start=minuteOf(windowStart),end=minuteOf(windowEnd);if(!Number.isInteger(minutes)||minutes<=0||!/^([01]\d|2[0-3]):[0-5]\d$/.test(windowStart)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(windowEnd)||start>=end||task.parentId)return null;
@@ -33,6 +34,6 @@ export function scheduleIssue(s:State,t:Task,date:string,start:string,minutes:nu
  return '';
 }
 export function applyPlanningSchedule(input:State,command:Command){
- const p=z.object({id:z.string(),date:dateString,start:z.string().regex(/^$|^([01]\d|2[0-3]):[0-5]\d$/),minutes:z.number().int().min(1).max(1440)}).parse(command.payload),s=structuredClone(input),t=s.tasks.find(t=>t.id===p.id&&!t.deletedAt&&!finished(t));if(!t)throw Error('请选择未完成事项。');const issue=scheduleIssue(s,t,p.date,p.start,p.minutes);if(issue)throw Error(issue);
+ const p=z.object({id:z.string(),date:dateString,start:z.string().regex(/^$|^([01]\d|2[0-3]):[0-5]\d$/),minutes:z.number().int().min(1).max(1440)}).parse(command.payload),s=structuredClone(input),t=s.tasks.find(t=>t.id===p.id&&!t.deletedAt&&!finished(t));if(!t)throw Error('请选择未完成事项。');if(t.plans)throw Error('此任务已拆分，请在分段安排中调整日期和时间。');const issue=scheduleIssue(s,t,p.date,p.start,p.minutes);if(issue)throw Error(issue);
  t.date=p.date;t.start=p.start;t.minutes=p.minutes;refreshTimeProgress(t);assertTask(s,t);return validateState(s);
 }

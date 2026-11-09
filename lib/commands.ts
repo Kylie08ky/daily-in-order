@@ -1,3 +1,4 @@
+import {applyTaskPlan,planForDate,calendarTasks} from './task-plans.ts';
 import {applyPlanningSchedule} from './planning-workflow.ts';
 import {applyLearningTransfer} from './learning-transfer.ts';
 import {recordTaskReadingPage} from './reading-progress.ts';
@@ -12,6 +13,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type.startsWith('task.plan.'))return applyTaskPlan(input,command);
  if(command.type==='planning.schedule')return applyPlanningSchedule(input,command);
  if(command.type.startsWith('learning.'))return applyLearningTransfer(input,command,instant,newId);
  if(command.type.startsWith('life.'))return applyLifeCommand(input,command,instant,newId);
@@ -21,10 +23,12 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'monthly.goal.save':case 'monthly.goal.remove':applyMonthlyCommand(s,command);break;
   case 'quick.add':case 'quick.undo':quickCommand(s,command,now);break;
   case 'task.save':{
-   const p=z.object({id:idString,task:taskInput,repeat:repeatSchema.nullable().optional(),scope:z.enum(['one','future','series']).default('one')}).parse(command.payload);assertTask(s,p.task);if(p.task.parentId&&(p.repeat&&(!s.tasks.some(t=>t.id===p.id&&t.seriesId)||p.scope!=='one')))throw new Error('包含关系请只编辑单次日程。');
+   const p=z.object({id:idString,task:taskInput,repeat:repeatSchema.nullable().optional(),scope:z.enum(['one','future','series']).default('one')}).parse(command.payload);assertTask(s,s.tasks.find(t=>t.id===p.id)?.plans?{...p.task,start:''}:p.task);if(p.task.parentId&&(p.repeat&&(!s.tasks.some(t=>t.id===p.id&&t.seriesId)||p.scope!=='one')))throw new Error('包含关系请只编辑单次日程。');
    const old=s.tasks.find(t=>t.id===p.id);
    if(old){
     if(old.deletedAt)throw new Error('请先恢复此事项。');
+    if(old.plans&&(p.task.date!==old.date||p.task.start!==old.start||p.scope!=='one'||!!p.repeat&&!old.seriesId))throw Error('此任务已拆分，请在分段安排中调整日期和时间。');
+    if(old.seriesId&&p.scope!=='one'&&s.tasks.some(x=>x.seriesId===old.seriesId&&x.plans&&!x.deletedAt&&!finished(x)))throw Error('重复组含有分段安排，请仅编辑此次。');
     if(old.seriesId&&p.scope!=='one'){
      const series=s.series.find(x=>x.id===old.seriesId)!;
      if(p.task.date!==old.date)throw new Error('整组编辑请保持当前日期，移动日期请选“仅此次”。');
@@ -42,7 +46,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
     if(!s.series.some(x=>x.id===p.id))s.series.push({id:p.id,from:p.task.date,rule:p.repeat,template:{...p.task,progress:0,actual:null},active:true});
    }else s.tasks.push({...p.task,id:p.id,seriesId:'',occurrence:'',createdAt:now,completedAt:p.task.progress===100?now:null,deletedAt:null,order:s.tasks.length,date:p.task.date||(p.task.progress===100?today:'')});break;
   }
-  case 'task.schedule':{const p=z.object({id:idString,date:optionalDate,start:optionalTime,minutes:z.number().int().min(0).max(1440).optional()}).parse(command.payload),t=task(p.id);if(t.deletedAt)throw new Error('请先恢复此事项。');t.date=p.date;t.start=p.start;if(p.minutes!==undefined)t.minutes=p.minutes;assertTask(s,t);break;}
+  case 'task.schedule':{const p=z.object({id:idString,date:optionalDate,start:optionalTime,minutes:z.number().int().min(0).max(1440).optional()}).parse(command.payload),t=task(p.id);if(t.deletedAt)throw new Error('请先恢复此事项。');if(t.plans)throw Error('此任务已拆分，请在分段安排中调整日期和时间。');t.date=p.date;t.start=p.start;if(p.minutes!==undefined)t.minutes=p.minutes;assertTask(s,t);break;}
   case 'task.progress':{const p=z.object({readingPage:z.number().int().min(0).max(100000).optional(),id:idString,progress:z.number().int().min(0).max(100),actual:z.number().int().min(0).max(100000).nullable().optional()}).parse(command.payload),t=task(p.id);if(t.deletedAt)throw new Error('请先恢复此事项。');t.progress=p.progress;t.progressSource='manual';if(p.actual!==undefined)t.actual=p.actual;t.completedAt=p.progress===100?t.completedAt||now:null;if(p.progress===100&&!t.date)t.date=today;if(p.readingPage!==undefined){if(p.progress!==100)throw Error('请完成任务后记录阅读页码。');recordTaskReadingPage(s,t,p.readingPage,newId);}break;}
   case 'task.delete':{const p=z.object({id:idString,scope:z.enum(['one','future','series']).default('one')}).parse(command.payload),t=task(p.id);if(p.scope==='one'||!t.seriesId)t.deletedAt=now;else{s.tasks.filter(x=>x.seriesId===t.seriesId&&!finished(x)&&(p.scope==='series'||x.occurrence>=t.occurrence)).forEach(x=>x.deletedAt=now);const series=s.series.find(x=>x.id===t.seriesId);if(series){if(p.scope==='series')series.active=false;else series.rule.until=offsetDate(t.occurrence,-1);}}break;}
   case 'task.restore':{const p=z.object({id:idString}).parse(command.payload),t=task(p.id);if(t.projectId&&!s.projects.some(p=>p.id===t.projectId&&!p.deletedAt))throw new Error('请先恢复所属项目。');t.deletedAt=null;break;}
@@ -59,15 +63,15 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'capacity.save':{const p=z.object({date:dateString,hours:z.number().min(0).max(24)}).parse(command.payload);s.capacity[p.date]=p.hours;break;}
   case 'settings.save':s.settings=settingsSchema.parse(command.payload);break;
   case 'target.refresh':s.targets[today]=recommendations(s,today);break;
-  case 'tasks.arrange':{const p=z.object({ids:z.array(idString).max(2000),from:dateString,mode:z.enum(['today','balanced'])}).parse(command.payload),moving=p.ids.map(task).filter(t=>!finished(t)&&!t.deletedAt);let day=p.from;for(let i=0;i<moving.length;i++){const t=moving[i];if(p.mode==='balanced'){let tries=0;while(tries<366){const occupied=liveTasks(s).filter(x=>x.date===day&&!moving.slice(i).some(m=>m.id===x.id)).reduce((n,x)=>n+x.minutes,0);if(capacity(s,day)>0&&capacity(s,day)*60-occupied>=t.minutes)break;day=offsetDate(day,1);tries++;}if(tries>=366)throw new Error('未来一年容量不足，请调整可投入时间。');}t.date=day;t.start='';}break;}
-  case 'focus.start':{const p=z.object({taskId:idString,mode:z.enum(['countdown','countup']).optional(),minutes:z.number().int().min(1).max(1440).optional()}).parse(command.payload),t=task(p.taskId);if(t.deletedAt||finished(t))throw new Error('请选择未完成事项。');if(s.focus&&s.focus.taskId!==p.taskId)throw new Error('请先结束或取消当前专注。');if(s.focus?.startedAt)throw new Error('已有计时正在运行。');if(s.focus?.mode==='countdown'&&focusSeconds(s.focus,instant.valueOf())>=s.focus.target)throw new Error('本段倒计时已到点，请先记录或取消，再开始新一段。');s.focus=s.focus?.taskId===p.taskId?{...s.focus,startedAt:now}:{taskId:p.taskId,startedAt:now,seconds:0,spans:[],target:(p.minutes||s.settings.focusMinutes)*60,...(p.mode?{mode:p.mode}:{})};break;}
+  case 'tasks.arrange':{const p=z.object({ids:z.array(idString).max(2000),from:dateString,mode:z.enum(['today','balanced'])}).parse(command.payload),moving=p.ids.map(task).filter(t=>!finished(t)&&!t.deletedAt);if(moving.some(t=>t.plans))throw Error('此任务已拆分，请在分段安排中调整日期和时间。');let day=p.from;for(let i=0;i<moving.length;i++){const t=moving[i];if(p.mode==='balanced'){let tries=0;while(tries<366){const occupied=calendarTasks(s).filter(x=>x.date===day&&!moving.slice(i).some(m=>m.id===x.id)).reduce((n,x)=>n+x.minutes,0);if(capacity(s,day)>0&&capacity(s,day)*60-occupied>=t.minutes)break;day=offsetDate(day,1);tries++;}if(tries>=366)throw new Error('未来一年容量不足，请调整可投入时间。');}t.date=day;t.start='';}break;}
+  case 'focus.start':{const p=z.object({planId:idString.optional(),taskId:idString,mode:z.enum(['countdown','countup']).optional(),minutes:z.number().int().min(1).max(1440).optional()}).parse(command.payload),t=task(p.taskId);if(p.planId&&!t.plans?.some(x=>x.id===p.planId))throw Error('这段安排已不存在，请刷新后重试。');if(t.deletedAt||finished(t))throw new Error('请选择未完成事项。');if(s.focus&&s.focus.taskId!==p.taskId)throw new Error('请先结束或取消当前专注。');if(s.focus?.startedAt)throw new Error('已有计时正在运行。');if(s.focus?.mode==='countdown'&&focusSeconds(s.focus,instant.valueOf())>=s.focus.target)throw new Error('本段倒计时已到点，请先记录或取消，再开始新一段。');s.focus=s.focus?.taskId===p.taskId?{...s.focus,startedAt:now}:{...((p.planId??planForDate(t,today))?{planId:p.planId??planForDate(t,today)}:{}),taskId:p.taskId,startedAt:now,seconds:0,spans:[],target:(p.minutes||s.settings.focusMinutes)*60,...(p.mode?{mode:p.mode}:{})};break;}
   case 'focus.pause':if(s.focus?.startedAt){s.focus.spans=closeFocusSpan(s.focus,instant.valueOf());s.focus.seconds=focusSeconds(s.focus,instant.valueOf());s.focus.startedAt=null;}break;
   case 'focus.finish':if(s.focus){
    const f=s.focus,seconds=focusSeconds(f,instant.valueOf());if(seconds>86400)throw new Error('计时超过 24 小时，请取消后手动填写用时。');
    const t=task(f.taskId);if(t.deletedAt)throw new Error('请先恢复此事项。');if(!t.date)t.date=today;
    const spans=closeFocusSpan(f,instant.valueOf()),endedAt=spans.at(-1)?.endedAt||now;
    addRecordedSeconds(s,t,seconds);
-   if(seconds>0)s.sessions.push({id:newId(),taskId:t.id,date:localParts(Date.parse(endedAt),s.settings.timezone).date,seconds,growth:potentialWealth(seconds,s.settings.growthRate),growthRate:s.settings.growthRate,endedAt,spans,source:'focus',progressAfter:t.progress});
+   if(seconds>0)s.sessions.push({id:newId(),taskId:t.id,...(f.planId?{planId:f.planId}:{}),date:localParts(Date.parse(endedAt),s.settings.timezone).date,seconds,growth:potentialWealth(seconds,s.settings.growthRate),growthRate:s.settings.growthRate,endedAt,spans,source:'focus',progressAfter:t.progress});
    s.focus=null;
   }break;
   case 'session.update':case 'session.move':case 'session.delete':case 'session.restore': changeSession(s,command,instant);break;
@@ -84,10 +88,10 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
    if(p.progress!==undefined){t.progress=p.progress;t.progressSource='manual';t.completedAt=p.progress===100?t.completedAt||now:null;}
    else refreshTimeProgress(t);
    if(!t.date)t.date=p.date;
-   if(seconds||p.progress!==undefined)s.sessions.push({id:newId(),taskId:t.id,date:p.date,seconds,growth:0,endedAt:p.endedAt||now,spans,source:'manual',note:p.note,progressAfter:t.progress});
+   if(seconds||p.progress!==undefined)s.sessions.push({id:newId(),taskId:t.id,...(planForDate(t,p.date)?{planId:planForDate(t,p.date)}:{}),date:p.date,seconds,growth:0,endedAt:p.endedAt||now,spans,source:'manual',note:p.note,progressAfter:t.progress});
    break;
   }
-  case 'tasks.unschedule':{const p=z.object({ids:z.array(idString).max(2000)}).parse(command.payload),ids=new Set(p.ids);for(const id of ids){const t=task(id);if(t.parentId&&!ids.has(t.parentId))throw new Error('请同时选择父时段，或先在编辑中解除包含关系。');}for(const t of s.tasks.filter(t=>ids.has(t.parentId)))ids.add(t.id);for(const id of ids){const t=task(id);if(t.deletedAt)continue;if(finished(t)){if(t.parentId&&ids.has(t.parentId))t.parentId='';continue;}t.date='';t.start='';t.parentId='';}break;}
+  case 'tasks.unschedule':{const p=z.object({ids:z.array(idString).max(2000)}).parse(command.payload),ids=new Set(p.ids);for(const id of ids){const t=task(id);if(t.parentId&&!ids.has(t.parentId))throw new Error('请同时选择父时段，或先在编辑中解除包含关系。');}for(const t of s.tasks.filter(t=>ids.has(t.parentId)))ids.add(t.id);for(const id of ids){const t=task(id);if(t.deletedAt)continue;if(finished(t)){if(t.parentId&&ids.has(t.parentId))t.parentId='';continue;}if(t.plans)t.plans=[];else{t.date='';t.start='';}t.parentId='';}break;}
   case 'focus.cancel':s.focus=null;break;
   case 'backup.import':{const restored=validateState(command.payload);restored.receipts=[];return initializeDay(restored,instant);}
   case 'tasks.import':{const p=z.array(taskInput.extend({id:idString})).max(2000).parse(command.payload);for(const item of p){assertTask(s,item);if(s.tasks.some(t=>t.id===item.id))continue;s.tasks.push({...item,seriesId:'',occurrence:'',createdAt:now,completedAt:item.progress===100?now:null,deletedAt:null,order:s.tasks.length});}break;}

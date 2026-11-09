@@ -65,6 +65,6 @@ test('legacy euro backups preserve amounts and legacy budgets while new users st
  let s=emptyState();s.schemaVersion=1;delete s.life.budgets;delete s.life.preferences.financeCurrency;s.life.preferences.monthlyLiving=50000;
  s.life.accounts=[{id:'old',name:'旧账户',kind:'personal',opening:10000,asOf:'2026-11-01'}];
  s.life.transactions=[{id:'old-t',title:'旧支出',date:'2026-11-03',kind:'expense',fromId:'old',cents:1000,bucket:'living'}];
- s=validateState(s);assert.equal(s.schemaVersion,8);assert.equal(s.life.accounts[0].currency,'EUR');assert.equal(accountBalance(s,'old'),9000);assert.equal(budgetSummary(s,'2026-11','EUR').limit,50000);assert.equal(budgetSummary(s,'2026-11','EUR').spent,1000);
+ s=validateState(s);assert.equal(s.schemaVersion,9);assert.equal(s.life.accounts[0].currency,'EUR');assert.equal(accountBalance(s,'old'),9000);assert.equal(budgetSummary(s,'2026-11','EUR').limit,50000);assert.equal(budgetSummary(s,'2026-11','EUR').spent,1000);
  assert.equal(financeBudgets(emptyState()).length,0);assert.equal(emptyState().life.accounts.length,0);
 });
