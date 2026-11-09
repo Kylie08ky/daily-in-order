@@ -1,3 +1,4 @@
+import {applyPlanningSchedule} from './planning-workflow.ts';
 import {applyLearningTransfer} from './learning-transfer.ts';
 import {recordTaskReadingPage} from './reading-progress.ts';
 import {applyMonthlyCommand} from './monthly-planning.ts';
@@ -11,6 +12,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type==='planning.schedule')return applyPlanningSchedule(input,command);
  if(command.type.startsWith('learning.'))return applyLearningTransfer(input,command,instant,newId);
  if(command.type.startsWith('life.'))return applyLifeCommand(input,command,instant,newId);
  const s=structuredClone(input),today=businessDate(s.settings,instant),now=instant.toISOString();
