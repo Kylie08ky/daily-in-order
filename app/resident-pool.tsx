@@ -1,5 +1,5 @@
 import {useState,type ReactNode} from 'react';
-import {CalendarPlus,MoreHorizontal,GripVertical} from 'lucide-react';
+import {CalendarPlus,MoreHorizontal,GripVertical,Plus,RotateCcw} from 'lucide-react';
 import {type State,type Task,type TaskInput,type Command,businessDate,formatTime as fmt,liveProjects} from '../lib/model';
 import {residentKind,residentStatus,residentAvailable,residentOccurrence,type Resident,type ResidentKind} from '../lib/resident-tasks';
 import {LearningChoice} from './learning-reassign';
@@ -11,15 +11,34 @@ const kindLabel=(kind:ResidentKind)=>kind==='long-term'?'长期常驻':'阶段�
 type PoolProps={state:State;busy:boolean;mode:'calendar'|'manage';loose:Task[];row:(t:Task)=>ReactNode;use:(t:Resident,date:string)=>void;edit:(t:Resident)=>void;mutate:Mutation};
 export default function ResidentPool({state:s,busy,mode,loose,row,use,edit,mutate}:PoolProps){
  const [project,setProject]=useState('all'),[module,setModule]=useState('all'),[showInactive,setShowInactive]=useState(false);
+ const [active,setActive]=useState<ResidentKind|'once'>('long-term');
  const matches=(t:TaskInput)=>(project==='all'||t.projectId===project)&&(module==='all'||t.moduleId===module);
  const entries=s.templates.filter(t=>matches(t.task)),today=businessDate(s.settings);
- const card=(t:Resident)=>{const status=residentStatus(t),enabled=residentAvailable(s,t);return <article key={t.id} className="resident-card" draggable={!busy&&enabled} onDragStart={e=>{e.dataTransfer.setData('text/template-id',t.id);e.dataTransfer.effectAllowed='copy';}}><div className="resident-title"><GripVertical size={14}/><strong>{t.task.title}</strong><button className="icon-btn" title={ui('编辑常驻入口')} aria-label={ui('编辑常驻入口')+'：'+t.task.title} onClick={()=>edit(t)}><MoreHorizontal size={17}/></button></div><small>{s.projects.find(p=>p.id===t.task.projectId)?.name||ui('独立事项')}{t.task.moduleId?' · '+s.modules.find(m=>m.id===t.task.moduleId)?.name:''} · {fmt(t.task.minutes)}</small>{status!=='active'&&<span className="resident-status">{ui(status==='paused'?'已暂停':'已归档')}</span>}<div className="resident-actions">{enabled?<><button disabled={busy} onClick={()=>use(t,today)}>{ui('加入今天')}</button><button disabled={busy} onClick={()=>use(t,'')}><CalendarPlus size={14}/>{ui('选择日期')}</button></>:status!=='active'?<button disabled={busy} onClick={()=>void mutate({type:'template.status',payload:{id:t.id,status:'active'}},ui('入口已恢复。'))}>{ui('恢复入口')}</button>:<small>{ui('所属项目已结束，请先恢复项目。')}</small>}</div></article>;};
- return <div className="resident-pool"><div className="resident-filters"><select aria-label={ui('按项目筛选')} value={project} onChange={e=>{setProject(e.target.value);setModule('all');}}><option value="all">{ui('全部项目')}</option><option value="">{ui('独立事项')}</option>{liveProjects(s).map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select><select aria-label={ui('按模块筛选')} value={module} onChange={e=>setModule(e.target.value)}><option value="all">{ui('全部模块')}</option><option value="">{ui('未分模块')}</option>{s.modules.filter(m=>project==='all'||m.projectId===project).map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</select></div>
- {(['long-term','stage'] as const).map(kind=>{const list=entries.filter(t=>residentKind(t)===kind&&residentAvailable(s,t));return <details open key={kind} className="resident-group"><summary>{ui(mode==='manage'&&kind==='long-term'?'常驻任务模板':kindLabel(kind))}<span>{list.length}</span></summary>{list.map(card)}{mode==='calendar'&&loose.filter(t=>matches(t)&&t.sourceTemplateId&&residentKind(s.templates.find(e=>e.id===t.sourceTemplateId)!)===kind).map(t=><div key={t.id}><small>{ui('已有执行待安排')}</small>{row(t)}</div>)}{!list.length&&<p className="hint">{ui('暂无可选入口')}</p>}</details>;})}
- {mode==='calendar'&&<details open className="resident-group"><summary>{ui('一次性任务')}<span>{loose.filter(t=>matches(t)&&!t.sourceTemplateId).length}</span></summary>{loose.filter(t=>matches(t)&&!t.sourceTemplateId).map(row)}</details>}
-
- <button className="text-btn" aria-expanded={showInactive} onClick={()=>setShowInactive(!showInactive)}>{ui('暂停与归档入口')}</button>{showInactive&&entries.filter(t=>!residentAvailable(s,t)).map(card)}
- <p className="hint">{ui('常驻仅在选用时生成任务，不自动重复排期。')}</p></div>;
+ const available=(kind:ResidentKind)=>entries.filter(t=>residentKind(t)===kind&&residentAvailable(s,t));
+ const pending=(kind:ResidentKind)=>loose.filter(t=>matches(t)&&t.sourceTemplateId&&residentKind(s.templates.find(e=>e.id===t.sourceTemplateId))===kind);
+ const oneOff=loose.filter(t=>matches(t)&&!t.sourceTemplateId),inactive=entries.filter(t=>!residentAvailable(s,t));
+ const card=(t:Resident)=>{
+  const status=residentStatus(t),enabled=residentAvailable(s,t),projectName=s.projects.find(p=>p.id===t.task.projectId)?.name||ui('独立事项'),moduleName=s.modules.find(m=>m.id===t.task.moduleId)?.name;
+  return <article key={t.id} className="resident-card" draggable={!busy&&enabled} onDragStart={e=>{e.dataTransfer.setData('text/template-id',t.id);e.dataTransfer.effectAllowed='copy';}}>
+   <GripVertical size={14} className="resident-grip" aria-hidden="true"/>
+   <div className="resident-content">
+    <div className="resident-title"><strong title={t.task.title}>{t.task.title}</strong><button className="resident-icon" title={ui('编辑常驻入口')} aria-label={ui('编辑常驻入口')+'：'+t.task.title} onClick={()=>edit(t)}><MoreHorizontal size={16}/></button></div>
+    <div className="resident-meta"><span title={[projectName,moduleName].filter(Boolean).join(' · ')}>{projectName}{moduleName?' · '+moduleName:''}</span><span className="resident-duration">{fmt(t.task.minutes)}</span>{!enabled&&<span className="resident-status">{ui(status==='paused'?'已暂停':status==='archived'?'已归档':'项目已结束')}</span>}</div>
+    <div className="resident-bottom"><div className="resident-quick-actions">
+     {enabled?<><button className="resident-icon resident-add" disabled={busy} title={ui('加入今天')} aria-label={ui('加入今天')+'：'+t.task.title} onClick={()=>use(t,today)}><Plus size={16}/></button><button className="resident-icon" disabled={busy} title={ui('选择日期')} aria-label={ui('选择日期')+'：'+t.task.title} onClick={()=>use(t,'')}><CalendarPlus size={16}/></button></>:status!=='active'&&<button className="resident-icon" disabled={busy} title={ui('恢复入口')} aria-label={ui('恢复入口')+'：'+t.task.title} onClick={()=>void mutate({type:'template.status',payload:{id:t.id,status:'active'}},ui('入口已恢复。'))}><RotateCcw size={16}/></button>}
+    </div></div>
+   </div>
+  </article>;
+ };
+ const groupContent=(kind:ResidentKind)=><>{available(kind).map(card)}{mode==='calendar'&&pending(kind).map(t=><div key={t.id} className="resident-pending"><small>{ui('已有执行待安排')}</small>{row(t)}</div>)}{!available(kind).length&&!(mode==='calendar'&&pending(kind).length)&&<p className="resident-empty">{ui('暂无可选入口')}</p>}</>;
+ return <div className={'resident-pool resident-pool--'+mode}>
+  <div className="resident-filters"><select aria-label={ui('按项目筛选')} value={project} onChange={e=>{setProject(e.target.value);setModule('all');}}><option value="all">{ui('全部项目')}</option><option value="">{ui('独立事项')}</option>{liveProjects(s).map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select><select aria-label={ui('按模块筛选')} value={module} onChange={e=>setModule(e.target.value)}><option value="all">{ui('全部模块')}</option><option value="">{ui('未分模块')}</option>{s.modules.filter(m=>project==='all'||m.projectId===project).map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</select></div>
+  {mode==='calendar'&&<div className="resident-tabs" aria-label={ui('任务类型')}>{(['long-term','stage','once'] as const).map(kind=><button key={kind} aria-pressed={active===kind&&!showInactive} onClick={()=>{setActive(kind);setShowInactive(false);}} title={ui(kind==='once'?'一次性任务':kindLabel(kind))}><span>{ui(kind==='long-term'?'长期':kind==='stage'?'阶段':'一次性')}</span><small>{kind==='once'?oneOff.length:available(kind).length+pending(kind).length}</small></button>)}</div>}
+  <div className="resident-list">
+   {showInactive?<>{inactive.map(card)}{!inactive.length&&<p className="resident-empty">{ui('暂无可选入口')}</p>}</>:mode==='calendar'?<>{active==='once'?oneOff.length?oneOff.map(row):<p className="resident-empty">{ui('这里暂时没有事项。')}</p>:groupContent(active)}</>:(['long-term','stage'] as const).map(kind=><details open key={kind} className="resident-group"><summary>{ui(kind==='long-term'?'常驻任务模板':kindLabel(kind))}<span>{available(kind).length}</span></summary>{groupContent(kind)}</details>)}
+  </div>
+  <div className="resident-footer"><button className="text-btn" aria-expanded={showInactive} onClick={()=>setShowInactive(!showInactive)}>{ui(showInactive?'返回可用入口':'暂停与归档入口')}<span>{inactive.length||''}</span></button>{!showInactive&&(mode!=='calendar'||active!=='once')&&<span className="resident-key" title={ui('常驻仅在选用时生成任务，不自动重复排期。')}>＋ {ui('加入今天')}</span>}</div>
+ </div>;
 }
 export function ResidentEditor({state:s,entry,task,sourceTaskId,kind='long-term',busy,mutate,close}:{state:State;entry?:Resident;task:TaskInput;sourceTaskId?:string;kind?:ResidentKind;busy:boolean;mutate:Mutation;close:()=>void}){
  const [draft,setDraft]=useState({...task}),[type,setType]=useState(entry?residentKind(entry):kind),[id]=useState(entry?.id||sourceTaskId||crypto.randomUUID());

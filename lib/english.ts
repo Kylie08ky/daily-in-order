@@ -1,5 +1,11 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+ "项目已结束": "Project ended",
+ "拖到日历即可安排": "Drag to schedule",
+ "返回可用入口": "Back to active entries",
+ "一次性": "One-off",
+ "阶段": "Stage",
+ "长期": "Ongoing",
  "所属项目已结束，请先恢复项目。": "The project has ended. Restore the project first.",
  "长期常驻": "Long-term reusable",
  "阶段性常驻": "Project-stage reusable",

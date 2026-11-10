@@ -1,5 +1,11 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+ "项目已结束": "Projekt beendet",
+ "拖到日历即可安排": "Zum Planen ziehen",
+ "返回可用入口": "Aktive Einträge anzeigen",
+ "一次性": "Einmalig",
+ "阶段": "Etappe",
+ "长期": "Dauerhaft",
  "所属项目已结束，请先恢复项目。": "Das Projekt ist beendet. Reaktiviere zuerst das Projekt.",
  "长期常驻": "Dauerhafte Vorlage",
  "阶段性常驻": "Projektbezogene Vorlage",

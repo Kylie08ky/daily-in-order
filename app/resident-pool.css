@@ -1,3 +1,54 @@
-.resident-pool{min-width:0}.resident-filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.resident-filters select{min-width:0;flex:1;max-width:100%}.resident-group{border-top:1px solid var(--border,#ccd4c3);padding:14px 0}.resident-group>summary{display:flex;justify-content:space-between;cursor:pointer;font-weight:650;gap:12px}.resident-group>summary:before{content:'›'}.resident-group[open]>summary:before{content:'⌄'}.resident-group>summary span{margin-left:auto;font-weight:400}.resident-card{padding:12px 0;border-bottom:1px solid var(--border,#ccd4c3)}.resident-title{display:flex;align-items:center;gap:6px}.resident-title strong{min-width:0;flex:1;overflow-wrap:anywhere}.resident-card>small{display:block;margin:6px 0;color:inherit;opacity:.85}.resident-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.resident-actions button{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;padding:6px 10px;font-size:13px}.resident-status{font-size:12px}.resident-editor label{min-width:0}.resident-editor .form-footer{margin-top:16px}.calendar-pool{min-width:0}.calendar-pool .resident-group .task-row{min-width:0}@media(max-width:600px){.resident-filters{flex-direction:column}.resident-actions{gap:8px}}
+/* Reusable entries share one compact row; only the calendar list scrolls. */
+.resident-pool{min-width:0;color:#344437}
+.resident-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin:12px 0}
+.resident-pool .resident-filters select{min-width:0;max-width:100%;height:34px;padding:5px 7px;border-radius:7px;font-size:12px;background:#fffef9;border-color:#d8dfd0;text-overflow:ellipsis}
+.resident-tabs{display:flex;gap:3px;padding:3px;margin-bottom:10px;background:#e7ecdf;border-radius:9px;flex:none}
+.resident-tabs button{flex:1;min-width:0;gap:4px;border:0;background:transparent;border-radius:6px;padding:7px 4px;font-size:12px;color:#57654e;white-space:nowrap}
+.resident-tabs button[aria-pressed=true]{background:#385848;color:#fff;box-shadow:0 1px 3px #2b46351a}
+.resident-tabs button small{font-size:10px;line-height:1.3;padding:1px 4px;border-radius:4px;background:#6d7d6114;color:inherit}
+.resident-tabs button[aria-pressed=true] small{background:#ffffff24}
+.resident-card{display:flex;gap:5px;min-width:0;padding:11px 2px;border-bottom:1px solid #dce2d5;transition:background .15s}
+.resident-card:last-child{border-bottom:0}
+.resident-card:hover{background:#e9efdf80}
+.resident-grip{margin-top:6px;color:#8e9b84;cursor:grab;flex:none}
+.resident-content{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 5px;min-width:0;flex:1}
+.resident-title{grid-column:1/-1;display:flex;align-items:flex-start;gap:4px;min-width:0}
+.resident-title strong{min-width:0;flex:1;font-size:14px;font-weight:600;line-height:1.5;overflow-wrap:anywhere;padding-top:2px}
+.resident-meta{display:flex;align-items:center;gap:5px;min-width:0;font-size:11px;color:#637059}
+.resident-meta>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.resident-duration{flex:none;font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums;color:#4b6042}
+.resident-bottom{display:flex;align-items:center;gap:6px;min-width:0}
+.resident-bottom>small{display:none}
+.resident-quick-actions{display:flex;align-items:center;gap:3px;flex:none}
+:root .app-shell .resident-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:28px;height:28px;min-height:28px;padding:5px;border:0;border-radius:7px;background:transparent;color:#546c47;font-size:18px;line-height:1}
+:root .app-shell .resident-icon:hover,:root .app-shell .resident-icon:focus-visible{background:#dce7cd;color:#243c29}
+:root .app-shell .resident-icon.resident-add{background:#e2ead7;color:#365332}
+.resident-list{min-height:0;min-width:0}
+.resident-group{border-top:1px solid #d3ddc9;padding:8px 0}
+.resident-group>summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:13px}
+.resident-group>summary:before{content:'›'}.resident-group[open]>summary:before{content:'⌄'}
+.resident-group>summary span{margin-left:auto;font-size:11px;font-weight:400;background:#e3e9da;padding:2px 6px;border-radius:5px}
+.resident-empty{padding:30px 8px;text-align:center;font-size:12px;color:#6c7863}
+.resident-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #d7dfce;padding-top:9px;margin-top:8px;flex:none}
+.resident-footer .text-btn{display:flex;gap:5px;font-size:11px;color:#5f7054;padding:3px 0}
+.resident-key{font-size:10px;color:#738368;white-space:nowrap}
+.resident-pending>small{font-size:10px;color:#6d7f5d}
+.resident-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.resident-actions button{display:inline-flex;gap:4px;align-items:center;white-space:nowrap;padding:6px 10px;font-size:13px}
+.resident-editor label{min-width:0}.resident-editor .form-footer{margin-top:16px}
+:root .app-shell .calendar-pool{min-width:0;padding:16px;background:#f2f5eb;border:1px solid #d1ddc5;border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.calendar-pool-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}
+:root .app-shell .calendar-pool-head h2{font-size:17px;line-height:1.4;margin:0;font-weight:650}
+.calendar-pool-head>div{display:flex;gap:8px;align-items:center}.calendar-pool-head .text-btn{font-size:11px}
+.calendar-pool .resident-pool{display:flex;flex-direction:column;min-height:0;flex:1}
+.calendar-pool .resident-list{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#aebc9e transparent;scrollbar-gutter:stable;padding-right:3px}
+:root .app-shell .calendar-pool .task-row{display:grid;grid-template-columns:18px minmax(0,1fr);gap:5px 7px;padding:11px 0;margin:0;border-color:#dce2d5;min-width:0}
+:root .app-shell .calendar-pool .task-row .task-body{min-width:0;padding:0}
+:root .app-shell .calendar-pool .task-row .task-body strong{font-size:13px;line-height:1.5}
+:root .app-shell .calendar-pool .task-row .task-body small{font-size:10px}
+:root .app-shell .calendar-pool .task-row .task-actions{grid-column:2;flex-direction:row;justify-content:flex-end;gap:3px;margin:0}
+:root .app-shell .calendar-pool .task-row .task-actions .icon-btn{color:#4b6540}
+@media(min-width:901px){:root .app-shell .calendar-pool{max-height:min(600px,calc(100dvh - 60px));align-self:start;position:sticky;top:18px}}
+@media(max-width:900px){:root .app-shell .calendar-pool{max-height:560px}}
+@media(pointer:coarse){:root .app-shell .resident-icon{width:36px;height:36px;min-height:36px}.resident-tabs button{min-height:40px}}
 
-@media(min-width:901px){.calendar-pool{max-height:calc(100dvh - 130px);overflow-y:auto;overscroll-behavior:contain;align-self:start;position:sticky;top:18px;scrollbar-gutter:stable}.calendar-pool .resident-group .task-actions .icon-btn{color:#40573a}.calendar-pool .resident-group .task-main{min-width:0}}
+.resident-status{font-size:10px;color:#6e6d55;white-space:nowrap}
