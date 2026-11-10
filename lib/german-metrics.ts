@@ -11,7 +11,7 @@ export function germanTarget(s:State,t:Pick<Task,'id'|'activity'|'projectId'|'mo
  return courses.find(c=>c.projectId===t.projectId&&t.moduleId&&c.moduleIds.includes(t.moduleId))||courses.find(c=>c.projectId&&c.projectId===t.projectId&&c.includeProject);
 }
 export function germanRecords(s:State,refId='',from='2000-01-01',to='2100-12-31'){
- const tasks=s.tasks.filter(t=>!t.deletedAt&&t.progress===100&&t.date>=from&&t.date<=to);
+ const tasks=s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly&&t.progress===100&&t.date>=from&&t.date<=to);
  const byId=new Map(tasks.map(t=>[t.id,t]));
  const entries=s.life.entries.filter(e=>!e.deletedAt&&e.kind==='german'&&(!e.taskId||byId.has(e.taskId))).map(e=>({...e,date:byId.get(e.taskId)?.date||e.date,minutes:e.taskId?(byId.get(e.taskId)?.actual??0):e.minutes})).filter(e=>e.date>=from&&e.date<=to&&(!refId||e.refId===refId));
  const selected=tasks.filter(t=>{

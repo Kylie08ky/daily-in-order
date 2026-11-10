@@ -3,12 +3,12 @@ import {type State,type Task,minuteOf} from './model.ts';
 import {sessionBlocks,type ActualBlock} from './task-investment.ts';
 export type TimelineItem={id:string;task:Task;begin:number;length:number;planId?:string;block?:ActualBlock};
 export function timelineItems(state:State,date:string,tasks:Task[]):TimelineItem[]{
- const active=new Map(state.tasks.filter(t=>!t.deletedAt).map(t=>[t.id,t]));
+ const active=new Map(state.tasks.filter(t=>!t.deletedAt&&!t.templateOnly).map(t=>[t.id,t]));
  const blocks=state.sessions.filter(s=>!s.deletedAt&&active.has(s.taskId)).flatMap(s=>sessionBlocks(s,state.settings.timezone));
  // A duration-only record has no reliable calendar position. Never substitute its plan.
  const recorded=new Set(state.sessions.filter(s=>!s.deletedAt&&s.seconds>0).map(s=>s.taskId));
  return [
-  ...tasks.filter(t=>!t.deletedAt).flatMap(t=>taskPlans(t).filter(p=>p.date===date&&p.start&&(t.plans?!state.sessions.some(x=>!x.deletedAt&&x.seconds>0&&x.taskId===t.id&&x.planId===p.id):!recorded.has(t.id))).map(p=>({id:'plan:'+t.id+':'+p.id,planId:t.plans?p.id:undefined,task:t,begin:minuteOf(p.start),length:p.minutes}))),
+  ...tasks.filter(t=>!t.deletedAt&&!t.templateOnly).flatMap(t=>taskPlans(t).filter(p=>p.date===date&&p.start&&(t.plans?!state.sessions.some(x=>!x.deletedAt&&x.seconds>0&&x.taskId===t.id&&x.planId===p.id):!recorded.has(t.id))).map(p=>({id:'plan:'+t.id+':'+p.id,planId:t.plans?p.id:undefined,task:t,begin:minuteOf(p.start),length:p.minutes}))),
   ...blocks.filter(b=>b.date===date).map(b=>({id:b.id,task:active.get(b.taskId)!,begin:b.start,length:b.end-b.start,block:b}))
  ].sort((a,b)=>a.begin-b.begin);
 }

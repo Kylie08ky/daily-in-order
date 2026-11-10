@@ -4,10 +4,10 @@ import {GripVertical,Play} from 'lucide-react';
 import {type State,type Task,type Command,minuteOf,clock,finished,formatTime as fmt} from '../lib/model';
 import {localInstant} from '../lib/task-investment';
 import {timelineItems,layoutTimeline,type TimelineItem} from '../lib/timeline-items';
-type Props={compact?:boolean;date:string;tasks:Task[];state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;edit:(t:Task,sessionId?:string)=>void;complete:(t:Task)=>void;arrange?:(t:Task)=>void;focus:(t:Task,planId?:string)=>void};
+type Props={useResident?:(id:string,date:string,start:string)=>void;compact?:boolean;date:string;tasks:Task[];state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;edit:(t:Task,sessionId?:string)=>void;complete:(t:Task)=>void;arrange?:(t:Task)=>void;focus:(t:Task,planId?:string)=>void};
 type Drag={item:TimelineItem;kind:'move'|'resize';originY:number;scrollTop:number;start:number;duration:number;next:number;moved:boolean};
 const time=(n:number)=>clock(Math.min(1440,Math.max(0,Math.round(n))));
-export default function Timeline({date,tasks,state,busy,mutate,edit,complete,focus,arrange,compact=false}:Props){
+export default function Timeline({date,tasks,state,busy,mutate,edit,complete,focus,arrange,useResident,compact=false}:Props){
  const scrollRef=useRef<HTMLDivElement>(null),gridRef=useRef<HTMLDivElement>(null),dragRef=useRef<Drag|null>(null);
  const [drag,setDrag]=useState<{id:string;start:number;duration:number}|null>(null),[issue,setIssue]=useState('');
  const timed=layoutTimeline(timelineItems(state,date,tasks).map(t=>({...t,begin:drag?.id===t.id?drag.start:t.begin,length:drag?.id===t.id?drag.duration:t.length})));
@@ -36,7 +36,7 @@ export default function Timeline({date,tasks,state,busy,mutate,edit,complete,foc
  return <div className={'timeline-shell unified-timeline'+(compact?' dashboard-clock':'')}>
   <div className="timeline-intro"><small>{ui("拖动调整时间 · 点击事项查看进展")}</small></div>{issue&&<p role="alert">{ui(issue)}</p>}
   <div className={compact?'dashboard-time-scroll':undefined} ref={scrollRef} tabIndex={compact?0:undefined} role="region" aria-label={date+ui(" 全天时间轴")}>
-   <div className="timeline" ref={gridRef} style={{height:(last-first)*scale+60}} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();const id=e.dataTransfer.getData('text/task-id'),t=state.tasks.find(t=>t.id===id);if(!t)return;
+   <div className="timeline" ref={gridRef} style={{height:(last-first)*scale+60}} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();const entry=state.templates.find(t=>t.id===e.dataTransfer.getData('text/template-id'));if(entry){const start=time(Math.max(first,Math.min(1425,Math.round((first+(e.clientY-gridRef.current!.getBoundingClientRect().top)/scale)/15)*15)));useResident?.(entry.id,date,start);return;}const id=e.dataTransfer.getData('text/task-id'),t=state.tasks.find(t=>t.id===id);if(!t)return;
     if(t.plans){const planId=e.dataTransfer.getData('text/plan-id'),p=t.plans.find(p=>p.id===planId);if(p){const start=Math.max(first,Math.min(1440-p.minutes,Math.round((first+(e.clientY-gridRef.current!.getBoundingClientRect().top)/scale)/15)*15));void mutate({type:'task.plan.save',payload:{id,planId,date,start:time(start),minutes:p.minutes}},ui('分段安排已保存。'));}else(arrange||edit)(t);return;}
     if(state.sessions.some(s=>!s.deletedAt&&s.taskId===id&&s.spans?.length)){edit(t);return;}
     const start=Math.max(first,Math.min(1440-Math.max(15,t.minutes),Math.round((first+(e.clientY-gridRef.current!.getBoundingClientRect().top)/scale)/15)*15));

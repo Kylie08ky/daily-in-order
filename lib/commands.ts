@@ -1,3 +1,4 @@
+import {applyTemplateCommand} from './resident-tasks.ts';
 import {applyTaskPlan,planForDate,calendarTasks} from './task-plans.ts';
 import {applyPlanningSchedule} from './planning-workflow.ts';
 import {applyLearningTransfer} from './learning-transfer.ts';
@@ -13,6 +14,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type.startsWith('template.'))return applyTemplateCommand(input,command,instant);
  if(command.type.startsWith('task.plan.'))return applyTaskPlan(input,command);
  if(command.type==='planning.schedule')return applyPlanningSchedule(input,command);
  if(command.type.startsWith('learning.'))return applyLearningTransfer(input,command,instant,newId);
@@ -56,9 +58,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'project.save':{const p=z.object({id:idString,project:projectInput,modules:z.array(z.object({id:idString,name:z.string().trim().min(1).max(100)})).max(100)}).parse(command.payload);if(p.project.start&&p.project.deadline&&p.project.start>p.project.deadline)throw new Error('截止日期不能早于开始日期。');for(const m of p.modules)if(s.modules.some(x=>x.id===m.id&&x.projectId!==p.id))throw new Error('模块 ID 冲突。');const old=s.projects.find(x=>x.id===p.id);if(old)Object.assign(old,p.project);else s.projects.push({...p.project,id:p.id,order:s.projects.length,deletedAt:null});const removed=s.modules.filter(m=>m.projectId===p.id&&!p.modules.some(x=>x.id===m.id)).map(m=>m.id);s.tasks.filter(t=>removed.includes(t.moduleId)).forEach(t=>t.moduleId='');s.series.filter(x=>removed.includes(x.template.moduleId)).forEach(x=>x.template.moduleId='');s.life.courses.forEach(c=>c.moduleIds=c.moduleIds.filter(id=>!removed.includes(id)));s.modules=s.modules.filter(m=>m.projectId!==p.id).concat(p.modules.map((m,i)=>({...m,projectId:p.id,order:i})));break;}
   case 'project.delete':{const p=z.object({id:idString}).parse(command.payload),project=s.projects.find(x=>x.id===p.id);if(!project)throw new Error('项目不存在。');project.deletedAt=now;s.tasks.filter(t=>t.projectId===p.id&&!t.deletedAt).forEach(t=>t.deletedAt=now);s.series.filter(x=>x.template.projectId===p.id).forEach(x=>x.active=false);break;}
   case 'project.restore':{const p=z.object({id:idString}).parse(command.payload),project=s.projects.find(x=>x.id===p.id);if(!project)throw new Error('项目不存在。');const at=project.deletedAt;project.deletedAt=null;s.tasks.filter(t=>t.projectId===p.id&&t.deletedAt===at).forEach(t=>t.deletedAt=null);break;}
-  case 'template.save':{const p=z.object({id:idString,task:taskInput}).parse(command.payload);assertTask(s,p.task);p.task.parentId='';const old=s.templates.find(x=>x.id===p.id);if(old)old.task=p.task;else s.templates.push(p);break;}
-  case 'template.delete':{const p=z.object({id:idString}).parse(command.payload);s.templates=s.templates.filter(x=>x.id!==p.id);break;}
-  case 'template.use':{const p=z.object({id:idString,newId:idString,date:dateString}).parse(command.payload),t=s.templates.find(x=>x.id===p.id);if(!t)throw new Error('模板不存在。');if(!s.tasks.some(x=>x.id===p.newId))s.tasks.push({...t.task,id:p.newId,date:p.date,progress:0,actual:null,seriesId:'',occurrence:'',createdAt:now,completedAt:null,deletedAt:null,order:s.tasks.length});break;}
+
   case 'note.save':{const p=z.object({date:dateString,text:z.string().max(5000)}).parse(command.payload);s.notes[p.date]=p.text;break;}
   case 'capacity.save':{const p=z.object({date:dateString,hours:z.number().min(0).max(24)}).parse(command.payload);s.capacity[p.date]=p.hours;break;}
   case 'settings.save':s.settings=settingsSchema.parse(command.payload);break;

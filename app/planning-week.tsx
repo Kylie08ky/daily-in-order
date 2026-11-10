@@ -14,7 +14,7 @@ function TaskSchedule({task,state,from,to,busy,mutate,edit,windowStart,windowEnd
 export default function PlanningWeek({state:s,plan,weekKey,setWeek,busy,mutate,newTask,editTask,openDay,adjust}:Props){
  const m=monthlyMetrics(s,plan),today=businessDate(s.settings),week=m.weeks.find(w=>w.key===weekKey)||m.weeks.find(w=>today>=w.from&&today<=w.to)||m.weeks[0];
  const [selected,setSelected]=useState('all'),[windowStart,setStart]=useState('09:00'),[windowEnd,setEnd]=useState('21:00');
- const days=planningDays(s,week.from,week.to),all=s.tasks.filter(t=>!t.deletedAt&&!finished(t)),ids=new Set(plan.goals.map(g=>g.projectId));
+ const days=planningDays(s,week.from,week.to),all=s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly&&!finished(t)),ids=new Set(plan.goals.map(g=>g.projectId));
  const candidates=all.filter(t=>selected==='independent'?!t.projectId:selected==='all'?ids.has(t.projectId):t.projectId===selected).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||a.order-b.order);
  const [limit,setLimit]=useState(30);
  return <><div className="monthly-week-tabs">{m.weeks.map((w,i)=><button key={w.key} aria-pressed={w.key===week.key} onClick={()=>setWeek(w.key)}><strong>{tr('第 {0} 周',i+1)}</strong><span>{w.from.slice(5)} — {w.to.slice(5)}</span><small>{fmt(w.target)} {ui('目标')}</small></button>)}</div>

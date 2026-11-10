@@ -46,7 +46,7 @@ export default function FinancePage({state:s,mutate,busy,error,openDay}:Props){
   {key:'bucket',label:ui("预算归属"),type:'select',value:t?.bucket||'other',options:budgetOptions(t?.bucket),showWhen:{key:'kind',values:['expense']},hint:ui("选择与支付账户相同币种的预算。")},
   {key:'category',label:ui("收支分类（可自定义）"),value:t?.category||'',maxLength:40,suggestions:categorySuggestions},
   {key:'projectId',label:ui("关联项目（可选）"),type:'select',value:t?.projectId||'',options:[opt('',ui("不关联")),...s.projects.filter(p=>!p.deletedAt).map(p=>opt(p.id,p.name))]},
-  {key:'taskId',label:ui("关联日程（可选）"),type:'select',value:t?.taskId||'',options:[opt('',ui("不关联")),...s.tasks.filter(t=>!t.deletedAt).slice(-300).reverse().map(t=>opt(t.id,(t.date||'未排期')+' · '+t.title))]},
+  {key:'taskId',label:ui("关联日程（可选）"),type:'select',value:t?.taskId||'',options:[opt('',ui("不关联")),...s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly).slice(-300).reverse().map(t=>opt(t.id,(t.date||'未排期')+' · '+t.title))]},
   {key:'note',label:ui("备注"),type:'textarea',value:t?.note}
  ],note:ui("按实际账户币种记账，不自动换汇。跨币种转账分别记录转出与到账金额；转账和资金解冻不算新增收入。"),submit:f=>{
   const kind=text(f,'kind'),fromId=kind==='income'?'':text(f,'fromId'),toId=kind==='expense'?'':text(f,'toId'),c=paymentCurrency(s,kind==='income'?toId:fromId),dc=paymentCurrency(s,toId);

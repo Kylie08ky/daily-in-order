@@ -17,7 +17,7 @@ export function learningInvestment(s:State,from:string,to:string){
  const investment=investmentByTask(s);
  const courses=s.life.courses.filter(c=>!c.deletedAt);
  const minutes=new Map(courses.map(c=>[c.id,0]));
- for(const t of s.tasks.filter(t=>!t.deletedAt)){
+ for(const t of s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly)){
   const id=germanTarget(s,t)?.id;
   if(id&&minutes.has(id))minutes.set(id,minutes.get(id)!+minutesInRange(investment.get(t.id),from,to));
  }

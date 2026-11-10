@@ -43,7 +43,7 @@ export function sessionBlocks(session:State['sessions'][number],timezone:string)
 export function investmentByTask(state:State){
  const result=new Map<string,Map<string,number>>();
  const grouped=new Map<string,State['sessions']>();for(const x of state.sessions.filter(x=>!x.deletedAt)){const list=grouped.get(x.taskId)||[];list.push(x);grouped.set(x.taskId,list);}
- for(const t of state.tasks.filter(t=>!t.deletedAt)){
+ for(const t of state.tasks.filter(t=>!t.deletedAt&&!t.templateOnly)){
   const dates=new Map<string,number>(),sessions=grouped.get(t.id)||[],seconds=sessions.reduce((n,x)=>n+x.seconds,0),actual=t.actual||0;
   // Historical manual corrections may be smaller than recorded sessions.
   // Scale rather than double count, while keeping task totals authoritative.
