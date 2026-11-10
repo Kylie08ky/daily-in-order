@@ -68,6 +68,6 @@ test('cross-midnight focus spans retain exact dates and seconds through assignme
 });
 
 test('schema 7 upgrades without losing records; schema 9 retains transfer history and rejects future formats',()=>{
- const old=fixture();old.schemaVersion=7;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,10);assert.deepEqual(upgraded.tasks,old.tasks);
- const next=transfer(upgraded,['eg-old'],'a1');assert.deepEqual(validateState(JSON.parse(JSON.stringify(next))),next);assert.throws(()=>validateState({...next,schemaVersion:11}));
+ const old=fixture();old.schemaVersion=7;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,11);assert.deepEqual(upgraded.tasks,old.tasks);
+ const next=transfer(upgraded,['eg-old'],'a1');assert.deepEqual(validateState(JSON.parse(JSON.stringify(next))),next);assert.throws(()=>validateState({...next,schemaVersion:12}));
 });

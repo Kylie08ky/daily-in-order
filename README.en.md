@@ -12,6 +12,16 @@ This repository contains application source, tests and deployment scripts. It do
 
 **Current production release: v0.15.0 (2026-11-10).** The owner-approved `workbench-review` build was promoted unchanged to production. It includes the accumulated monthly/weekly planning, split schedules, learning assignments, three task-pool categories and daily-list gestures. Switch Today to **List** to swipe left to complete, swipe right to the next day, tap to edit and drag the handle to reorder. The release updates application files only; preview and production records remain isolated.
 
+**v0.16.0 preview: record progress directly from Today.** Open the task’s progress icon, or finish a focus session, to enter learning quantities, the current reading page and outcomes for multiple projects. Linked module records open the same editor; when adding a module record, choose an existing task by its actual date. Saving replaces the same record without adding tasks or time. **Correct recorded time** and **Add another session** are separate actions.
+
+- Videos use an incremental quantity: editing 2 to 3 adds only one. Rewatches do not increase completion counts; matching explicit video IDs are deduplicated. Without IDs, content identities are not inferred. Existing course baselines are preserved.
+- Reading uses page checkpoints; older backfills do not replace newer progress. Pages read are calculated only with an explicit start and end page. Multiple books can split the original duration without exceeding it. Learning can carry multiple tags, or explicitly allocate minutes to activities with an exact total.
+- One development investment can hold multiple project versions, statuses, results and next steps. Project pages show and edit those original outcomes. Time remains on the original task; a milestone does not complete the entire project.
+- Historical records can be enriched in place, preserving dates, focus seconds and task IDs. Removing/restoring progress through the new editor does not delete time. Missing quantities or pages are shown as unrecorded. Associations are chosen explicitly, never merged by similar titles.
+- Schema 11 stores progress linked to specific investments and reads schemas 1–10. Preview and production data remain isolated. This update is not released to production yet.
+
+![Recording reading progress from a daily task (synthetic local data)](docs/screenshots/activity-progress.png)
+
 <details>
 <summary>Development history (preview statuses below describe their original stage; these features are now included in v0.15.0)</summary>
 

@@ -1,0 +1,2 @@
+import {z} from 'zod';
+export const outcomeSchema=z.object({id:z.string().min(1).max(100),sessionId:z.string().max(100).optional(),date:z.string().regex(/^\d{4}-\d{2}-\d{2}$/),projectId:z.string().max(100).default(''),version:z.string().max(80).default(''),status:z.enum(['ongoing','milestone','paused','ended']).default('ongoing'),result:z.string().max(4000).default(''),next:z.string().max(2000).default(''),units:z.number().min(0).max(100000).nullable().default(null),unit:z.string().max(12).default(''),deletedAt:z.string().nullable().default(null)});

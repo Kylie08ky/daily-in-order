@@ -7,9 +7,9 @@ export function validateLife(s:State){
  const has=(table:LifeTable,id:string)=> (l[table] as {id:string}[]).some(x=>x.id===id);
  const refs={german:'courses',reading:'books',fitness:'workouts'} as const;
  for(const t of s.tasks)if(t.activity&&!has(refs[t.activity.kind],t.activity.refId))throw new Error('事项关联的学习、书籍或训练计划不存在。');
- const entryKeys=l.entries.filter(e=>!e.deletedAt&&e.taskId).map(e=>[e.taskId,e.kind,e.refId].join('|'));if(new Set(entryKeys).size!==entryKeys.length)throw new Error('同一任务的同一活动存在重复记录。');
+ const entryKeys=l.entries.filter(e=>!e.deletedAt&&e.taskId).map(e=>[e.taskId,e.sessionId||'',e.kind,e.refId].join('|'));if(new Set(entryKeys).size!==entryKeys.length)throw new Error('同一任务的同一活动存在重复记录。');
  for(const e of l.entries)if(e.timeRefId&&(e.kind!=='german'||!has('courses',e.timeRefId)))throw Error('学习时长归属不存在。');
- for(const e of l.entries){if(!has(refs[e.kind],e.refId))throw new Error('执行记录的所属内容不存在。');if(e.taskId&&!s.tasks.some(t=>t.id===e.taskId))throw new Error('执行记录关联任务不存在。');}
+ for(const e of l.entries){if(e.sessionId&&!s.sessions.some(x=>x.id===e.sessionId&&x.taskId===e.taskId))throw Error('进度关联的投入不存在。');if(e.startPage!==undefined&&(e.page===undefined||e.startPage>e.page))throw Error('起始页不能大于读到的页码。');if(!has(refs[e.kind],e.refId))throw new Error('执行记录的所属内容不存在。');if(e.taskId&&!s.tasks.some(t=>t.id===e.taskId))throw new Error('执行记录关联任务不存在。');}
  for(const e of l.entries)if(e.page!==undefined&&(e.kind!=='reading'||e.page>(l.books.find(b=>b.id===e.refId)?.total??0)))throw new Error('页码须为 0 到书籍总页数之间的整数。');
  for(const b of l.books){if(b.initial>b.total)throw new Error('初始阅读页数不能超过总页数。');if(b.started&&b.finished&&b.finished<b.started)throw new Error('读完日期不能早于开始日期。');}
  for(const c of l.courses){

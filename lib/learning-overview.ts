@@ -1,4 +1,4 @@
-import {investmentByTask,minutesInRange} from './task-investment.ts';
+import {taskActivityMinutes} from './progress-records.ts';
 import type {State} from './model.ts';
 import {offsetDate,startOfWeek} from './model.ts';
 import {germanTarget} from './german-metrics.ts';
@@ -14,12 +14,11 @@ export function learningRange(date:string,period:LearningPeriod,weekStart:'monda
 // Count recorded investment even before a task is marked complete. Linked entries
 // and focus sessions describe the same task actual, so never add them twice.
 export function learningInvestment(s:State,from:string,to:string){
- const investment=investmentByTask(s);
  const courses=s.life.courses.filter(c=>!c.deletedAt);
  const minutes=new Map(courses.map(c=>[c.id,0]));
  for(const t of s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly)){
   const id=germanTarget(s,t)?.id;
-  if(id&&minutes.has(id))minutes.set(id,minutes.get(id)!+minutesInRange(investment.get(t.id),from,to));
+  if(id)for(const c of courses)minutes.set(c.id,minutes.get(c.id)!+taskActivityMinutes(s,t,'german',id,c.id,from,to));
  }
  for(const e of s.life.entries.filter(e=>!e.deletedAt&&!e.taskId&&e.kind==='german'&&e.date>=from&&e.date<=to)){
   const id=e.timeRefId||e.refId;if(minutes.has(id))minutes.set(id,minutes.get(id)!+e.minutes);

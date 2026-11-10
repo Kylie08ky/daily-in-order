@@ -24,7 +24,7 @@ export function FocusSetup({task,defaultMinutes,busy,start,close,error}:{error:s
  return createPortal(<dialog ref={ref} className="modal focus-setup" aria-label={ui("开始一段专注")} onCancel={e=>{e.preventDefault();close();}}><header><h2>{ui("开始一段专注")}</h2><button className="icon-btn" aria-label={ui("关闭专注设置")} onClick={close}><X/></button></header><form onSubmit={e=>{e.preventDefault();if(mode==='countup'||minutes&&minutes>=1)void start(mode,minutes||defaultMinutes);}}><p className="focus-task-name">{task.title}</p><div className="focus-mode-choices"><button type="button" aria-pressed={mode==='countdown'} onClick={()=>setMode('countdown')}><Timer/><strong>{ui("倒计时")}</strong><small>{ui("到点自动停止")}</small></button><button type="button" aria-pressed={mode==='countup'} onClick={()=>setMode('countup')}><Play/><strong>{ui("正向计时")}</strong><small>{ui("按自己的节奏结束")}</small></button></div>{mode==='countdown'&&<DurationInput label={ui("这次专注多久")} value={minutes} max={1440} onChange={setMinutes}/>}<p className="hint">{ui("开始后进入专注大屏；可以收起回到日程。")}</p>{error&&<p role="alert" className="inline-error">{ui(error)}</p>}<button className="primary focus-start-large" disabled={busy||(mode==='countdown'&&(!minutes||minutes<1))}><Play size={18}/>{ui("开始专注")}</button></form></dialog>,document.body);
 }
 
-export default function FocusPanel({state,busy,mutate,expanded,expand,minimize,error}:{error:string;state:State;busy:boolean;mutate:(command:Command,message?:string)=>Promise<boolean>;expanded:boolean;expand:()=>void;minimize:()=>void}){
+export default function FocusPanel({state,busy,mutate,expanded,expand,minimize,error,onRecorded}:{onRecorded:(id:string,sessionId?:string)=>void;error:string;state:State;busy:boolean;mutate:(command:Command,message?:string)=>Promise<boolean>;expanded:boolean;expand:()=>void;minimize:()=>void}){
  const f=state.focus;
  const [now,setNow]=useState(Date.now),[settling,setSettling]=useState(false);
  const ref=useRef<HTMLDialogElement>(null),stopping=useRef<string|null>(null);
@@ -36,7 +36,7 @@ export default function FocusPanel({state,busy,mutate,expanded,expand,minimize,e
  const seconds=countdown?Math.max(0,Math.ceil(f.target-elapsed)):Math.floor(elapsed);
  const clock=String(Math.floor(seconds/3600)).padStart(2,'0')+':'+String(Math.floor(seconds/60)%60).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
  const value=potentialWealth(elapsed,state.settings.growthRate).toFixed(2),task=state.tasks.find(t=>t.id===f.taskId);
- const finish=async()=>{if(settling)return;setSettling(true);try{if(await mutate({type:'focus.finish'},ui("本段真实起止与用时已记录，累计进度已更新。")))minimize();}finally{setSettling(false);}};
+ const finish=async()=>{if(settling)return;setSettling(true);const sessionId=crypto.randomUUID();try{if(await mutate({type:'focus.finish',payload:{sessionId}},ui("本段真实起止与用时已记录，累计进度已更新。"))){minimize();onRecorded(f.taskId,elapsed>0?sessionId:undefined);}}finally{setSettling(false);}};
  const began=f.spans?.[0]?.startedAt||f.startedAt,startLabel=began?localParts(Date.parse(began),state.settings.timezone).time:'';
  const status=reached?'本段已完成 · 计时已停止':running?'专注进行中':'已暂停';
  if(!expanded)return <div className="focus-dock"><div><strong>{task?.title}</strong><small>{ui(status)}</small></div><b>{clock}</b><button className="primary" onClick={expand}><Maximize2 size={16}/>{ui("回到专注")}</button></div>;

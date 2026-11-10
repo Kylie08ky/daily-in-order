@@ -1,3 +1,4 @@
+import {applyActivityProgress} from './activity-progress.ts';
 import {deferTask} from './defer-task.ts';
 import {applyTemplateCommand} from './resident-tasks.ts';
 import {applyTaskPlan,planForDate,calendarTasks} from './task-plans.ts';
@@ -16,6 +17,7 @@ import { type State,type Command,idString,dateString,optionalDate,optionalTime,p
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
  if(command.type==='task.defer')return deferTask(input,command);
+ if(command.type==='activity.progress')return applyActivityProgress(input,command,instant);
  if(command.type.startsWith('template.'))return applyTemplateCommand(input,command,instant);
  if(command.type.startsWith('task.plan.'))return applyTaskPlan(input,command);
  if(command.type==='planning.schedule')return applyPlanningSchedule(input,command);
@@ -51,6 +53,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
    }else s.tasks.push({...p.task,id:p.id,seriesId:'',occurrence:'',createdAt:now,completedAt:p.task.progress===100?now:null,deletedAt:null,order:s.tasks.length,date:p.task.date||(p.task.progress===100?today:'')});break;
   }
   case 'task.schedule':{const p=z.object({id:idString,date:optionalDate,start:optionalTime,minutes:z.number().int().min(0).max(1440).optional()}).parse(command.payload),t=task(p.id);if(t.deletedAt)throw new Error('请先恢复此事项。');if(t.plans)throw Error('此任务已拆分，请在分段安排中调整日期和时间。');t.date=p.date;t.start=p.start;if(p.minutes!==undefined)t.minutes=p.minutes;assertTask(s,t);break;}
+  case 'activity.time.correct':{const p=z.object({taskId:idString,actual:z.number().int().min(0).max(100000).nullable()}).parse(command.payload),t=task(p.taskId);if(s.focus?.taskId===t.id)throw Error('请先结束当前专注。');t.actual=p.actual;refreshTimeProgress(t);break;}
   case 'task.progress':{const p=z.object({readingPage:z.number().int().min(0).max(100000).optional(),id:idString,progress:z.number().int().min(0).max(100),actual:z.number().int().min(0).max(100000).nullable().optional()}).parse(command.payload),t=task(p.id);if(t.deletedAt)throw new Error('请先恢复此事项。');t.progress=p.progress;t.progressSource='manual';if(p.actual!==undefined)t.actual=p.actual;t.completedAt=p.progress===100?t.completedAt||now:null;if(p.progress===100&&!t.date)t.date=today;if(p.readingPage!==undefined){if(p.progress!==100)throw Error('请完成任务后记录阅读页码。');recordTaskReadingPage(s,t,p.readingPage,newId);}break;}
   case 'task.delete':{const p=z.object({id:idString,scope:z.enum(['one','future','series']).default('one')}).parse(command.payload),t=task(p.id);if(p.scope==='one'||!t.seriesId)t.deletedAt=now;else{s.tasks.filter(x=>x.seriesId===t.seriesId&&!finished(x)&&(p.scope==='series'||x.occurrence>=t.occurrence)).forEach(x=>x.deletedAt=now);const series=s.series.find(x=>x.id===t.seriesId);if(series){if(p.scope==='series')series.active=false;else series.rule.until=offsetDate(t.occurrence,-1);}}break;}
   case 'task.restore':{const p=z.object({id:idString}).parse(command.payload),t=task(p.id);if(t.projectId&&!s.projects.some(p=>p.id===t.projectId&&!p.deletedAt))throw new Error('请先恢复所属项目。');t.deletedAt=null;break;}
@@ -69,11 +72,12 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'focus.start':{const p=z.object({planId:idString.optional(),taskId:idString,mode:z.enum(['countdown','countup']).optional(),minutes:z.number().int().min(1).max(1440).optional()}).parse(command.payload),t=task(p.taskId);if(p.planId&&!t.plans?.some(x=>x.id===p.planId))throw Error('这段安排已不存在，请刷新后重试。');if(t.deletedAt||finished(t))throw new Error('请选择未完成事项。');if(s.focus&&s.focus.taskId!==p.taskId)throw new Error('请先结束或取消当前专注。');if(s.focus?.startedAt)throw new Error('已有计时正在运行。');if(s.focus?.mode==='countdown'&&focusSeconds(s.focus,instant.valueOf())>=s.focus.target)throw new Error('本段倒计时已到点，请先记录或取消，再开始新一段。');s.focus=s.focus?.taskId===p.taskId?{...s.focus,startedAt:now}:{...((p.planId??planForDate(t,today))?{planId:p.planId??planForDate(t,today)}:{}),taskId:p.taskId,startedAt:now,seconds:0,spans:[],target:(p.minutes||s.settings.focusMinutes)*60,...(p.mode?{mode:p.mode}:{})};break;}
   case 'focus.pause':if(s.focus?.startedAt){s.focus.spans=closeFocusSpan(s.focus,instant.valueOf());s.focus.seconds=focusSeconds(s.focus,instant.valueOf());s.focus.startedAt=null;}break;
   case 'focus.finish':if(s.focus){
+   const supplied=z.object({sessionId:idString.optional()}).parse(command.payload||{});if(supplied.sessionId&&s.sessions.some(x=>x.id===supplied.sessionId))throw Error('这段投入已经记录，请重新打开进度。');
    const f=s.focus,seconds=focusSeconds(f,instant.valueOf());if(seconds>86400)throw new Error('计时超过 24 小时，请取消后手动填写用时。');
    const t=task(f.taskId);if(t.deletedAt)throw new Error('请先恢复此事项。');if(!t.date)t.date=today;
    const spans=closeFocusSpan(f,instant.valueOf()),endedAt=spans.at(-1)?.endedAt||now;
    addRecordedSeconds(s,t,seconds);
-   if(seconds>0)s.sessions.push({id:newId(),taskId:t.id,...(f.planId?{planId:f.planId}:{}),date:localParts(Date.parse(endedAt),s.settings.timezone).date,seconds,growth:potentialWealth(seconds,s.settings.growthRate),growthRate:s.settings.growthRate,endedAt,spans,source:'focus',progressAfter:t.progress});
+   if(seconds>0)s.sessions.push({id:supplied.sessionId||newId(),taskId:t.id,...(f.planId?{planId:f.planId}:{}),date:localParts(Date.parse(endedAt),s.settings.timezone).date,seconds,growth:potentialWealth(seconds,s.settings.growthRate),growthRate:s.settings.growthRate,endedAt,spans,source:'focus',progressAfter:t.progress});
    s.focus=null;
   }break;
   case 'session.update':case 'session.move':case 'session.delete':case 'session.restore': changeSession(s,command,instant);break;

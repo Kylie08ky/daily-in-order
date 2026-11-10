@@ -64,6 +64,7 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
  }else if(command.type==='life.preferences')s.life.preferences=lifePreferences.parse(command.payload);
  else if(command.type==='life.save'){
   const p=z.object({table,record:z.unknown()}).parse(command.payload),r=schemas[p.table].parse(p.record);r.deletedAt=null;
+  if(p.table==='entries'&&((r as Entry).progressOnly||s.life.entries.some(e=>e.id===r.id&&e.progressOnly)))throw Error('请从记录进度入口修改，保留原投入。');
   if(p.table==='entries'){
    const e=r as Entry,source=s.life[refTable[e.kind]].find(x=>x.id===e.refId&&!x.deletedAt);if(!source)throw new Error('请先创建对应的课程、书籍或训练。');
    if(e.page!==undefined){if(e.kind!=='reading'||!('total' in source)||e.page>source.total!)throw Error('页码须为 0 到书籍总页数之间的整数。');e.units=0;}
@@ -84,9 +85,9 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
   if(p.table==='transactions'||p.table==='bills'){const value=r as {bucket:string};if(value.bucket!=='other'&&s.life.budgets.some(b=>b.id===value.bucket&&b.deletedAt)&&!(rows(p.table).some(old=>old.id===r.id&&(old as unknown as {bucket:string}).bucket===value.bucket)))throw new Error('预算已归档，请选择其他预算。');}
   upsert(p.table,r);
  }else if(command.type==='life.remove'||command.type==='life.restore'){
-  const p=z.object({table,id:z.string()}).parse(command.payload);let r=rows(p.table).find(x=>x.id===p.id);if(!r&&p.table==='budgets'){const legacy=financeBudgets(s).find(b=>b.id===p.id);if(legacy){s.life.budgets.push(legacy);r=legacy;}}if(!r)throw new Error('记录不存在。');if(command.type==='life.remove'&&p.table==='courses'&&(learningRows(s).some(x=>x.owner===p.id)||s.life.courses.some(c=>c.id===p.id&&c.initial>0)||s.life.entries.some(e=>e.kind==='german'&&e.refId===p.id&&e.units>0)))throw Error('仍有任务、记录或模板归属此子项，请先检查并重新关联。');r.deletedAt=command.type==='life.remove'?now:null;
+  const p=z.object({table,id:z.string(),preserveTime:z.boolean().optional()}).parse(command.payload);let r=rows(p.table).find(x=>x.id===p.id);if(!r&&p.table==='budgets'){const legacy=financeBudgets(s).find(b=>b.id===p.id);if(legacy){s.life.budgets.push(legacy);r=legacy;}}if(!r)throw new Error('记录不存在。');if(command.type==='life.remove'&&p.table==='courses'&&(learningRows(s).some(x=>x.owner===p.id)||s.life.courses.some(c=>c.id===p.id&&c.initial>0)||s.life.entries.some(e=>e.kind==='german'&&e.refId===p.id&&e.units>0)))throw Error('仍有任务、记录或模板归属此子项，请先检查并重新关联。');r.deletedAt=command.type==='life.remove'?now:null;
   if(p.table==='transactions'){const expense=r as z.infer<typeof transactionSchema>;const reminder=s.tasks.find(t=>expense.billKey&&t.id==='bill:'+expense.billKey&&!t.deletedAt);if(reminder){reminder.progress=r.deletedAt?0:100;reminder.completedAt=r.deletedAt?null:now;}}
-  if(p.table==='entries'){const e=r as Entry,t=s.tasks.find(x=>x.id===e.taskId);if(t?.id==='activity:'+e.id&&!s.life.entries.some(x=>x.id!==e.id&&!x.deletedAt&&x.taskId===t.id)){t.deletedAt=r.deletedAt;}}
+  if(p.table==='entries'){const e=r as Entry,t=s.tasks.find(x=>x.id===e.taskId);if(p.preserveTime&&t)e.progressOnly=true;if(!e.progressOnly&&t?.id==='activity:'+e.id&&!s.life.entries.some(x=>x.id!==e.id&&!x.deletedAt&&x.taskId===t.id)){t.deletedAt=r.deletedAt;}}
  }else if(command.type==='life.checkin'){
   const p=z.object({habitId:z.string(),date:z.string(),value:z.number().min(0),note:z.string().optional()}).parse(command.payload),h=s.life.habits.find(x=>x.id===p.habitId&&!x.deletedAt);if(!h)throw new Error('习惯不存在。');if(p.date<h.start)throw new Error('打卡日期不能早于习惯开始日期。');const old=s.life.checkins.find(x=>x.habitId===p.habitId&&x.date===p.date);const record=checkinSchema.parse({...old,id:old?.id||newId(),...p,deletedAt:null});if(old)Object.assign(old,record);else s.life.checkins.push(record);
  }else if(command.type==='life.bill.plan'||command.type==='life.bill.pay'){
