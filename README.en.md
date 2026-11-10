@@ -10,6 +10,11 @@ Daily in Order is a personal workspace with Chinese, English and German interfac
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
+**Current production release: v0.15.0 (2026-11-10).** The owner-approved `workbench-review` build was promoted unchanged to production. It includes the accumulated monthly/weekly planning, split schedules, learning assignments, three task-pool categories and daily-list gestures. Switch Today to **List** to swipe left to complete, swipe right to the next day, tap to edit and drag the handle to reorder. The release updates application files only; preview and production records remain isolated.
+
+<details>
+<summary>Development history (preview statuses below describe their original stage; these features are now included in v0.15.0)</summary>
+
 **v0.8.2 released:** Switch between Chinese, English and German beside the Settings heading; your choice is remembered on this device. The workspace no longer has a language bar at the top. Navigation scrolls independently, with avatar, name and Settings combined in one bottom entry. Promoted unchanged to production on 2026-11-06 after preview approval, without copying preview data.
 
 **v0.8.3 preview:** Project modules start collapsed while keeping completion counts and progress visible. Click a module heading to expand or collapse it, or use Expand all / Collapse all. Adding a task opens its module. Expansion choices remain while navigating within the current workspace session. Production remains on v0.8.2.
@@ -41,6 +46,9 @@ This repository contains application source, tests and deployment scripts. It do
 **v0.9.1 preview:** Reading logs now accept the page reached instead of a page increment. Completing a task linked to a book can record the same checkpoint without creating another task or duplicating time; leave it blank to add later. Legacy increments remain compatible, and edits, deletion or restoration recalculate book progress. Production is unchanged.
 
 Learning, reading and workout logs filter linked task choices by the selected date. Changing the date clears an unsaved task selection; editing an existing log preserves its original task link.
+
+
+</details>
 
 ## Screenshots
 
