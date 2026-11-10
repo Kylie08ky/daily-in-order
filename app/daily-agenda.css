@@ -26,6 +26,22 @@
 :root .app-shell .home-dashboard .dashboard-overview .note>small{display:none}
 :root .app-shell .home-dashboard .overdue-entry{margin-top:16px}
 .agenda-list-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable;padding-right:8px}
+.task-gesture-hint{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;padding:9px 12px;margin-bottom:10px;border-radius:8px;background:#c9d6b718;color:inherit;font-size:11px;flex:none}
+.task-gesture-hint span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.task-gesture-hint svg{width:13px;height:13px}
+.swipe-task{position:relative;overflow:hidden;isolation:isolate;touch-action:pan-y}
+.swipe-task .task-body{user-select:none;-webkit-user-select:none}
+.swipe-foreground{position:relative;z-index:1;transition:transform .18s ease}
+.swipe-task.swiping .swipe-foreground{transition:none;background:#434d3c;border-radius:9px;box-shadow:0 2px 8px #0002}
+.swipe-task.swiping .task-body{user-select:none;cursor:grabbing}
+.swipe-reveal{position:absolute;inset:4px 0;display:flex;align-items:center;gap:6px;padding:0 14px;border-radius:9px;font-size:12px;font-weight:600;color:#233a2c;background:#b8d2b0}
+.swipe-reveal.complete{justify-content:flex-end}
+.swipe-reveal.defer{justify-content:flex-start;background:#dce2c9}
+.swipe-reveal svg{width:16px;height:16px}
+:root .app-shell .task-row .task-sort-handle{touch-action:none;cursor:grab}
+:root .app-shell .task-row .task-sort-handle.sorting{cursor:grabbing;background:#c9d6b7;color:#253b2e}
+.swipe-task.sort-target{box-shadow:inset 0 -3px #b8d2b0}
+@media(prefers-reduced-motion:reduce){.swipe-foreground{transition:none}}
 .agenda-filters{display:flex;gap:5px;flex:none;margin:0 0 8px}
 :root .app-shell .agenda-filters button{border:0;background:transparent;color:#dbe3d1;padding:7px 10px;font-size:12px;border-radius:7px}
 :root .app-shell .agenda-filters button[aria-pressed=true]{background:#d3ddc1;color:#2e3d2c}

@@ -2238,5 +2238,21 @@ export const german:Record<string,string> = {
   "可选云端 AI 整理，先确认发送文字，再检查草稿；没有填写的实际投入不会自动补写。": "Optionale Cloud-KI: Übermittlung bestätigen und Entwürfe vor dem Speichern prüfen. Tatsächlicher Aufwand wird nie erfunden.",
   "AI 整理仅在你同意后发送本次输入与选中的草稿给 Google AI，不会自动发送已有任务、笔记或财务记录。普通清单解析在本机完成。": "Die KI sendet nach Zustimmung nur diese Eingabe und den ausgewählten Entwurf an Google AI. Bestehende Aufgaben, Notizen und Finanzdaten werden nicht automatisch gesendet. Einfache Listen werden lokal verarbeitet.",
   "Google AI 数据使用说明": "Datennutzung durch Google AI",
-  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "Die App-Prüfung ist fehlgeschlagen. Versuche es später im gewohnten Browser oder nutze die Listeneingabe. Dieser Text wird nicht an die KI gesendet."
+  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "Die App-Prüfung ist fehlgeschlagen. Versuche es später im gewohnten Browser oder nutze die Listeneingabe. Dieser Text wird nicht an die KI gesendet.",
+ "左滑完成": "Nach links: erledigen",
+ "右滑到次日": "Nach rechts: nächster Tag",
+ "点击编辑": "Antippen zum Bearbeiten",
+ "手柄排序": "Am Griff sortieren",
+ "松开完成": "Loslassen zum Erledigen",
+ "松开移到次日": "Loslassen: nächster Tag",
+ "移到次日": "Auf nächsten Tag verschieben",
+ "移到次日：": "Auf nächsten Tag verschieben: ",
+ "拖动排序；方向键上下移动": "Ziehen zum Sortieren; Pfeiltasten hoch/runter",
+ "已移到 {0}，历史投入保持不变。": "Auf {0} verschoben. Erfasste Zeit bleibt unverändert.",
+ "已完成事项无需顺延。": "Erledigte Aufgaben müssen nicht verschoben werden.",
+ "请先结束当前专注，再顺延安排。": "Beende zuerst die aktuelle Fokussitzung.",
+ "关联时段请在日历中一起调整。": "Verknüpfte Zeitblöcke gemeinsam im Kalender anpassen.",
+ "这一天没有可顺延的安排。": "An diesem Tag gibt es nichts zu verschieben.",
+ "当日事项，轻松操作": "Tagesaufgaben einfach bedienen",
+ "左滑完成、右滑到次日，点击编辑，拖动手柄排序；历史投入保持原日期。": "Links wischen zum Erledigen, rechts zum Verschieben, antippen zum Bearbeiten und am Griff sortieren. Erfasste Zeit behält ihr ursprüngliches Datum."
 };

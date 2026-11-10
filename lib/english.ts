@@ -2238,5 +2238,21 @@ export const english:Record<string,string> = {
   "可选云端 AI 整理，先确认发送文字，再检查草稿；没有填写的实际投入不会自动补写。": "Optional cloud AI: consent before sending text, review drafts before saving. Actual work is never invented.",
   "AI 整理仅在你同意后发送本次输入与选中的草稿给 Google AI，不会自动发送已有任务、笔记或财务记录。普通清单解析在本机完成。": "AI organization sends only this input and selected draft to Google AI after consent. Existing tasks, notes and finances are not automatically sent. Plain list parsing runs locally.",
   "Google AI 数据使用说明": "Google AI data usage",
-  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "App verification failed. Try your usual browser later or use list entry. This text will not be sent to AI."
+  "应用安全验证未通过。请稍后用常用浏览器重试，或先使用清单录入；不会发送本次文字给 AI。": "App verification failed. Try your usual browser later or use list entry. This text will not be sent to AI.",
+ "左滑完成": "Swipe left to complete",
+ "右滑到次日": "Swipe right to next day",
+ "点击编辑": "Tap to edit",
+ "手柄排序": "Drag to reorder",
+ "松开完成": "Release to complete",
+ "松开移到次日": "Release for next day",
+ "移到次日": "Move to next day",
+ "移到次日：": "Move to next day: ",
+ "拖动排序；方向键上下移动": "Drag to reorder; use Up/Down keys",
+ "已移到 {0}，历史投入保持不变。": "Moved to {0}. Recorded time is unchanged.",
+ "已完成事项无需顺延。": "Completed tasks do not need deferring.",
+ "请先结束当前专注，再顺延安排。": "Finish the current focus session before deferring.",
+ "关联时段请在日历中一起调整。": "Adjust related time blocks together in the calendar.",
+ "这一天没有可顺延的安排。": "No schedule on this day to defer.",
+ "当日事项，轻松操作": "Daily tasks, simple gestures",
+ "左滑完成、右滑到次日，点击编辑，拖动手柄排序；历史投入保持原日期。": "Swipe left to complete, right to defer, tap to edit and drag the handle to reorder. Recorded time keeps its original date."
 };

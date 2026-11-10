@@ -1,3 +1,4 @@
+import {deferTask} from './defer-task.ts';
 import {applyTemplateCommand} from './resident-tasks.ts';
 import {applyTaskPlan,planForDate,calendarTasks} from './task-plans.ts';
 import {applyPlanningSchedule} from './planning-workflow.ts';
@@ -14,6 +15,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type==='task.defer')return deferTask(input,command);
  if(command.type.startsWith('template.'))return applyTemplateCommand(input,command,instant);
  if(command.type.startsWith('task.plan.'))return applyTaskPlan(input,command);
  if(command.type==='planning.schedule')return applyPlanningSchedule(input,command);

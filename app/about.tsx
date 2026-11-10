@@ -5,6 +5,7 @@ import BrandMark from './brand-mark';
 declare const __APP_VERSION__:string;
 type Update={date:string;title:string;items:string[]};
 const recent:Update[]=[
+ {date:'2026-11-10',title:'当日事项，轻松操作',items:['左滑完成、右滑到次日，点击编辑，拖动手柄排序；历史投入保持原日期。']},
  {date:'2026-11-10',title:'三类任务，按需安排',items:['长期与阶段性常驻按需生成独立执行记录，支持暂停、归档和同日防重复。']},
  {date:'2026-11-09',title:'一个任务，多天推进',items:['同一任务支持跨天、跨周分段安排，专注与补记仍汇总到原任务。']},
  {date:'2026-11-08',title:'学习模块与独立进度',items:['学习子项按模块汇总实际时长，可设置模块周目标，分别查看周期时长和累计数量。']},
