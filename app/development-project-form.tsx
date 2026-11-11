@@ -1,0 +1,9 @@
+import {useState} from 'react';
+import type {State,Command} from '../lib/model';
+import {t as ui} from '../lib/i18n';
+type Project=State['developmentProjects'][number];
+export default function DevelopmentProjectForm({state,projectId,templateId='',value,mutate,busy,done,cancel}:{state:State;projectId:string;templateId?:string;value?:Project;mutate:(c:Command)=>Promise<boolean>;busy:boolean;done:(id:string)=>void;cancel:()=>void}){
+ const [id]=useState(()=>value?.id||crypto.randomUUID()),[name,setName]=useState(value?.name||''),[status,setStatus]=useState<Project['status']>(value?.status||'ongoing'),[source,setSource]=useState(value?.templateId||templateId),[error,setError]=useState('');
+ const save=async()=>{setError('');if(!name.trim()){setError(ui('请填写名称'));return;}if(await mutate({type:'development.save',payload:{id,projectId,templateId:source,name,status}}))done(id);else setError(ui('保存未完成，请检查提示后重试。'));};
+ return <section className="concrete-editor" aria-label={ui(value?'编辑具体项目':'新增具体项目')}><div className="fields cols-2"><label>{ui('具体项目名称')}<input value={name} maxLength={160} onChange={e=>setName(e.target.value)}/></label><label>{ui('所属常驻入口')}<select disabled={!!value} value={source} onChange={e=>setSource(e.target.value)}><option value="">{ui('不关联常驻入口')}</option>{state.templates.filter(t=>t.task.projectId===projectId).map(t=><option key={t.id} value={t.id}>{t.task.title}</option>)}</select></label><label>{ui('项目状态')}<select value={status} onChange={e=>setStatus(e.target.value as Project['status'])}>{(['ongoing','paused','ended'] as const).map((v,i)=><option value={v} key={v}>{ui(['进行中','暂停','结束'][i])}</option>)}</select></label></div>{error&&<p role="alert">{error}</p>}<div className="row"><button type="button" disabled={busy} onClick={cancel}>{ui('取消')}</button><button type="button" className="primary" disabled={busy} onClick={()=>void save()}>{ui('保存具体项目')}</button></div></section>;
+}

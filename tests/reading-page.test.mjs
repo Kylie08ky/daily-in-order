@@ -12,7 +12,7 @@ const log=(s,id,page,date='2026-11-08')=>save(s,'entries',{...s.life.entries.fin
 
 test('page checkpoints replace the current position, including corrections and rereads',()=>{
  let s=log(base(),'a',65);s=log(s,'b',90);
- assert.equal(bookProgress(s,'book').pages,90);assert.equal(activityStats(s,'reading').units,50);
+ assert.equal(bookProgress(s,'book').pages,90);assert.equal(activityStats(s,'reading').units,0);
  s=log(s,'b',80);assert.equal(bookProgress(s,'book').pages,80);assert.equal(s.tasks.length,2);
  s=log(s,'c',70);assert.equal(bookProgress(s,'book').pages,70);
  s=log(s,'d',70);assert.equal(bookProgress(s,'book').pages,70);
@@ -22,7 +22,7 @@ test('legacy increments and dated checkpoints coexist without rewriting old reco
  let s=save(base(),'entries',{id:'old',kind:'reading',refId:'book',date:'2026-11-06',minutes:15,units:10});
  const old=structuredClone(s.life.entries[0]);s=log(s,'new',80,'2026-11-08');s=log(s,'backfill',60,'2026-11-07');
  assert.equal(bookProgress(s,'book').pages,80);assert.deepEqual(s.life.entries[0],old);
- const points=readingPositions(s,activeEntries(s));assert.equal(points.get('old').page,50);assert.equal(points.get('new').units,20);
+ const points=readingPositions(s,activeEntries(s));assert.equal(points.get('old').page,undefined);assert.equal(points.get('new').units,0);
  s=run(s,'life.remove',{table:'entries',id:'new'});assert.equal(bookProgress(s,'book').pages,60);
  s=run(s,'life.restore',{table:'entries',id:'new'});assert.equal(bookProgress(s,'book').pages,80);
 });

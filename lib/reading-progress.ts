@@ -3,18 +3,9 @@ import type {State,Task} from './model.ts';
 import {entrySchema,type Entry} from './life-schema.ts';
 
 /** New records are page checkpoints; old records retain their incremental meaning. */
-export function readingPositions(s:State,entries:Entry[]){
- const positions=new Map<string,{page:number;units:number}>();
- const byBook=new Map<string,Entry[]>();
- for(const entry of entries)if(entry.kind==='reading'){const group=byBook.get(entry.refId)??[];group.push(entry);byBook.set(entry.refId,group);}
- for(const book of s.life.books){
-  let page=book.initial;
-  for(const entry of (byBook.get(book.id)??[]).sort((a,b)=>progressRecordOrder(s,a,b))){
-   const next=entry.page??page+entry.units;
-   positions.set(entry.id,{page:next,units:entry.page===undefined?entry.units:entry.progressOnly?(entry.startPage===undefined?0:Math.max(0,next-entry.startPage)):Math.max(0,next-page)});
-   page=next;
-  }
- }
+export function readingPositions(_s:State,entries:Entry[]){
+ const positions=new Map<string,{page:number|undefined;units:number}>();
+ for(const e of entries)if(e.kind==='reading')positions.set(e.id,{page:e.page,units:e.page===undefined?e.units:e.startPage===undefined?0:Math.max(0,e.page-e.startPage)});
  return positions;
 }
 

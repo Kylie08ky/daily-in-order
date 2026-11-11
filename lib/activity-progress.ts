@@ -46,7 +46,7 @@ export function applyActivityProgress(input:State,command:Command,instant=new Da
   if(after>c.total!&&after>before)throw Error('累计完成数量不能超过目标总量。');
  }
  const outcomeIds=new Set<string>();
- for(const o of p.outcomes){if(outcomeIds.has(o.id))throw Error('成果 ID 不能重复。');outcomeIds.add(o.id);if(o.projectId&&!s.projects.some(x=>x.id===o.projectId&&!x.deletedAt))throw Error('请选择有效项目。');const old=t.outcomes?.find(x=>x.id===o.id);if(old&&(old.sessionId||'')!==(p.sessionId||''))throw Error('请保留成果的原投入关联。');o.sessionId=p.sessionId;o.date=old?.date||p.date;o.deletedAt=null;}
+ for(const o of p.outcomes){if(outcomeIds.has(o.id))throw Error('成果 ID 不能重复。');outcomeIds.add(o.id);if(o.projectId&&!s.projects.some(x=>x.id===o.projectId&&!x.deletedAt))throw Error('请选择有效项目。');const old=t.outcomes?.find(x=>x.id===o.id);if(old&&(old.sessionId||'')!==(p.sessionId||''))throw Error('请保留成果的原投入关联。');if(o.developmentId){const child=(s.developmentProjects||[]).find(x=>x.id===o.developmentId);if(!child||child.projectId!==o.projectId)throw Error('具体项目与所属项目不一致。');}o.sessionId=p.sessionId;o.date=old?.date||p.date;o.deletedAt=null;}
  t.outcomes=[...(t.outcomes||[]).map(o=>(o.sessionId||'')===(p.sessionId||'')&&!p.outcomes.some(x=>x.id===o.id)?{...o,deletedAt:o.deletedAt||now}:o).filter(o=>!p.outcomes.some(x=>x.id===o.id)),...p.outcomes];
  t.recordType=p.recordType;
  // Inherit one explicit primary association. Multiple tags do not duplicate time.
