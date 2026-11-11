@@ -1,5 +1,6 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+ '当前应用不支持这份记录的数据格式。请更新应用后重试；现有记录和待同步操作已保留，不要清空或降级。': 'This app cannot read this data format. Update the app and retry. Existing records and pending operations are retained; do not clear or downgrade them.',
  '记录进展：填写数量、页码、成果或实际用时': 'Record progress: quantities, pages, outcomes or actual time',
  "项目已结束": "Project ended",
  "拖到日历即可安排": "Drag to schedule",

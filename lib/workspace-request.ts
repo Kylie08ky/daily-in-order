@@ -1,11 +1,13 @@
+import {SchemaCompatibilityError} from './schema-version';
 import type {User} from 'firebase/auth';
 import {z} from 'zod';
 import {auth,db,dataSpace} from './firebase';
 import {createCloudStore,RevisionConflict} from './cloud-store';
 import type {Snapshot} from './offline';
-export type SyncIssue={kind:'connection'|'timeout'|'auth'|'service'|'response'|'storage'|'local';message:string;retryable:boolean};
+export type SyncIssue={kind:'connection'|'timeout'|'auth'|'service'|'response'|'storage'|'local'|'compatibility';message:string;retryable:boolean};
 export class WorkspaceRequestError extends Error {readonly issue:SyncIssue;constructor(issue:SyncIssue){super(issue.message);this.issue=issue;}}
 export function syncIssue(error:unknown):SyncIssue {
+ if(error instanceof SchemaCompatibilityError)return {kind:'compatibility',message:error.message,retryable:false};
  if(error instanceof WorkspaceRequestError)return error.issue;
  if(error instanceof DOMException)return {kind:'storage',message:'本机存储不可用或空间不足，请先备份记录。',retryable:false};
  const code=(error as {code?:string})?.code||'';

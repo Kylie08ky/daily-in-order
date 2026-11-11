@@ -1,3 +1,4 @@
+import {CLOUD_ENVELOPE_VERSION,assertEnvelopeVersion} from './schema-version.ts';
 import {initializePreviewModules} from './preview-defaults.ts';
 import {doc,runTransaction,type Firestore,type Transaction,type DocumentData} from 'firebase/firestore';
 import {FirebaseError} from 'firebase/app';
@@ -14,6 +15,7 @@ export function createCloudStore(db:Firestore,identity:Identity,assertSession:()
  const root=workspaceRoot(space),uid=identity.uid,meta=doc(db,root,uid,'workspace','current'),part=(index:number)=>doc(db,root,uid,'chunks',String(index));
  const read=async(tx:Transaction,data:DocumentData):Promise<Snapshot>=>{
   if(data.ownerId!==uid||!Number.isInteger(data.chunks)||data.chunks<1||data.chunks>64||!Number.isInteger(data.revision))throw new Error('云端记录格式不完整，请保留本机备份。');
+  assertEnvelopeVersion(data.schemaVersion);
   const chunks=await Promise.all(Array.from({length:data.chunks},(_,i)=>tx.get(part(i))));
   if(chunks.some(c=>!c.exists()||c.data().revision!==data.revision||c.data().ownerId!==uid))throw new FirebaseError('aborted','云端记录正在更新，请重新读取一致版本。');
   return {ownerId:uid,revision:data.revision,updatedAt:data.updatedAt,state:decodeState(chunks.map(c=>c.data()!.data))};
@@ -22,7 +24,7 @@ export function createCloudStore(db:Firestore,identity:Identity,assertSession:()
   assertSession();const chunks=encodeState(state),updatedAt=new Date().toISOString();
   chunks.forEach((data,i)=>tx.set(part(i),{ownerId:uid,revision,data}));
   for(let i=chunks.length;i<previousChunks;i++)tx.delete(part(i));
-  tx.set(meta,{ownerId:uid,revision,updatedAt,chunks:chunks.length,schemaVersion:1});
+  tx.set(meta,{ownerId:uid,revision,updatedAt,chunks:chunks.length,schemaVersion:CLOUD_ENVELOPE_VERSION});
   return {ownerId:uid,state,revision,updatedAt};
  };
  const load=async():Promise<Snapshot>=>{assertSession();return runTransaction(db,async tx=>{

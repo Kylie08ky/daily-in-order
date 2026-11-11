@@ -1,9 +1,11 @@
+import {assertStateVersion} from './schema-version.ts';
 import {type State,type Command} from './model.ts';
 import {applyOperation,type Operation} from './operation.ts';
 export type Snapshot={ownerId:string;state:State;revision:number;updatedAt:string};
 export type DeviceRecord={generation:number;base:Snapshot;queue:Operation[];conflict?:Snapshot;problem?:string};
-export function projected(r:DeviceRecord):Snapshot {return {...r.base,state:r.queue.reduce((s,o)=>applyOperation(s,o),r.base.state)};}
+export function projected(r:DeviceRecord):Snapshot {assertStateVersion(r.base.state);return {...r.base,state:r.queue.reduce((s,o)=>applyOperation(s,o),r.base.state)};}
 export function receive(r:DeviceRecord|undefined,remote:Snapshot):DeviceRecord {
+ assertStateVersion(remote.state);if(r)assertStateVersion(r.base.state);
  if(!r)return {generation:0,base:remote,queue:[]};
  if(r.base.ownerId!==remote.ownerId)throw new Error('登录账号与本机记录不同。请先导出本机备份，再清除此设备缓存后切换账号。');
  if(r.problem&&r.queue.length)return {...r,conflict:remote};

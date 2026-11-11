@@ -1,5 +1,6 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+ '当前应用不支持这份记录的数据格式。请更新应用后重试；现有记录和待同步操作已保留，不要清空或降级。': 'Diese App unterstützt dieses Datenformat nicht. Bitte die App aktualisieren und erneut versuchen. Vorhandene Daten und ausstehende Änderungen bleiben erhalten; nicht löschen oder herabstufen.',
  '记录进展：填写数量、页码、成果或实际用时': 'Fortschritt: Menge, Seiten, Ergebnisse oder Ist-Zeit erfassen',
  "项目已结束": "Projekt beendet",
  "拖到日历即可安排": "Zum Planen ziehen",
