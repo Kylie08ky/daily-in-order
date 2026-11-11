@@ -32,7 +32,7 @@ export function effectiveLearningUnits(entries:Entry[]){
  }
  return result;
 }
-export function taskActivityMinutes(s:State,t:Task,kind:Entry['kind'],fallback:string,refId:string,from:string,to:string){
+export function taskActivitySources(s:State,t:Task,kind:Entry['kind'],fallback:string){
  const entries=s.life.entries.filter(e=>!e.deletedAt&&e.taskId===t.id&&e.kind===kind);
  const modern=entries.filter(e=>e.progressOnly),whole=scopeDates(s,t),chunks:Array<{scope:string;dates:Map<string,number>}>=[];
  const residual=new Map(whole);
@@ -40,22 +40,23 @@ export function taskActivityMinutes(s:State,t:Task,kind:Entry['kind'],fallback:s
   const dates=scopeDates(s,t,session.id);chunks.push({scope:session.id,dates});
   for(const [d,n] of dates)residual.set(d,Math.max(0,(residual.get(d)||0)-n));
  }
- chunks.push({scope:'',dates:residual});let result=0;
+ chunks.push({scope:'',dates:residual});
+ const result:Array<{sessionId:string;date:string;minutes:number;refId:string;shared:boolean;originalMinutes:number}>=[];
  for(const chunk of chunks){
   const specific=modern.filter(e=>e.sessionId===chunk.scope&&!!chunk.scope),chosen=specific.length?specific:modern.filter(e=>!e.sessionId);
   const scopeTotal=sumMinutes(specific.length?scopeDates(s,t,chunk.scope):whole);
   const allocations=chosen.filter(e=>e.allocation!=null),allocated=allocations.reduce((n,e)=>n+(e.allocation||0),0),scale=allocated>scopeTotal&&allocated?scopeTotal/allocated:1;
-  const inRange=[...chunk.dates].reduce((n,[d,m])=>n+(d>=from&&d<=to?m:0),0);
-  if(!refId){result+=inRange;continue;}
-  if(allocations.length){
-   const share=allocations.filter(e=>(e.timeRefId||e.refId)===refId).reduce((n,e)=>n+(e.allocation||0)*scale,0);
-   result+=scopeTotal?inRange*share/scopeTotal:0;
-  }else{
-   const owner=chosen.find(e=>e.timeRefId)?.timeRefId||chosen[0]?.refId||fallback;
-   if(owner===refId)result+=inRange;
-  }
+  const shares=new Map<string,number>();
+  if(allocations.length){for(const e of allocations){const id=e.timeRefId||e.refId;shares.set(id,(shares.get(id)||0)+(scopeTotal?(e.allocation||0)*scale/scopeTotal:0));}
+   // A legacy incomplete allocation must not hide the unallocated remainder.
+   const remaining=Math.max(0,1-[...shares.values()].reduce((a,b)=>a+b,0));if(remaining)shares.set(fallback,(shares.get(fallback)||0)+remaining);
+  }else shares.set(chosen.find(e=>e.timeRefId)?.timeRefId||chosen[0]?.refId||fallback,1);
+  for(const [date,minutes] of chunk.dates)for(const [refId,share] of shares)if(minutes*share>1e-9)result.push({sessionId:chunk.scope,date,minutes:minutes*share,refId,shared:shares.size>1,originalMinutes:minutes});
  }
  return result;
+}
+export function taskActivityMinutes(s:State,t:Task,kind:Entry['kind'],fallback:string,refId:string,from:string,to:string){
+ return taskActivitySources(s,t,kind,fallback).filter(x=>(!refId||x.refId===refId)&&x.date>=from&&x.date<=to).reduce((n,x)=>n+x.minutes,0);
 }
 
 export function progressRecordOrder(s:State,a:Entry,b:Entry){

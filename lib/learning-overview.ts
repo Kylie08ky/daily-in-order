@@ -1,3 +1,4 @@
+import {learningSources} from './learning-sources.ts';
 import {taskActivityMinutes} from './progress-records.ts';
 import type {State} from './model.ts';
 import {offsetDate,startOfWeek} from './model.ts';
@@ -15,15 +16,7 @@ export function learningRange(date:string,period:LearningPeriod,weekStart:'monda
 // and focus sessions describe the same task actual, so never add them twice.
 export function learningInvestment(s:State,from:string,to:string){
  const courses=s.life.courses.filter(c=>!c.deletedAt);
- const minutes=new Map(courses.map(c=>[c.id,0]));
- for(const t of s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly)){
-  const id=germanTarget(s,t)?.id;
-  if(id)for(const c of courses)minutes.set(c.id,minutes.get(c.id)!+taskActivityMinutes(s,t,'german',id,c.id,from,to));
- }
- for(const e of s.life.entries.filter(e=>!e.deletedAt&&!e.taskId&&e.kind==='german'&&e.date>=from&&e.date<=to)){
-  const id=e.timeRefId||e.refId;if(minutes.has(id))minutes.set(id,minutes.get(id)!+e.minutes);
- }
- const items=courses.map(c=>({...c,minutes:minutes.get(c.id)!}));
+ const items=courses.map(c=>({...c,minutes:learningSources(s,c.id,from,to).total}));
  const categories=[...new Set(courses.map(c=>c.category))].map(key=>({key,label:learningCategoryLabel(key),minutes:items.filter(c=>c.category===key).reduce((n,c)=>n+c.minutes,0)}));
  return {items,categories,total:items.reduce((n,c)=>n+c.minutes,0)};
 }

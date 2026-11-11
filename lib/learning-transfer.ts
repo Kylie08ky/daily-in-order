@@ -34,6 +34,7 @@ export function transferKeys(s:State,keys:LearningSelection[]){
  for(let k of keys){
   if(k.kind==='entry'){const e=s.life.entries.find(e=>e.id===k.id&&!e.deletedAt&&e.kind==='german');if(!e)throw Error('学习记录不存在。');if(e.taskId){const task=s.tasks.find(t=>t.id===e.taskId&&!t.deletedAt);if(!task)throw Error('所选事项不存在或属于其他生活模块。');if(!task.activity||task.activity.kind==='german')k={kind:'task',id:e.taskId};else for(const entry of s.life.entries.filter(x=>!x.deletedAt&&x.kind==='german'&&x.taskId===e.taskId))add({kind:'entry',id:entry.id});}}
   association(s,k);add(k);
+  if(k.kind==='task')for(const e of s.life.entries.filter(e=>!e.deletedAt&&e.taskId===k.id&&e.kind==='german'&&e.progressOnly))add({kind:'entry',id:e.id});
   if(k.kind==='series')for(const t of s.tasks.filter(t=>t.seriesId===k.id&&!t.deletedAt&&(!t.activity||t.activity.kind==='german')&&!t.progress&&!t.actual&&!s.sessions.some(x=>x.taskId===t.id&&!x.deletedAt)&&!s.life.entries.some(x=>x.taskId===t.id&&!x.deletedAt)))add({kind:'task',id:t.id});
  }
  return [...result.values()];

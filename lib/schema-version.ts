@@ -1,5 +1,5 @@
 // State format and Firestore's chunk envelope are independent protocols.
-export const STATE_SCHEMA_VERSION = 12;
+export const STATE_SCHEMA_VERSION = 13;
 export const MIN_STATE_SCHEMA_VERSION = 1;
 export const CLOUD_ENVELOPE_VERSION = 1;
 

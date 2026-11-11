@@ -1,3 +1,4 @@
+import {applyInvestmentEdit} from './investment-edits.ts';
 import {applyDevelopmentCommand,applyReadingCheckpoint} from './development-projects.ts';
 import {applyActivityProgress} from './activity-progress.ts';
 import {deferTask} from './defer-task.ts';
@@ -17,6 +18,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type.startsWith('investment.'))return applyInvestmentEdit(input,command,instant);
  if(command.type==='development.save')return applyDevelopmentCommand(input,command);
  if(command.type==='reading.checkpoint')return applyReadingCheckpoint(input,command);
  if(command.type==='task.defer')return deferTask(input,command);

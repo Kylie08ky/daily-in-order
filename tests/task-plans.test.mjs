@@ -43,7 +43,7 @@ test('invalid segment changes and legacy commands cannot silently destroy split 
 test('same-day segments preserve independent identities and legacy snapshots upgrade without invented actuals',()=>{
  let s=slot(base(),'a','2026-11-09',60,'09:00');s=slot(s,'b','2026-11-09',60,'10:00');assert.equal(timelineItems(s,'2026-11-09',s.tasks).length,2);assert.equal(planningDays(s,'2026-11-09','2026-11-09')[0].total,120);
  s=slot(s,'a','2026-11-10',90,'11:00');assert.equal(calendarTasks(s).find(t=>t.planId==='b').start,'10:00');assert.equal(s.tasks[0].minutes,360);
- const old=base({date:'2026-11-09',minutes:60});old.schemaVersion=8;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,12);assert.equal(upgraded.tasks[0].plans,undefined);assert.equal(taskPlans(upgraded.tasks[0]).length,1);assert.equal(upgraded.tasks[0].actual,null);
+ const old=base({date:'2026-11-09',minutes:60});old.schemaVersion=8;const upgraded=validateState(old);assert.equal(upgraded.schemaVersion,13);assert.equal(upgraded.tasks[0].plans,undefined);assert.equal(taskPlans(upgraded.tasks[0]).length,1);assert.equal(upgraded.tasks[0].actual,null);
 });
 
 test('automatic arrangement respects existing split slots when allocating a different task',()=>{

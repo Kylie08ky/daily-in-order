@@ -20,6 +20,7 @@ export default function SessionEditor({session,timezone,busy,mutate,close}:{sess
   <details open={original.length===0||unplaced>0}><summary>{ui("补填时间 / 其他用时")}</summary><button type="button" onClick={()=>{setSpans(v=>[...v,{start:date+'T09:00',end:date+'T09:30',original:undefined}]);if(!spans.length){setUnknown(0);setUnknownChanged(true);}}}>＋{spans.length?ui("添加另一段起止时间"):ui("补填具体起止时间")}</button>
   <DurationInput label={spans.length?ui("另外未记起止的用时"):ui("这段投入用时")} value={unknown} max={1440} onChange={v=>{setUnknown(v);setUnknownChanged(true);}}/></details>
   <label>{ui("记录备注")}<input aria-label={ui("修改记录备注")} maxLength={1000} value={note} onChange={e=>setNote(e.target.value)}/></label>
+  <p className="hint">{ui('修正原投入段，不追加新记录。')}{ui('原实际用时')} {fmt(session.seconds/60)} → {fmt(Math.max(0,(!unknownChanged?unplaced:(unknown||0)*60)/60+spans.reduce((n,b)=>{try{return n+(Date.parse(localInstant(b.end,timezone))-Date.parse(localInstant(b.start,timezone)))/60000;}catch{return n;}},0)))}</p>
   {issue&&<p role="alert" className="inline-error">{ui(issue)}</p>}<div className="session-actions"><button type="button" onClick={close}>{ui("取消修改")}</button><button type="button" className="primary" onClick={()=>void save()}>{ui("保存这段修改")}</button></div></fieldset>
  </div>;
 }
