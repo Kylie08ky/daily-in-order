@@ -1,9 +1,10 @@
+import {currentEstimate} from './task-plans.ts';
 import type {State,Task} from './model.ts';
 
 export function progressSource(task:Task){return task.progressSource||(task.progress>0?'manual':'time');}
 export function refreshTimeProgress(task:Task){
  if(task.progress===100||progressSource(task)==='manual')return;
- task.progressSource='time';task.progress=task.minutes?Math.min(99,Math.round((task.actual||0)/task.minutes*100)):0;
+ task.progressSource='time';task.progress=currentEstimate(task)?Math.min(99,Math.round((task.actual||0)/currentEstimate(task)*100)):0;
 }
 export function addRecordedSeconds(state:State,task:Task,seconds:number){
  const before=state.sessions.filter(x=>x.taskId===task.id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0);

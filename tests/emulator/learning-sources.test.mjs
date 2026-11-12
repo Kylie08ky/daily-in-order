@@ -18,7 +18,7 @@ test('time sources, audit, retry and reassignment survive cloud reload without l
  await store.commit(op,revision);snap=await store.commit(op,revision);snap=await store.load();assert.equal(snap.state.tasks[0].actual,90);assert.equal(snap.state.investmentEdits.length,1);assert.equal(snap.state.sessions.length,2);
  const keys=[{kind:'task',id:'task'}],preview=previewTransfer(snap.state,keys,'commute');await run('learning.transfer',{id:'move',keys,toId:'commute',token:preview.token});
  assert.equal(learningSources(snap.state,'podcast','2026-11-09','2026-11-15').total,0);assert.equal(learningSources(snap.state,'commute','2026-11-09','2026-11-15').total,30);
- await run('learning.undo',{id:'move'});await run('investment.undo',{id:'correction'});snap=await store.load();assert.deepEqual(snap.state.sessions,original.sessions);assert.deepEqual(snap.state.tasks,original.tasks);assert.equal(snap.state.schemaVersion,15);
+ await run('learning.undo',{id:'move'});await run('investment.undo',{id:'correction'});snap=await store.load();assert.deepEqual(snap.state.sessions,original.sessions);assert.deepEqual(snap.state.tasks,original.tasks);assert.equal(snap.state.schemaVersion,16);
  assert.equal((await createCloudStore(db,identity,()=>{},'live').load()).state.tasks.length,0);
  }finally{await env.cleanup();}
 });

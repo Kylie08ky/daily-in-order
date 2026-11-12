@@ -1,4 +1,4 @@
-import {calendarTasks,taskPlans} from './task-plans.ts';
+import {calendarTasks,taskPlans,remainingMinutes} from './task-plans.ts';
 import {z} from 'zod';
 import {type State,type Task,type Command,capacity,liveTasks,finished,offsetDate,minuteOf,validateState,assertTask,dateString} from './model.ts';
 import {calendarOccupancy} from './time-metrics.ts';
@@ -11,7 +11,7 @@ export function monthReview(s:State,month:string){
  const projects=s.projects.filter(p=>!p.deletedAt&&(tasks.some(t=>t.projectId===p.id)||metrics?.goals.some(g=>g.projectId===p.id&&g.actual<g.minutes))).map(p=>{const goal=metrics?.goals.find(g=>g.projectId===p.id),items=tasks.filter(t=>t.projectId===p.id);return {project:p,tasks:items,remaining:goal?Math.max(0,goal.minutes-goal.actual):items.reduce((n,t)=>n+remainingTask(t),0),target:goal?.minutes??0,actual:goal?.actual??0};});
  return {previous,projects,independent:tasks.filter(t=>!t.projectId)};
 }
-export function remainingTask(t:Task){return Math.max(0,t.progressSource==='manual'?Math.round(t.minutes*(1-t.progress/100)):t.minutes-(t.actual||0));}
+export function remainingTask(t:Task){return t.remainingEstimate?remainingMinutes(t):Math.max(0,t.progressSource==='manual'?Math.round(t.minutes*(1-t.progress/100)):t.minutes-(t.actual||0));}
 export function planningDays(s:State,from:string,to:string,exclude=''){
  if(!dateString.safeParse(from).success||!dateString.safeParse(to).success||from>to)return [];
  const result=[];for(let date=from;date<=to;date=offsetDate(date,1)){const tasks=calendarTasks(s).filter(t=>t.date===date&&(!exclude||(t.id!==exclude&&t.parentId!==exclude))),used=calendarOccupancy(tasks),budget=capacity(s,date)*60;result.push({date,tasks:tasks.sort((a,b)=>(a.start||'99').localeCompare(b.start||'99')),budget,...used,remaining:Math.max(0,budget-used.total),over:Math.max(0,used.total-budget)});}return result;

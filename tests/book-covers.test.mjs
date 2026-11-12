@@ -28,5 +28,5 @@ test('adding, replacing and removing covers preserves reading history, task IDs 
  for(const cover of [{url:'https://example.org/edition-a.jpg',source:'url'},{url:'data:image/jpeg;base64,AAAA',source:'upload'},undefined]){
   s=save(s,'books',{...s.life.books[0],cover});s=decodeState(encodeState(s));assert.deepEqual(s.tasks,original.tasks);assert.deepEqual(s.sessions,original.sessions);assert.deepEqual(s.life.entries,original.life.entries);assert.deepEqual(bookProgress(s,'sample-book'),progress);assert.equal(s.life.books[0].id,'sample-book');
  }
- const old={...original,schemaVersion:13};assert.equal(validateState(old).schemaVersion,15);assert.deepEqual(old,original.schemaVersion===13?original:{...original,schemaVersion:13});
+ const old={...original,schemaVersion:13};assert.equal(validateState(old).schemaVersion,16);assert.deepEqual(old,original.schemaVersion===13?original:{...original,schemaVersion:13});
 });

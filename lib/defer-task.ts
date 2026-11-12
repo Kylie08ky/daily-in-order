@@ -10,6 +10,7 @@ export function deferTask(input:State,command:Command):State{
  if(finished(t))throw Error('已完成事项无需顺延。');
  if(s.focus?.taskId===id)throw Error('请先结束当前专注，再顺延安排。');
  if(t.parentId||liveTasks(s).some(x=>x.parentId===id))throw Error('关联时段请在日历中一起调整。');
+ if(t.remainingEstimate&&(t.actual||0)>0)throw Error('请使用调整剩余计划，只重新安排未做部分。');
  const next=offsetDate(from,1),plans=taskPlans(t);
  if(!plans.some(p=>p.date===from))throw Error('这一天没有可顺延的安排。');
  if(t.deadline&&next>t.deadline)throw Error('安排日期晚于事项截止日期。');

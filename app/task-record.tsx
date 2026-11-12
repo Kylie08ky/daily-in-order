@@ -1,3 +1,4 @@
+import {currentEstimate,remainingMinutes} from '../lib/task-plans';
 import ActivityProgress from './activity-progress';
 import type {ActivityLink} from '../lib/life-schema';
 import TaskPlanEditor from './task-plan-editor';
@@ -13,8 +14,8 @@ import DurationInput from './duration-input';
 import './task-record.css';
 type Mutate=(c:Command,message?:string)=>Promise<boolean>;
 export function TaskProgress({task}:{task:Task}){
- const time=progressSource(task)==='time',percent=time&&task.minutes?Math.min(100,Math.round((task.actual||0)/task.minutes*100)):task.progress;
- return <div className="task-investment"><span>{time?ui("时长投入"):ui("完成进度")} <b>{percent}%</b> {ui("· 累计")}{fmt(task.actual||0)}{task.minutes?ui(" / 预计 ")+fmt(task.minutes):''}</span><progress max={100} value={percent} aria-label={task.title+ui("进度")}/>{time&&percent>=100&&task.progress<100&&<small>{ui("已达到预计用时，做完后可标记整项完成。")}</small>}</div>;
+ const time=progressSource(task)==='time',percent=time&&currentEstimate(task)?Math.min(100,Math.round((task.actual||0)/currentEstimate(task)*100)):task.progress;
+ return <div className="task-investment"><span>{time?ui("时长投入"):ui("完成进度")} <b>{percent}%</b> {ui("· 累计")}{fmt(task.actual||0)}{currentEstimate(task)?ui(" / 预计 ")+fmt(currentEstimate(task)):''}</span>{task.remainingEstimate&&<small>{ui('剩余计划')} {fmt(remainingMinutes(task))} · {ui('初始预计')} {fmt(task.remainingEstimate.initialMinutes)}</small>}<progress max={100} value={percent} aria-label={task.title+ui("进度")}/>{time&&percent>=100&&task.progress<100&&<small>{ui("已达到预计用时，做完后可标记整项完成。")}</small>}</div>;
 }
 export default function TaskRecord({task,state,busy,mutate,close,edit,focus,error,initialSessionId,progressRef,initialTab,hideQuickActions}:{hideQuickActions?:boolean;initialTab?:'progress'|'history'|'add';progressRef?:ActivityLink;initialSessionId?:string;task:Task;state:State;busy:boolean;mutate:Mutate;close:()=>void;edit:()=>void;focus:()=>void;error:string}){
  const dialog=useRef<HTMLDialogElement>(null),[minutes,setMinutes]=useState<number|null>(null),[date,setDate]=useState(localParts(Date.now(),state.settings.timezone).date),[timed,setTimed]=useState(false),[start,setStart]=useState(''),[end,setEnd]=useState(''),[mode,setMode]=useState(progressSource(task)),[percent,setPercent]=useState(task.progress),[note,setNote]=useState(''),[issue,setIssue]=useState('');
@@ -30,7 +31,7 @@ export default function TaskRecord({task,state,busy,mutate,close,edit,focus,erro
  return createPortal(<dialog ref={dialog} className="modal task-detail" aria-label={ui("事项进展")} onCancel={e=>{e.preventDefault();close();}}>
   <header><div><small>{ui("事项进展")}</small><h2>{task.title}</h2></div><button type="button" className="icon-btn" aria-label={ui("关闭进展记录")} onClick={close}><X/></button></header>
   <div className="task-detail-scroll">{task.note&&<details><summary>{ui("事项备注")}</summary><p>{task.note}</p></details>}
-   {tab!=='progress'&&<><div className="detail-summary"><div><small>{ui("累计投入")}</small><strong>{fmt(task.actual||0)}</strong></div><div><small>{ui("预计用时")}</small><strong>{task.minutes?fmt(task.minutes):ui("未设定")}</strong></div><div><small>{task.progress===100?ui("任务状态"):mode==='time'?ui("按用时推进"):ui("完成进度")}</small><strong>{task.progress===100?ui("已完成"):Math.min(100,mode==='time'&&task.minutes?Math.round((task.actual||0)/task.minutes*100):task.progress)+'%'}</strong></div></div>
+   {tab!=='progress'&&<><div className="detail-summary"><div><small>{ui("累计投入")}</small><strong>{fmt(task.actual||0)}</strong></div><div><small>{ui("预计用时")}</small><strong>{currentEstimate(task)?fmt(currentEstimate(task)):ui("未设定")}</strong></div><div><small>{task.progress===100?ui("任务状态"):mode==='time'?ui("按用时推进"):ui("完成进度")}</small><strong>{task.progress===100?ui("已完成"):Math.min(100,mode==='time'&&currentEstimate(task)?Math.round((task.actual||0)/currentEstimate(task)*100):task.progress)+'%'}</strong></div></div>
    {!hideQuickActions&&<div className="detail-actions">{task.progress<100&&<button type="button" className="primary" onClick={focus}><Play size={15}/>{ui("开始专注")}</button>}<button type="button" onClick={edit}><Pencil size={15}/>{ui("编辑事项")}</button></div>}
    {(!task.activity||task.activity.kind==='german')&&<details className="detail-options"><summary>{ui("所属学习子项")}</summary><LearningLinkEditor state={state} selection={{kind:'task',id:task.id}} mutate={mutate} busy={busy} onDone={close}/></details>}
    </>}<div className="detail-tabs"><button type="button" aria-pressed={tab==='progress'} onClick={()=>setTab('progress')}>{ui("记录进度")}</button><button type="button" aria-pressed={tab==='plans'} onClick={()=>setTab('plans')}>{ui('分段安排')}</button><button type="button" aria-pressed={tab==='add'} onClick={()=>setTab('add')}>{ui("补记投入")}</button><button type="button" aria-pressed={tab==='history'} onClick={()=>setTab('history')}>{ui("投入记录")}<span>{history.length}</span></button></div>

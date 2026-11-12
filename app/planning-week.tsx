@@ -1,5 +1,5 @@
 import TaskPlanEditor from './task-plan-editor';
-import {allocatedMinutes} from '../lib/task-plans';
+import {allocatedMinutes,currentEstimate,remainingMinutes} from '../lib/task-plans';
 import {useState} from 'react';
 import {type State,type Task,type TaskInput,type Command,formatTime as fmt,finished,businessDate} from '../lib/model';
 import {monthlyMetrics} from '../lib/monthly-planning';
@@ -9,7 +9,7 @@ import {t as ui,tr} from '../lib/i18n';
 type Props={state:State;plan:MonthlyPlan;weekKey:string;setWeek:(key:string)=>void;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;newTask:(t:Partial<TaskInput>)=>void;editTask:(t:Task)=>void;openDay:(date:string)=>void;adjust:(id:string)=>void};
 function TaskSchedule({task,state,from,to,busy,mutate,edit,windowStart,windowEnd}:{task:Task;state:State;from:string;to:string;busy:boolean;mutate:Props['mutate'];edit:()=>void;windowStart:string;windowEnd:string}){
  const [open,setOpen]=useState(false);
- return <article className="plan-task"><div className="plan-task-heading"><div><strong>{task.title}</strong><small>{ui('总预计')} {fmt(task.minutes)} · {ui('已分配')} {fmt(allocatedMinutes(task))} · {ui('实际投入')} {fmt(task.actual||0)}</small></div><div className="plan-task-actions"><button aria-expanded={open} onClick={()=>setOpen(!open)}>{ui('分段安排')}</button><button onClick={edit}>{ui('编辑')}</button></div></div>{open&&<TaskPlanEditor task={task} state={state} busy={busy} mutate={mutate} from={from} to={to} windowStart={windowStart} windowEnd={windowEnd}/>}</article>;
+ return <article className="plan-task"><div className="plan-task-heading"><div><strong>{task.title}</strong><small>{ui('总预计')} {fmt(currentEstimate(task))} · {ui('已分配')} {fmt(allocatedMinutes(task,state))} · {ui('实际投入')} {fmt(task.actual||0)}</small></div><div className="plan-task-actions"><button aria-expanded={open} onClick={()=>setOpen(!open)}>{ui('分段安排')}</button><button onClick={edit}>{ui('编辑')}</button></div></div>{open&&<TaskPlanEditor task={task} state={state} busy={busy} mutate={mutate} from={from} to={to} windowStart={windowStart} windowEnd={windowEnd}/>}</article>;
 }
 export default function PlanningWeek({state:s,plan,weekKey,setWeek,busy,mutate,newTask,editTask,openDay,adjust}:Props){
  const m=monthlyMetrics(s,plan),today=businessDate(s.settings),week=m.weeks.find(w=>w.key===weekKey)||m.weeks.find(w=>today>=w.from&&today<=w.to)||m.weeks[0];
