@@ -4,7 +4,7 @@ export function safeCoverUrl(value:string){
  if(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value))return value.length<=180000;
  try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&value.length<=2000;}catch{return false;}
 }
-export const bookCoverSchema=z.object({url:z.string().refine(safeCoverUrl),source:z.enum(['openlibrary','upload','url']),sourceUrl:z.string().max(2000).refine(v=>!v||(/^https:\/\/openlibrary\.org\//.test(v))).default(''),isbn:z.string().max(20).default('')});
+export const bookCoverSchema=z.object({url:z.string().refine(safeCoverUrl),source:z.enum(['openlibrary','upload','url','weread']),sourceUrl:z.string().max(2000).refine(v=>!v||(/^https:\/\/(openlibrary\.org|weread\.qq\.com)\//.test(v))).default(''),isbn:z.string().max(20).default('')});
 export type BookCover=z.infer<typeof bookCoverSchema>;
 export type CoverCandidate={id:string;title:string;author:string;year:string;cover:BookCover};
 export function normalizedIsbn(text:string){const value=text.replace(/[\s-]/g,'').toUpperCase();return /^(\d{13}|\d{9}[\dX])$/.test(value)?value:'';}

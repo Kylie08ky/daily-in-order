@@ -12,3 +12,7 @@ coverage/
 *serviceAccount*.json
 *.pem
 .DS_Store
+
+# Deployment-specific bridge configuration
+integrations/weread/wrangler.jsonc
+integrations/weread/.wrangler/

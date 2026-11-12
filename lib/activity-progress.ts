@@ -20,7 +20,7 @@ export function applyActivityProgress(input:State,command:Command,instant=new Da
   const existing=s.life.entries.find(x=>x.taskId===t.id&&(x.sessionId||'')===(p.sessionId||'')&&x.kind===e.kind&&x.refId===e.refId);
   if(existing&&existing.id!==e.id)throw Error('这次任务已有进度记录，请重新打开原记录。');
   e.taskId=t.id;e.sessionId=p.sessionId;e.progressOnly=true;e.minutes=old?.minutes??0;e.deletedAt=null;e.date=old?.date||s.sessions.find(x=>x.id===p.sessionId)?.date||p.date;
-  if(e.page!==undefined&&('total' in source)&&e.page>(source.total||0))throw Error('页码不能超过书籍总页数。');
+  if(e.page!==undefined&&('total' in source)&&e.page>(source.total??100000))throw Error('页码不能超过书籍总页数。');
   if(e.startPage!==undefined&&(e.page===undefined||e.startPage>e.page))throw Error('起始页不能大于读到的页码。');
   if(e.kind==='reading')e.units=e.page===undefined&&old?.page===undefined?old?.units??0:0;
   if(e.videoIds?.length){e.videoIds=[...new Set(e.videoIds)];if(!e.rewatch&&e.quantityKnown!==false&&e.units!==e.videoIds.length)throw Error('视频编号数量须与本次视频数量一致。');}

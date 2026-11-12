@@ -30,7 +30,7 @@ test('meal edits, dates, deletion and restoration recompute totals without chang
  s=apply(s,'life.remove',{table:'meals',id:'m'});assert.equal(dailyNutrition(s.life,'2026-11-04').calories,600);
  s=apply(s,'life.restore',{table:'meals',id:'m'});assert.equal(dailyNutrition(s.life,'2026-11-04').calories,1050);
  s=apply(s,'life.remove',{table:'expenditures',id:'e'});assert.equal(dailyNutrition(s.life,'2026-11-04').burned,0);
- const r=validateState(JSON.parse(JSON.stringify(s)));assert.deepEqual(r.life,s.life);assert.deepEqual(decodeState(encodeState(s)).life,s.life);assert.equal(r.schemaVersion,14);
+ const r=validateState(JSON.parse(JSON.stringify(s)));assert.deepEqual(r.life,s.life);assert.deepEqual(decodeState(encodeState(s)).life,s.life);assert.equal(r.schemaVersion,15);
  assert.throws(()=>save('meals',{id:'bad',date:'2026-11-04',meal:'breakfast',name:'错误',calories:-1,protein:2}));
 });
 test('new users start with no optional modules, setup persists once, visibility never deletes data',()=>{

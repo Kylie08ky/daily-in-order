@@ -1,0 +1,27 @@
+.weread-dialog {width:min(780px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;color:#29382e;background:#f6f8ee;}
+.weread-dialog header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.weread-dialog header p {font-size:14px;font-weight:400;}
+.weread-dialog p,.weread-dialog small {color:#53614e;line-height:1.6;}
+.weread-dialog a {color:#315d4b;text-decoration:underline;}
+.weread-key {display:block;margin:20px 0;}
+.weread-key>div,.weread-toolbar {display:flex;gap:8px;align-items:center;}
+.weread-key input,.weread-toolbar input {flex:1;min-width:0;}
+.weread-dialog footer {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid #d1dac8;}
+.weread-dialog button {display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
+.weread-dialog .weread-books {max-height:48dvh;overflow:auto;overscroll-behavior:contain;}
+.weread-books article {display:grid;grid-template-columns:58px minmax(0,1fr);gap:16px;padding:16px 2px;border-bottom:1px solid #d1dac8;}
+.weread-books article>.real-book-cover {width:58px;height:86px;}
+.weread-books article small,.weread-books article label {display:block;font-size:13px;}
+.weread-books article select {width:100%;margin-top:4px;min-width:0;}
+.weread-books article strong {font-size:15px;}
+.weread-status {padding:10px 0;min-width:0;}
+.weread-status>div:first-child {display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;}
+.weread-status a {color:inherit;text-decoration:underline;}
+.weread-status .progress {margin:8px 0;}
+.weread-status small {font-size:12px;opacity:.85;}
+.weread-launch {display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 18px;}
+.app-shell.view-reading .main dialog.weread-dialog small,.app-shell.view-reading .main dialog.weread-dialog p {color:#53614e;opacity:1;}
+.app-shell.view-reading .main dialog.weread-dialog button.primary {background:#365847;color:#fff;border-color:#365847;}
+.app-shell.view-reading .main dialog.weread-dialog button.primary:disabled {background:#dde3d6;color:#5b6656;border-color:#cbd5c2;}
+.weread-books .cover-placeholder {padding:4px;justify-content:center;}
+.weread-books .cover-placeholder strong,.weread-books .cover-placeholder small {display:none;}

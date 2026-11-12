@@ -21,7 +21,7 @@ export function applyReadingCheckpoint(input:State,command:Command):State {
  if(!e)throw Error('阅读记录不存在。');
  const b=s.life.books.find(x=>x.id===e.refId);if(!b)throw Error('关联书籍不存在。');
  const start=p.startPage===undefined?e.startPage:p.startPage;
- if(p.page!==null&&p.page>b.total)throw Error('页码不能超过书籍总页数。');
+ if(p.page!==null&&p.page>(b.total??100000))throw Error('页码不能超过书籍总页数。');
  if(start!=null&&(p.page===null||start>p.page))throw Error('起始页不能大于读到的页码。');
  if(p.page===null)delete e.page;else e.page=p.page;
  if(p.startPage===null)delete e.startPage;else if(p.startPage!==undefined)e.startPage=p.startPage;

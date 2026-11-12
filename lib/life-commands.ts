@@ -67,7 +67,7 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
   if(p.table==='entries'&&((r as Entry).progressOnly||s.life.entries.some(e=>e.id===r.id&&e.progressOnly)))throw Error('请从记录进度入口修改，保留原投入。');
   if(p.table==='entries'){
    const e=r as Entry,source=s.life[refTable[e.kind]].find(x=>x.id===e.refId&&!x.deletedAt);if(!source)throw new Error('请先创建对应的课程、书籍或训练。');
-   if(e.page!==undefined){if(e.kind!=='reading'||!('total' in source)||e.page>source.total!)throw Error('页码须为 0 到书籍总页数之间的整数。');e.units=0;}
+   if(e.page!==undefined){if(e.kind!=='reading'||!('total' in source)||e.page>(source.total??100000))throw Error('页码须为 0 到书籍总页数之间的整数。');e.units=0;}
    if(e.kind==='german'&&'mode' in source&&source.mode==='practice'&&e.units!==0)throw new Error('日常练习不累计课程数量。');
    const old=s.life.entries.find(x=>x.id===e.id);if(old?.taskId&&e.taskId!==old.taskId)throw new Error('已联动任务的记录请保留原关联；如需更换请删除后重建。');
    if(!e.taskId){e.taskId='activity:'+e.id;s.tasks.push({...taskInput.parse({title:e.kind==='reading'?'阅读 · '+('title' in source?source.title:''):e.kind==='german'?'学习 · '+('name' in source?source.name:''):'训练 · '+('name' in source?source.name:''),date:e.date,minutes:e.minutes,actual:e.minutes,progress:100,projectId:source.projectId,category:e.kind==='fitness'?'运动':'学习',activity:{kind:e.kind,refId:e.refId,category:e.kind==='german'&&'category' in source?source.category:'other'}}),id:e.taskId,seriesId:'',occurrence:'',createdAt:now,completedAt:now,deletedAt:null,order:s.tasks.length});}

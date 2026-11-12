@@ -18,7 +18,7 @@ export function readingBookForTask(s:State,task:Task){
 export function recordTaskReadingPage(s:State,task:Task,page:number,newId:()=>string){
  const book=readingBookForTask(s,task);
  if(!book)throw Error('请先将任务关联到书籍。');
- if(!Number.isInteger(page)||page<0||page>book.total)throw Error('页码须为 0 到书籍总页数之间的整数。');
+ if(!Number.isInteger(page)||page<0||page>(book.total??100000))throw Error('页码须为 0 到书籍总页数之间的整数。');
  if(s.focus?.taskId===task.id)throw Error('请先在专注页结束当前计时，再记录进度。');
  const old=s.life.entries.filter(e=>!e.deletedAt&&e.taskId===task.id&&e.kind==='reading'&&e.refId===book.id).sort((a,b)=>progressRecordOrder(s,b,a))[0];
  const entry=entrySchema.parse({...old,id:old?.id??newId(),kind:'reading',refId:book.id,taskId:task.id,date:old?.progressOnly?old.date:task.date,minutes:old?.progressOnly?old.minutes:Math.min(1440,task.actual??0),page,units:0});
