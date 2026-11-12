@@ -37,7 +37,7 @@ test('legacy outcomes remain unassigned until explicit association; invalid asso
 });
 test('legacy schema 11 upgrades without matching names or adding concrete projects',()=>{
  const old=fixture();old.schemaVersion=11;delete old.developmentProjects;
- const next=decodeState([JSON.stringify(old)]);assert.equal(next.schemaVersion,13);assert.deepEqual(next.developmentProjects,[]);assert.deepEqual(next.tasks,old.tasks);assert.deepEqual(next.sessions,old.sessions);
+ const next=decodeState([JSON.stringify(old)]);assert.equal(next.schemaVersion,14);assert.deepEqual(next.developmentProjects,[]);assert.deepEqual(next.tasks,old.tasks);assert.deepEqual(next.sessions,old.sessions);
 });
 test('97 and 149 are per-record checkpoints; edits preserve exact tasks, dates, sessions and daily totals',()=>{
  let s=run(emptyState(),'life.save',{table:'books',record:{id:'book',title:'Synthetic book',total:258,initial:149}});

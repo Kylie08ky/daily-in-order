@@ -30,7 +30,7 @@ test('schema 11 queued progress survives device reopen, upload retry and cloud r
   const retried=await createCloudStore(db,identity,()=>{},'preview').commit(local.queue[0],local.base.revision);
   assert.equal(retried.revision,committed.revision);
   local=await device.writeDevice(receive(local,retried),local.generation);
-  assert.equal(local.queue.length,0);assert.equal(local.base.state.schemaVersion,13);
+  assert.equal(local.queue.length,0);assert.equal(local.base.state.schemaVersion,14);
   assert.equal(local.base.state.tasks[0].actual,31);assert.equal(local.base.state.tasks[0].date,'2026-11-09');
   assert.deepEqual(local.base.state.sessions,sessions);assert.equal(local.base.state.life.entries.length,1);
   assert.deepEqual(local.base.state.life.entries[0].videoIds,['5','6']);assert.equal(local.base.state.life.entries[0].units,2);
@@ -40,7 +40,7 @@ test('schema 11 queued progress survives device reopen, upload retry and cloud r
   // A future writer's content must never be rewritten by this client, even during load.
   await env.withSecurityRulesDisabled(async admin=>{
    const ref=doc(admin.firestore(),'previewUsers',identity.uid,'chunks','0');const data=(await getDoc(ref)).data();
-   await setDoc(ref,{...data,data:JSON.stringify({...JSON.parse(data.data),schemaVersion:14,futureOnly:'keep'})});
+   await setDoc(ref,{...data,data:JSON.stringify({...JSON.parse(data.data),schemaVersion:15,futureOnly:'keep'})});
   });
   const originalMeta=(await getDoc(meta)).data(),originalChunk=(await getDoc(chunk)).data(),deviceBefore=await device.readDevice();
   await assert.rejects(store.load(),SchemaCompatibilityError);await assert.rejects(store.commit(operation,retried.revision),SchemaCompatibilityError);

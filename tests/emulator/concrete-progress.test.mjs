@@ -21,7 +21,7 @@ test('concrete outcomes and page-only corrections survive cloud retries without 
   const outcomes=['alpha','beta','gamma'].map(id=>({id:'outcome-'+id,developmentId:id,projectId:'dev',date:'2026-11-06',version:'v0.5',result:'Synthetic outcome',status:'milestone'}));
   await retry('activity.progress',{taskId:'task',date:'2026-11-06',recordType:'project',entries:[],outcomes});
   await retry('reading.checkpoint',{id:'old',page:97});await retry('reading.checkpoint',{id:'new',page:149});
-  assert.equal(snap.state.schemaVersion,13);assert.equal(snap.state.developmentProjects.length,3);
+  assert.equal(snap.state.schemaVersion,14);assert.equal(snap.state.developmentProjects.length,3);
   for(const id of ['alpha','beta','gamma'])assert.equal(concreteOutcomes(snap.state,'dev',id).length,1);
   assert.equal(bookProgress(snap.state,'book').pages,149);assert.deepEqual(snap.state.sessions,sessions);
   for(const original of tasks){const current=snap.state.tasks.find(t=>t.id===original.id);const {outcomes:a,recordType:b,...before}=original,{outcomes:c,recordType:d,...after}=current;assert.deepEqual(after,before);}

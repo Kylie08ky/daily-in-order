@@ -28,7 +28,7 @@ test('older explicit goals survive migration while new preferences get safe defa
  const s=emptyState();s.schemaVersion=2;s.settings.dayStart='05:00';s.settings.weekly=[4,8,8,6,8,8,8];
  Object.assign(s.life.preferences,{germanWeekly:1200,readingYearly:12,sleepBed:'22:00',sleepWake:'05:00'});
  delete s.life.preferences.workoutMinutes;delete s.life.preferences.workoutTravel;
- const r=validateState(s);assert.equal(r.schemaVersion,13);assert.equal(r.life.preferences.germanWeekly,1200);assert.equal(r.life.preferences.sleepWake,'05:00');assert.deepEqual(r.settings.weekly,[4,8,8,6,8,8,8]);assert.equal(r.life.preferences.workoutTravel,0);
+ const r=validateState(s);assert.equal(r.schemaVersion,14);assert.equal(r.life.preferences.germanWeekly,1200);assert.equal(r.life.preferences.sleepWake,'05:00');assert.deepEqual(r.settings.weekly,[4,8,8,6,8,8,8]);assert.equal(r.life.preferences.workoutTravel,0);
 });
 test('custom task categories survive scheduling, repeat templates and CSV round trip',async()=>{
  let s=apply(emptyState(),'task.save',{id:'task',task:{title:'照顾花园',category:'园艺 / 家庭',date:'2026-11-03'},repeat:{frequency:'weekly',days:[],until:'2026-11-30'}});
