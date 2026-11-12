@@ -22,7 +22,7 @@ test('authentication is verified by Google, not trusted decoded claims; rejects 
 test('only two read APIs, fixed upstream/version; credentials and reading time never returned',async()=>{
  const calls=[];const send=async(url,options)=>{calls.push({url,options});if(url.startsWith('https://identitytoolkit.googleapis.com/'))return Response.json({users:[user]});return Response.json({bookId:'book123',book:{progress:1,updateTime:123,recordReadingTime:9999},credential:'must not return'});};
  let r=await handle(request({api:'/book/getprogress',bookId:'book123'}),env,send);assert.equal(r.status,200);assert.equal(r.headers.get('Cache-Control'),'no-store');assert.deepEqual(await r.json(),{bookId:'book123',book:{progress:1,updateTime:123}});
- assert.equal(calls[1].url,'https://i.weread.qq.com/api/agent/gateway');assert.equal(JSON.parse(calls[1].options.body).skill_version,'1.0.5');assert.equal(calls[1].options.redirect,'error');assert.ok(!calls[0].options.body.includes('wrk-'));
+ assert.equal(calls[1].url,'https://i.weread.qq.com/api/agent/gateway');assert.equal(JSON.parse(calls[1].options.body).skill_version,'1.0.5');assert.equal(calls[1].options.redirect,'manual');assert.ok(!calls[0].options.body.includes('wrk-'));
  calls.length=0;r=await handle(request({api:'/shelf/remove'}),env,send);assert.equal(r.status,400);assert.equal(calls.length,1);
  r=await handle(request({api:'/book/getprogress',bookId:'https://evil.example'}),env,send);assert.equal(r.status,400);
 });
@@ -31,3 +31,9 @@ test('upstream errors/upgrades fail safely without reflecting credentials or wri
  const r=await handle(request(),env,async url=>url.includes('identitytoolkit')?Response.json({users:[user]}):Response.json(data));assert.ok(r.status>=400);const text=await r.text();assert.ok(!text.includes('sensitive'));assert.ok(!text.includes('wrk-'));
  }
 });
+
+ test('redirects never forward credentials and network failures are not reported as a lost login',async()=>{
+ let calls=0;let r=await handle(request(),env,async(url,options)=>{calls++;assert.equal(options.redirect,'manual');return new Response(null,{status:302,headers:{Location:'https://other.example.org'}});});assert.equal(r.status,503);assert.equal(calls,1);
+ r=await handle(request(),env,async()=>{throw new TypeError('synthetic network failure');});assert.equal(r.status,503);assert.equal((await r.json()).error,'unavailable');
+ calls=0;r=await handle(request(),env,async(url,options)=>{calls++;assert.equal(options.redirect,'manual');return url.includes('identitytoolkit')?Response.json({users:[user]}):new Response(null,{status:302,headers:{Location:'https://other.example.org'}});});assert.equal(r.status,502);assert.equal(calls,2);
+ });

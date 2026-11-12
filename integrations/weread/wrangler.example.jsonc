@@ -1,13 +1,25 @@
 {
- "name": "daily-in-order-weread-preview",
- "main": "worker.mjs",
- "compatibility_date": "2026-11-12",
- "workers_dev": true,
- "observability": {"enabled": false},
- "vars": {
-  "FIREBASE_PROJECT_ID": "YOUR_FIREBASE_PROJECT",
-  "FIREBASE_WEB_API_KEY": "YOUR_PUBLIC_FIREBASE_WEB_KEY",
-  "ALLOWED_ORIGINS": "https://YOUR_PREVIEW_HOST.web.app"
- },
- "ratelimits": [{"name":"RATE_LIMITER","namespace_id":"1027","simple":{"limit":100,"period":60}}]
+  "name": "daily-in-order-weread-preview",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-12",
+  "workers_dev": true,
+  "observability": {
+    "enabled": false
+  },
+  "vars": {
+    "FIREBASE_PROJECT_ID": "YOUR_FIREBASE_PROJECT",
+    "FIREBASE_WEB_API_KEY": "YOUR_PUBLIC_FIREBASE_WEB_KEY",
+    "ALLOWED_ORIGINS": "https://YOUR_PREVIEW_HOST.web.app"
+  },
+  "ratelimits": [
+    {
+      "name": "RATE_LIMITER",
+      "namespace_id": "1027",
+      "simple": {
+        "limit": 100,
+        "period": 60
+      }
+    }
+  ],
+  "preview_urls": false
 }

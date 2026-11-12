@@ -7,5 +7,5 @@ export async function requestWeRead(key:string,api:'/shelf/sync'|'/book/getprogr
  const user=auth.currentUser;if(!user||!user.emailVerified)throw Error(errors.login);
  const token=await user.getIdToken();
  const response=await fetch(endpoint,{method:'POST',credentials:'omit',referrerPolicy:'no-referrer',cache:'no-store',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({key,api,...(bookId?{bookId}:{})}),signal:signal?AbortSignal.any([signal,AbortSignal.timeout(25000)]):AbortSignal.timeout(25000)});
- const result=await response.json();if(!response.ok)throw Error(errors[result.error]||'连接微信读书失败，请稍后重试。');return result;
+ const result=await response.json();if(!response.ok&&typeof result.diagnostic==='string'&&/^auth-[a-z0-9-]+$/.test(result.diagnostic))console.warn('WeRead authentication check:',result.diagnostic);if(!response.ok)throw Error(errors[result.error]||'连接微信读书失败，请稍后重试。');return result;
 }
