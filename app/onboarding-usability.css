@@ -1,12 +1,5 @@
 /* Keep the current palette while making the first daily action visible. */
 :root .app-shell .mobile-workspace-bar,:root .app-shell .mobile-nav-backdrop{display:none}
-:root .app-shell .timeline-flexible{flex:none;border:1px solid var(--line,#75816a);border-radius:12px;margin:0 0 12px;padding:10px 12px;min-width:0}
-:root .app-shell .timeline-flexible summary{cursor:pointer;font-weight:600;font-size:14px}
-:root .app-shell .timeline-flexible summary small{font-weight:400;margin-left:10px;opacity:.85}
-:root .app-shell .timeline-flexible-list{max-height:180px;overflow:auto;overscroll-behavior:contain}
-:root .app-shell .timeline-flexible-row{display:flex;align-items:center;gap:6px;border-top:1px solid #89917b40;padding:5px 0;min-width:0}
-:root .app-shell .timeline-flexible-row>button{flex:none;min-height:36px;padding:8px}
-:root .app-shell .timeline-flexible-row>.flexible-title{flex:1;min-width:0;text-align:left;white-space:normal;overflow-wrap:anywhere;background:transparent;color:inherit;border:0}
 :root .app-shell .resident-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
 :root .app-shell .resident-tabs>button{min-width:0;padding:8px 4px;gap:4px}
 :root .app-shell .feedback-shortcut{display:inline-flex;align-items:center;gap:6px;font:inherit}
@@ -66,7 +59,37 @@
  :root .app-shell .task-gesture-hint{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;font-size:11px;padding:6px 0}
  :root .app-shell .task-gesture-hint>span{display:flex;align-items:center;gap:3px;white-space:nowrap}
  :root .app-shell .task-gesture-hint svg{width:12px;height:12px}
- :root .app-shell .timeline-flexible-row>button{min-height:44px}
- :root .app-shell .timeline-flexible summary small{display:block;margin:5px 0}
  :root .app-shell .page-footer{display:flex;flex-wrap:wrap;gap:12px}
+}
+/* Phone refinements: keep the familiar content, give task titles their own row. */
+@media(max-width:650px){
+ :root .app-shell .main .account-center{margin-bottom:10px}
+ :root .app-shell.view-today .main .workspace-toolbar{background:transparent;border:0;padding:0;min-height:44px;color:#edf3e7}
+ :root .app-shell.view-today .main .workspace-toolbar .account-trigger{background:transparent;color:inherit;border-color:#89947c66}
+ :root .app-shell .main .workspace-preview{padding:0;margin:2px 0 0}
+ :root .app-shell .home-dashboard>.page-head{margin:10px 0;gap:10px}
+ :root .app-shell .home-dashboard>.page-head h1{font-size:21px}
+ :root .app-shell .home-dashboard>.metrics{gap:6px;margin:10px 0 14px}
+ :root .app-shell .home-dashboard>.metrics>.metric{min-height:46px;padding:7px 10px}
+ :root .app-shell.view-today .dashboard-section-head{margin-bottom:8px;align-items:center}
+ :root .app-shell.view-today .dashboard-section-head h2{margin:0 0 4px;font-size:19px}
+ :root .app-shell.view-today .dashboard-section-head .tabs button{min-height:40px;padding:8px;font-size:12px}
+ :root .app-shell.view-today .task-gesture-hint{gap:4px 10px;font-size:10px;margin:2px 0 8px;padding:0}
+ :root .app-shell.view-today .agenda-filters{display:flex;gap:4px;margin:0 0 4px;padding:3px;background:#ffffff0b;border-radius:10px}
+ :root .app-shell.view-today .agenda-filters button{flex:1;min-height:40px;padding:7px 4px;font-size:12px;background:transparent;border:0;color:#e4ebdb}
+ :root .app-shell.view-today .agenda-filters button[aria-pressed="true"]{background:#e8eddf;color:#2e3b2a;border-radius:8px}
+ :root .app-shell.view-today .agenda-list-scroll .task-row{display:grid;grid-template-columns:30px minmax(0,1fr);gap:4px 8px;padding:12px 0;align-items:start}
+ :root .app-shell.view-today .agenda-list-scroll .check-btn{grid-row:1;grid-column:1;margin-top:3px;width:28px;height:28px}
+ :root .app-shell.view-today .agenda-list-scroll .task-body{grid-row:1;grid-column:2;width:100%;padding:0;min-width:0;text-align:left}
+ :root .app-shell.view-today .agenda-list-scroll .task-body strong{font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+ :root .app-shell.view-today .agenda-list-scroll .task-body small{font-size:12px;line-height:1.5}
+ :root .app-shell.view-today .agenda-list-scroll .task-investment{font-size:11px;margin-top:5px;line-height:1.5}
+ :root .app-shell.view-today .agenda-list-scroll .task-actions{grid-row:2;grid-column:1 / -1;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:4px;margin:2px 0 0}
+ :root .app-shell.view-today .agenda-list-scroll .task-actions .icon-btn{display:inline-flex;justify-content:center;align-items:center;width:40px;height:40px;padding:10px;border-radius:9px}
+ :root .app-shell.view-today .agenda-list-scroll .task-actions .task-focus-button{background:#cadbb3;color:#29402d}
+ :root .app-shell.view-today .agenda-list-scroll .task-actions .task-focus-button:disabled{background:transparent;opacity:.5}
+}
+@media(max-width:360px){
+ :root .app-shell .home-dashboard>.metrics>.metric{flex-direction:column;align-items:flex-start;justify-content:center;gap:4px}
+ :root .app-shell .home-dashboard>.metrics>.metric>div,:root .app-shell .home-dashboard>.metrics>.metric>strong{white-space:nowrap}
 }

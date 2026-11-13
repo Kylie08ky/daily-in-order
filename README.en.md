@@ -1,6 +1,8 @@
 # Daily in Order · 日常有序
 
-**v0.24.0 preview: easier first steps and feedback.** Flexible tasks remain visible in the timeline; days with only flexible tasks default to the list. Local view choices are remembered per account and environment. Planning opens the calendar by default and its task pool starts with all task types. Mobile navigation moves into a top menu so today's tasks come first, with quick AI and feedback access. Completing a task clearly labels cumulative actual time; unset availability no longer appears as zero. Existing records and statistics are preserved. Production has not been updated.
+**v0.24.1 preview: restore the original timeline layout.** Remove the extra flexible-task box above the home timeline; tasks without a start time remain available in the list. Compact mobile spacing and separate task titles from actions while preserving the green palette, records and statistics. Preview only.
+
+**v0.24.0 preview: easier first steps and feedback.** Days with only flexible tasks default to the list. Local view choices are remembered per account and environment. Planning opens the calendar by default and its task pool starts with all task types. Mobile navigation moves into a top menu so today's tasks come first, with quick AI and feedback access. Completing a task clearly labels cumulative actual time; unset availability no longer appears as zero. Existing records and statistics are preserved. Production has not been updated.
 
 
 **v0.23.5 preview:** Fix oversized covers, squeezed vertical titles and stretched adjacent cards in the home reading summary; long titles remain readable on mobile.

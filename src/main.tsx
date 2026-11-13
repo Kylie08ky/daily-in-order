@@ -7,7 +7,7 @@ import {auth} from '../lib/firebase';
 import Workbench from '../app/workbench';
 import BrandMark from '../app/brand-mark';
 import {SessionContext} from '../app/session';
-import '../app/globals.css';import '../app/life.css';import '../app/home.css';import '../app/focus.css';import '../app/scenes.css';import '../app/readability.css';import '../app/offline.css';import './auth.css';import '../app/onboarding-usability.css';
+import '../app/globals.css';import '../app/life.css';import '../app/home.css';import '../app/focus.css';import '../app/scenes.css';import '../app/readability.css';import '../app/offline.css';import './auth.css';
 
 const message=(error:unknown)=>{
  const code=(error as {code?:string})?.code;
@@ -53,3 +53,5 @@ import '../app/daily-agenda.css';
 import '../app/learning-workspace.css';
 
 import '../app/life-organized.css';
+
+import '../app/onboarding-usability.css';

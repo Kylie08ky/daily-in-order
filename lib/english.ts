@@ -1,5 +1,6 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"时间轴恢复原样，手机排布更紧凑":"Restore the timeline and refine mobile spacing","移除首页时间轴上方新增的灵活事项框；手机缩短顶部间距，任务标题与操作分行显示，保留原记录与统计。":"Remove the extra flexible-task box above the home timeline. Compact mobile spacing and separate task titles from actions, preserving all records and statistics.",
 "灵活事项":"Flexible tasks",
 "不必填写开始时间":"No start time required",
 "打开导航":"Open navigation",

@@ -1,5 +1,6 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"时间轴恢复原样，手机排布更紧凑":"Zeitleiste wiederherstellen und mobile Abstände verbessern","移除首页时间轴上方新增的灵活事项框；手机缩短顶部间距，任务标题与操作分行显示，保留原记录与统计。":"Den zusätzlichen Bereich für flexible Aufgaben oberhalb der Startseiten-Zeitleiste entfernen. Kompaktere mobile Abstände und getrennte Zeilen für Aufgabentitel und Aktionen; alle Einträge und Statistiken bleiben erhalten.",
 "灵活事项":"Flexible Aufgaben",
 "不必填写开始时间":"Keine Startzeit erforderlich",
 "打开导航":"Navigation öffnen",
