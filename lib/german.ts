@@ -1,5 +1,18 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"灵活事项":"Flexible Aufgaben",
+"不必填写开始时间":"Keine Startzeit erforderlich",
+"打开导航":"Navigation öffnen",
+"关闭导航":"Navigation schließen",
+"问题与建议":"Feedback & Vorschläge",
+"记录用时":"Zeit erfassen",
+"历史记录":"Verlauf",
+"任务累计实际用时":"Gesamte Ist-Zeit dieser Aufgabe",
+"已记录 {0}，直接确认不会重复计时；修改下方数值会替换累计用时。":"{0} bereits erfasst. Bestätigen zählt die Zeit nicht erneut; eine Änderung ersetzt die Gesamtzeit der Aufgabe.",
+"更快找到今天要做的事":"Schneller zur nächsten Aufgabe",
+"灵活事项直接显示在时间轴，手机导航收起为顶部菜单；日历优先打开并记住视图，任务池默认显示全部类型。":"Flexible Aufgaben bleiben in der Zeitleiste sichtbar. Kompakte mobile Navigation, Kalender als Standard mit Ansichts-Speicherung und alle Aufgabentypen im Pool.",
+"明确累计用时与追加投入，未设置的可用时间不再显示为零；增加问题与建议快捷入口。":"Gesamtzeit und zusätzliche Einsätze klar unterscheiden, nicht festgelegte Kapazität kennzeichnen und Feedback schneller erreichen.",
+
 "首页书封面，恢复紧凑布局":"Kompakte Cover in der Leseübersicht",
 "修复首页阅读卡片封面过大、书名竖排和相邻卡片被撑高的问题，长书名与手机布局保持可读。":"Überdimensionierte Cover, zusammengedrückte Titel und überhöhte Nachbarkarten in der Startseitenübersicht behoben; lange Titel bleiben mobil lesbar.",
 

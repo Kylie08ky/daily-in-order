@@ -1,7 +1,17 @@
 import {taskPlans} from './task-plans.ts';
 import {type State,type Task,minuteOf} from './model.ts';
-import {sessionBlocks,type ActualBlock} from './task-investment.ts';
+import {sessionBlocks,investmentByTask,minutesInRange,type ActualBlock} from './task-investment.ts';
 export type TimelineItem={id:string;task:Task;begin:number;length:number;planId?:string;block?:ActualBlock};
+// Flexible plans and duration-only actual records remain visible without inventing a clock time.
+export function untimedTasks(state:State,date:string,tasks:Task[]){
+ const investments=investmentByTask(state);
+ return tasks.filter(t=>!t.deletedAt&&!t.templateOnly).filter(t=>{
+  if(taskPlans(t,state).some(p=>p.date===date&&!p.start))return true;
+  const actual=minutesInRange(investments.get(t.id),date);
+  const placed=state.sessions.filter(x=>!x.deletedAt&&x.taskId===t.id).flatMap(x=>sessionBlocks(x,state.settings.timezone)).filter(b=>b.date===date).reduce((n,b)=>n+b.seconds/60,0);
+  return actual>0&&actual-placed>0.5;
+ });
+}
 export function timelineItems(state:State,date:string,tasks:Task[]):TimelineItem[]{
  const active=new Map(state.tasks.filter(t=>!t.deletedAt&&!t.templateOnly).map(t=>[t.id,t]));
  const blocks=state.sessions.filter(s=>!s.deletedAt&&active.has(s.taskId)).flatMap(s=>sessionBlocks(s,state.settings.timezone));

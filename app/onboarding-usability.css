@@ -1,0 +1,72 @@
+/* Keep the current palette while making the first daily action visible. */
+:root .app-shell .mobile-workspace-bar,:root .app-shell .mobile-nav-backdrop{display:none}
+:root .app-shell .timeline-flexible{flex:none;border:1px solid var(--line,#75816a);border-radius:12px;margin:0 0 12px;padding:10px 12px;min-width:0}
+:root .app-shell .timeline-flexible summary{cursor:pointer;font-weight:600;font-size:14px}
+:root .app-shell .timeline-flexible summary small{font-weight:400;margin-left:10px;opacity:.85}
+:root .app-shell .timeline-flexible-list{max-height:180px;overflow:auto;overscroll-behavior:contain}
+:root .app-shell .timeline-flexible-row{display:flex;align-items:center;gap:6px;border-top:1px solid #89917b40;padding:5px 0;min-width:0}
+:root .app-shell .timeline-flexible-row>button{flex:none;min-height:36px;padding:8px}
+:root .app-shell .timeline-flexible-row>.flexible-title{flex:1;min-width:0;text-align:left;white-space:normal;overflow-wrap:anywhere;background:transparent;color:inherit;border:0}
+:root .app-shell .resident-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+:root .app-shell .resident-tabs>button{min-width:0;padding:8px 4px;gap:4px}
+:root .app-shell .feedback-shortcut{display:inline-flex;align-items:center;gap:6px;font:inherit}
+:root .app-shell.view-today .home-dashboard>.metrics>.metric{background:#444f3e;color:#f5f7ed;border-color:#7b8b6b}
+:root .app-shell.view-today .home-dashboard>.metrics>.metric.accent{background:#d1debb;color:#293b2e}
+:root .app-shell.view-today .home-dashboard>.metrics>.metric :is(strong,small,button){color:inherit}
+:root .app-shell.view-today .dashboard-main{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+:root .app-shell.view-today .dashboard-schedule{display:flex;flex-direction:column;min-width:0;height:100%;max-height:760px}
+:root .app-shell.view-today .agenda-content{display:flex;flex-direction:column;flex:1;min-height:0}
+:root .app-shell.view-today .agenda-list-scroll{flex:1;min-height:0;max-height:540px;overflow-y:auto;overscroll-behavior:contain}
+:root .app-shell.view-today .task-gesture-hint{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;margin:8px 0}
+:root .app-shell.view-today .task-gesture-hint>span{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+:root .app-shell.view-today .task-gesture-hint svg{width:14px;height:14px}
+@media(min-width:651px) and (max-width:1100px){
+ :root .app-shell.view-today .dashboard-main{display:flex;flex-direction:column}
+ :root .app-shell.view-today .dashboard-agenda{order:0}
+ :root .app-shell.view-today .dashboard-overview{order:1}
+}
+@media(max-width:650px){
+ :root .app-shell:is(.view-today,.view-reading),:root .app-shell{display:block;padding-top:calc(56px + env(safe-area-inset-top,0px))}
+ :root .app-shell .mobile-workspace-bar{display:flex;position:fixed;top:0;left:0;right:0;z-index:80;height:calc(56px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 10px 0;gap:4px;align-items:center;background:#2e483e;color:#f3f6ed;border-bottom:1px solid #ffffff20}
+ :root .app-shell .mobile-workspace-bar strong{flex:1;font-size:16px}
+ :root .app-shell .mobile-workspace-bar button{display:grid;place-items:center;width:44px;height:44px;min-width:44px;border:0;background:transparent;color:inherit;padding:10px}
+ :root .app-shell .sidebar{display:none}
+ :root .app-shell.mobile-nav-open .sidebar{display:flex;flex-direction:column;position:fixed;z-index:79;top:calc(56px + env(safe-area-inset-top,0px));left:0;width:min(310px,85vw);height:calc(100dvh - 56px - env(safe-area-inset-top,0px));padding:16px 16px calc(12px + env(safe-area-inset-bottom,0px));overflow:hidden;background:#2e483e}
+ :root .app-shell .sidebar>.brand,:root .app-shell .sidebar>.collapse-btn{display:none}
+ :root .app-shell .sidebar>.assistant-entry{display:flex;position:static;flex:none;flex-direction:row;width:100%;height:44px;margin:0 0 12px}
+ :root .app-shell .sidebar>nav{display:flex;flex:1;min-height:0;flex-direction:column;gap:4px;overflow-y:auto;overscroll-behavior:contain;padding:0}
+ :root .app-shell .sidebar>nav>button{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;flex:none;width:100%;min-height:44px;padding:10px 12px;text-align:left;gap:12px}
+ :root .app-shell .sidebar>nav>button span,:root .app-shell.collapsed .sidebar>nav>button span{display:inline;font-size:14px}
+ :root .app-shell .sidebar-bottom{flex:none}
+ :root .app-shell.mobile-nav-open .mobile-nav-backdrop{display:block;position:fixed;inset:56px 0 0;z-index:78;border:0;border-radius:0;background:#14251f80;touch-action:none}
+ :root .app-shell:is(.view-today,.view-reading) .main,:root .app-shell .main{margin:0;width:100%;min-width:0;padding:12px;box-sizing:border-box;border-radius:0}
+ :root .app-shell.view-today .dashboard-main{display:flex;flex-direction:column;gap:14px}
+ :root .app-shell.view-today .dashboard-agenda{order:0}
+ :root .app-shell.view-today .dashboard-overview{order:1}
+ :root .app-shell .workspace-toolbar{padding:8px;min-height:44px;gap:6px}
+ :root .app-shell .workspace-sync small{display:none}
+ :root .app-shell .workspace-preview{margin:8px 0;font-size:11px}
+ :root .app-shell .home-dashboard>.page-head{gap:8px;margin:12px 0}
+ :root .app-shell .home-dashboard>.page-head h1{font-size:23px;margin:0;line-height:1.3}
+ :root .app-shell .home-dashboard>.page-head p{display:none}
+ :root .app-shell .home-dashboard>.page-head .head-controls{display:flex;gap:8px;flex-wrap:wrap}
+ :root .app-shell .home-dashboard>.page-head .head-controls>.primary{display:none}
+ :root .app-shell .home-dashboard>.page-head .date-nav{flex:1;min-width:230px;max-width:none}
+ :root .app-shell .home-dashboard>.page-head .date-nav input{flex:1;min-width:114px;width:114px;padding:3px;font-size:12px}
+ :root .app-shell .home-dashboard>.page-head .date-nav button{padding:4px;min-width:24px}
+ :root .app-shell .home-dashboard>.page-head .head-controls>button{padding:8px;font-size:12px;min-height:44px}
+ :root .app-shell .home-dashboard>.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+ :root .app-shell .home-dashboard>.metrics>.metric{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:56px;padding:8px 10px;border-radius:12px}
+ :root .app-shell .home-dashboard>.metrics>.metric>div{font-size:12px;line-height:1.4}
+ :root .app-shell .home-dashboard>.metrics>.metric>strong{font-size:19px;line-height:1.3;margin:0;overflow-wrap:anywhere}
+ :root .app-shell .home-dashboard>.metrics>.metric>small{display:none}
+ :root .app-shell .dashboard-schedule{padding:14px}
+ :root .app-shell .dashboard-section-head h2{font-size:19px}
+ :root .app-shell .dashboard-section-head .eyebrow{display:none}
+ :root .app-shell .task-gesture-hint{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;font-size:11px;padding:6px 0}
+ :root .app-shell .task-gesture-hint>span{display:flex;align-items:center;gap:3px;white-space:nowrap}
+ :root .app-shell .task-gesture-hint svg{width:12px;height:12px}
+ :root .app-shell .timeline-flexible-row>button{min-height:44px}
+ :root .app-shell .timeline-flexible summary small{display:block;margin:5px 0}
+ :root .app-shell .page-footer{display:flex;flex-wrap:wrap;gap:12px}
+}

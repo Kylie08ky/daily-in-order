@@ -1,5 +1,18 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"灵活事项":"Flexible tasks",
+"不必填写开始时间":"No start time required",
+"打开导航":"Open navigation",
+"关闭导航":"Close navigation",
+"问题与建议":"Feedback & suggestions",
+"记录用时":"Log time",
+"历史记录":"History",
+"任务累计实际用时":"Total actual time for this task",
+"已记录 {0}，直接确认不会重复计时；修改下方数值会替换累计用时。":"{0} already recorded. Confirming will not add time again; changing the value below replaces the task total.",
+"更快找到今天要做的事":"Find your next task faster",
+"灵活事项直接显示在时间轴，手机导航收起为顶部菜单；日历优先打开并记住视图，任务池默认显示全部类型。":"Flexible tasks stay visible on the timeline. Mobile navigation uses a compact menu; planning opens the calendar by default and remembers the view, while the task pool initially shows all types.",
+"明确累计用时与追加投入，未设置的可用时间不再显示为零；增加问题与建议快捷入口。":"Clarify total time versus an additional session, show unset capacity explicitly, and add a feedback shortcut.",
+
 "首页书封面，恢复紧凑布局":"Compact reading summary covers",
 "修复首页阅读卡片封面过大、书名竖排和相邻卡片被撑高的问题，长书名与手机布局保持可读。":"Fix oversized covers, squeezed vertical titles and stretched adjacent cards in the home reading summary; long titles remain readable on mobile.",
 
