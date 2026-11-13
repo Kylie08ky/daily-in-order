@@ -1,0 +1,25 @@
+/* Keep task editing typography independent of the page underneath the dialog. */
+.modal.task-editor-modal {
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #303d32;
+}
+.modal.task-editor-modal :is(label, input, select, textarea, button, p, small, summary, span, strong, b, h3, h4, output) {
+  font-family: inherit !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  letter-spacing: normal;
+}
+.modal.task-editor-modal :is(label, input, select, textarea, button, p, small, span, output) { font-weight: 400; }
+.modal.task-editor-modal :is(strong, b, h3, h4, summary) { font-weight: 600; }
+.modal.task-editor-modal > header h2 {
+  font-family: inherit;
+  font-size: 22px !important;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.modal.task-editor-modal :is(.hint, .muted, small, .learning-link-editor p) { color: #53614b !important; }
+.modal.task-editor-modal input::placeholder,
+.modal.task-editor-modal textarea::placeholder { color: #63705d; opacity: 1; }
+.modal.task-editor-modal .task-plans-summary b { font-size: 16px; }

@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"编辑事项，字体更统一":"Consistent task editor typography",
+"编辑事项与时间安排统一字体、正文字号和行高，说明文字保持清晰对比，标题保留层级。":"Task editing and scheduling now share a consistent font, body size and line height, with readable helper text and a distinct heading.",
+
 "调整时间安排":"Adjust schedule",
 "返回编辑事项":"Back to task editor",
 "放弃尚未保存的时间安排？":"Discard unsaved schedule changes?",

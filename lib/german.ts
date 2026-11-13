@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"编辑事项，字体更统一":"Einheitliche Schrift in der Aufgabenbearbeitung",
+"编辑事项与时间安排统一字体、正文字号和行高，说明文字保持清晰对比，标题保留层级。":"Aufgabenbearbeitung und Zeitplanung verwenden einheitliche Schrift, Textgröße und Zeilenhöhe mit gut lesbaren Hinweisen und klaren Überschriften.",
+
 "调整时间安排":"Zeitplanung anpassen",
 "返回编辑事项":"Zurück zur Aufgabenbearbeitung",
 "放弃尚未保存的时间安排？":"Nicht gespeicherte Planänderungen verwerfen?",
