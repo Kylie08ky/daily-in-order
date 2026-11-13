@@ -69,7 +69,7 @@ Watch a **real AI generation** create a fictional photography project from one p
 
 ![Real AI conversation, project and task drafts, and confirmed creation](docs/images/ai-assistant-walkthrough-en.gif)
 
-About 39 seconds, with a visible pointer and click cues. Captured from real preview interactions using fictional test content. The Chinese app UI is accompanied by English captions; generation waits and scrolling are shortened, with longer holds on key results. This is not a scripted AI response.
+About 39 seconds, with a visible pointer and click cues. Recorded in the **English app interface**, using an English prompt and a separate real AI generation for the fictional “Photography Basics - README Demo” project. Generation waits and scrolling are shortened, with longer holds on key results. This is not a scripted AI response.
 
 ### 02 / One task, progress across several days
 

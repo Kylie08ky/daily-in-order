@@ -80,19 +80,19 @@ Captured on **2026-11-13** from the v0.24.2 preview in ordinary Edge, using a de
 | Files / 文件 | Dimensions / 尺寸 | Duration / 时长 | Size / 大小 |
 | --- | --- | --- | --- |
 | `ai-assistant-walkthrough-zh.gif` | 1120 × 834 | 38.8 s | 0.88 MiB |
-| `ai-assistant-walkthrough-en.gif` | 1120 × 834 | 38.8 s | 0.91 MiB |
+| `ai-assistant-walkthrough-en.gif` | 1120 × 834 | 38.8 s | 1.02 MiB |
 
 The prompt requests a new “摄影入门 · README 演示” project with camera settings (30 minutes), composition practice (45 minutes) and photo organization (20 minutes), all scheduled for tomorrow with no fixed start time. The captured flow includes consent, one real generation request, the returned project/task drafts, review of all three schedules and a successful save. The 95 minutes are planned time, not actual effort.
 
 输入要求创建虚构「摄影入门 · README 演示」项目：了解相机设置 30 分钟、练习构图 45 分钟、整理照片 20 分钟，全部安排到明天，开始时间留空。记录包含同意发送、一次真实生成请求、返回的项目与任务草稿、逐项核对和成功保存。合计 95 分钟属于预计用时，不是实际投入。
 
-- Both files use the same actual Chinese UI capture. English labels translate the editorial explanation and task summary; they do not represent a second English AI request or an English UI recording.
+- The Chinese recording is unchanged. The English file was re-recorded in the English app interface using an English prompt and one separate real AI request. It creates the fictional “Photography Basics - README Demo” project with “Learn camera settings”, “Practice composition” and “Organize photos”, using the same 30/45/20-minute estimates and tomorrow's date, with blank start times. The English draft and successful save were verified in the UI; it is not translated footage of the Chinese generation.
 - This is an edited keyframe walkthrough, not continuous real-time video. Waiting and scrolling are shortened, while results are held for reading. The captured pointer/halo and added gold rings identify observed clicks; captions sit outside the app. No AI reply, draft values or success state is reconstructed.
 - Only the dialog is published. Browser chrome, account information and surrounding workspace are cropped out. The recording creates synthetic preview plans only; it does not use personal workbench records, backups or production workspace data. No actual effort or completion records are invented.
 - No App Check policy, allowed domains, authentication rules or billing settings were changed. There is no website deployment for this documentation update.
 - Decoded GIF keyframes, duration, image integrity and both README links were checked. Raw full-window captures, capture scripts, logs and credentials remain outside the public commit.
 
-两份动图使用同一段中文界面真实操作；英文版仅翻译画面外的步骤说明与任务摘要，并非另一次英文 AI 请求或英文界面录像。动图以实际关键画面剪辑，缩短等待和滚动，延长结果停留；鼠标与光晕来自捕获画面，金色点击圈标示实际点击位置，未重构 AI 回复、表单值或保存结果。
+中文动图保持原录制。英文动图已在英文界面重新录制，以英文输入独立发送一次真实 AI 请求，创建虚构「Photography Basics - README Demo」项目及三项英文任务；预计分别为 30／45／20 分钟，日期为明天，开始时间留空。已核对英文草稿与成功保存结果，不再使用中文画面配英文说明。动图以实际关键画面剪辑，缩短等待和滚动，延长结果停留；鼠标与光晕来自捕获画面，金色点击圈标示实际点击位置，未重构 AI 回复、表单值或保存结果。
 
 只公开裁切后的弹窗，排除浏览器工具栏、账号信息与背景工作台。本次仅创建虚构的预览测试计划，不使用私人工作台、备份或正式工作区资料，不伪造实际投入。未修改安全验证、域名白名单、认证规则或付费设置，也不部署网站。已检查解码关键帧、播放时长、图片完整性及双语引用；原始全窗口截图、脚本、日志和凭证不公开。
 
