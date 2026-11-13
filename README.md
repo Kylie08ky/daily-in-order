@@ -45,22 +45,13 @@ React · TypeScript · Firebase · PWA
 
 ## 看看实际操作
 
-两段短动图展示真实界面操作，使用本地虚构数据。点击可放大；下方保留静态截图，方便查看细节。
+**从月目标到今天的专注，一段动图看完整个过程。**
 
-<table>
-<tr>
-<td width="50%" valign="top">
-<strong>调整任务安排</strong><br />
-<a href="docs/images/schedule-motion-zh.gif"><img src="docs/images/schedule-motion-zh.gif" alt="调整任务安排" width="100%" /></a>
-<br />列表与时间轴切换 → 拖动开始时间 → 调整预计时长。
-</td>
-<td width="50%" valign="top">
-<strong>进入专注</strong><br />
-<a href="docs/images/focus-motion-zh.gif"><img src="docs/images/focus-motion-zh.gif" alt="进入专注" width="100%" /></a>
-<br />选择正向计时 → 开始专注 → 暂停与继续，成长值随真实计时变化。
-</td>
-</tr>
-</table>
+以虚构的「创意网站设计」项目为例：设定 **12 小时月目标** → 自动分配到各周并手动微调 → 查看本周每天的空档，为原任务安排 **1 小时** → 拖动时间轴调整开始时间 → 开始专注、暂停与继续。
+
+<a href="docs/images/planning-walkthrough-zh.gif"><img src="docs/images/planning-walkthrough-zh.gif" alt="月度目标分配到每周，为任务安排一天，在时间轴调整时间并开始专注的完整操作演示" width="100%" /></a>
+
+约 30 秒，循环播放；顶部标明当前步骤，点击可放大。所有画面来自本地虚构测试账号，下方保留静态截图，方便查看细节。月度分配和日程安排是计划，专注计时才是实际投入，二者不会重复计入。
 
 ## 三个核心体验
 

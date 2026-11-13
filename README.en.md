@@ -45,22 +45,13 @@ It started as a tool for my own planning habits. Independent accounts, optional 
 
 ## See it in action
 
-Two short recordings of the real interface, using synthetic local data. Click to enlarge; static screenshots below make the details easier to inspect.
+**One walkthrough, from a monthly goal to today’s focus session.**
 
-<table>
-<tr>
-<td width="50%" valign="top">
-<strong>Adjust a task’s schedule</strong><br />
-<a href="docs/images/schedule-motion-en.gif"><img src="docs/images/schedule-motion-en.gif" alt="Adjust a task’s schedule" width="100%" /></a>
-<br />Switch list/timeline views → drag the start time → resize the planned duration.
-</td>
-<td width="50%" valign="top">
-<strong>Start a focus session</strong><br />
-<a href="docs/images/focus-motion-en.gif"><img src="docs/images/focus-motion-en.gif" alt="Start a focus session" width="100%" /></a>
-<br />Choose the stopwatch → start focusing → pause and resume, with growth points following actual elapsed time.
-</td>
-</tr>
-</table>
+Follow the fictional **Creative website** project: set a **12-hour monthly goal** → allocate it across weeks automatically and make adjustments → check daily capacity and schedule **one hour** for the original task → drag its start time on the timeline → start, pause and resume a focus session.
+
+<a href="docs/images/planning-walkthrough-en.gif"><img src="docs/images/planning-walkthrough-en.gif" alt="End-to-end demo: allocate a monthly goal across weeks, schedule a task, adjust its timeline and start focusing" width="100%" /></a>
+
+A roughly 30-second loop, with the current step labeled at the top. Click to enlarge. Every frame uses a synthetic local test account; static screenshots below make details easier to inspect. Monthly allocations and scheduled sessions are plans, while focus tracks actual effort; they are not added together as actual time.
 
 ## Three core experiences
 

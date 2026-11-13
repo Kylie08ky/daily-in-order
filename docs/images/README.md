@@ -40,7 +40,40 @@ All sixteen images were opened and visually inspected after capture. Both README
 
 十六张图片均已打开检查，中英文 README 分别引用对应语言图片，采用两列排布，点击图片可查看原图。全页截图保留界面内部面板的真实滚动状态；局部截图直接取自浏览器，未拼接或修饰界面。
 
-## Interaction recordings / 交互动图
+## Combined planning walkthrough / 完整规划动图
+
+Recorded on **2026-11-13** from local **v0.24.2** application code at `f92d018`. Each README now embeds one standalone, full-width walkthrough in its own language. The static screenshot gallery remains in two columns; animated recordings are not played side by side.
+
+2026-11-13 基于 `f92d018` 的 v0.24.2 本地应用录制。中英文 README 各单独展示一段对应语言的完整动图；静态图库保留两列排布，动图不再并排播放。
+
+| Files / 文件 | Dimensions / 尺寸 | Duration / 时长 | Size / 大小 |
+| --- | --- | --- | --- |
+| `planning-walkthrough-zh.gif` | 1120 × 834 | 31.37 s | 2.37 MiB |
+| `planning-walkthrough-en.gif` | 1120 × 834 | 31.35 s | 2.13 MiB |
+
+The same fictional website-design project runs through four chapters:
+
+1. Set a 12-hour monthly goal. Allocate it automatically by the days of each week within November, then adjust the current week to 3 hours and the next to 2 hours 36 minutes, keeping the total at 12 hours.
+2. Inspect the weekly capacity view and add a one-hour session at 10:00 to the existing six-hour “Sketch the home page” task. The fixture also contains a separate 30-minute team check-in and another six-hour design task.
+3. Move that session from 10:00 to 10:30 on the daily timeline, preserving its one-hour duration and original task association.
+4. Start, pause and resume a real stopwatch session for that task. No completed work session or financial return is claimed.
+
+同一个虚构「创意网站设计」项目贯穿四步：设置 12 小时月目标，按当月各周天数自动分配后，把本周微调为 3 小时、下周调为 2 小时 36 分钟，总额仍为 12 小时；查看每周可用时间，为原有 6 小时「完成首页草图」任务安排今天 10:00 的 1 小时分段；在时间轴将它拖到 10:30；开始、暂停并继续真实正向计时。另有一项 30 分钟团队晨会和另一项 6 小时设计任务，全部是虚构数据。演示没有把计划当作实际投入，也未宣称完成整段工作或获得真实收益。
+
+- New synthetic accounts were created only in the local `demo-friends-isolation` Authentication and Firestore emulators. No personal account, production data, browser profile, private backup or WeRead connection was accessed.
+- Real UI actions were captured in isolated 1440 × 1000 desktop browser contexts at approximately 4 fps. Frames were resized to 1120 × 778; a separate 56 px editorial chapter strip was added above the unaltered interface. The strip is a video guide, not an app feature.
+- Captured action timing is preserved within each chapter. Navigation between chapters is cut; chapter endings are held briefly. Identical frames are coalesced in looping 128-color GIFs. No timer values or application content were fabricated.
+- UI assertions verified a 12-hour allocation total, the saved one-hour session and its new 10:30 start time. Both encoded GIFs were decoded and their chapter key frames inspected, including the paused and resumed timer. Relative README image links were checked.
+- Only documentation and public media are changed. The website and real user records are not updated. Temporary fixture and capture scripts stay outside the public commit.
+
+仅在本地模拟器创建虚构测试账号，以隔离浏览器录制真实界面。未读取个人账号、生产数据、浏览器个人资料、私人备份或微信读书连接。1440 × 1000 桌面画面约每秒采集 4 帧，缩放至 1120 × 778，再在画面外增加 56 像素步骤标题；标题是演示说明，不是新增的应用界面。保留章节内部操作时序，省略章节之间的导航等待，并在章节末短暂停留。采用 128 色循环 GIF，合并重复帧，不修改计时数字或界面内容。录制中核对了 12 小时总分配、保存的 1 小时安排与 10:30 开始时间；编码后检查两种语言的解码关键帧、暂停和继续状态以及 README 链接。本次只更新文档与公开媒体，不部署网站，不改真实记录。
+
+## Earlier interaction recordings / 之前的短动图
+
+These standalone clips are retained for direct links but are no longer embedded in the main READMEs.
+
+以下短动图保留原链接，但主 README 已改用上面的完整演示。
+
 
 Captured on **2026-11-13** from local **v0.24.2** application code at `3f7fa40`. The site and real user records were not changed.
 
