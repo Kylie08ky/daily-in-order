@@ -43,6 +43,25 @@ Daily in Order brings that process into one workspace:
 
 It started as a tool for my own planning habits. Independent accounts, optional modules and multiple languages gradually made it usable by others with different routines.
 
+## See it in action
+
+Two short recordings of the real interface, using synthetic local data. Click to enlarge; static screenshots below make the details easier to inspect.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>Adjust a task’s schedule</strong><br />
+<a href="docs/images/schedule-motion-en.gif"><img src="docs/images/schedule-motion-en.gif" alt="Adjust a task’s schedule" width="100%" /></a>
+<br />Switch list/timeline views → drag the start time → resize the planned duration.
+</td>
+<td width="50%" valign="top">
+<strong>Start a focus session</strong><br />
+<a href="docs/images/focus-motion-en.gif"><img src="docs/images/focus-motion-en.gif" alt="Start a focus session" width="100%" /></a>
+<br />Choose the stopwatch → start focusing → pause and resume, with growth points following actual elapsed time.
+</td>
+</tr>
+</table>
+
 ## Three core experiences
 
 ### 01 / Turn a conversation into a plan you can act on

@@ -43,6 +43,25 @@ React · TypeScript · Firebase · PWA
 
 它最初用于解决我自己的日常规划问题，随后逐步加入独立账号、可选模块和多语言，成为其他人也能按自己的习惯使用的工具。
 
+## 看看实际操作
+
+两段短动图展示真实界面操作，使用本地虚构数据。点击可放大；下方保留静态截图，方便查看细节。
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>调整任务安排</strong><br />
+<a href="docs/images/schedule-motion-zh.gif"><img src="docs/images/schedule-motion-zh.gif" alt="调整任务安排" width="100%" /></a>
+<br />列表与时间轴切换 → 拖动开始时间 → 调整预计时长。
+</td>
+<td width="50%" valign="top">
+<strong>进入专注</strong><br />
+<a href="docs/images/focus-motion-zh.gif"><img src="docs/images/focus-motion-zh.gif" alt="进入专注" width="100%" /></a>
+<br />选择正向计时 → 开始专注 → 暂停与继续，成长值随真实计时变化。
+</td>
+</tr>
+</table>
+
 ## 三个核心体验
 
 ### 01 / 从一句话开始，把想法变成可执行的安排

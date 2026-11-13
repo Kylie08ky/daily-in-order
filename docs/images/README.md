@@ -40,6 +40,24 @@ All sixteen images were opened and visually inspected after capture. Both README
 
 十六张图片均已打开检查，中英文 README 分别引用对应语言图片，采用两列排布，点击图片可查看原图。全页截图保留界面内部面板的真实滚动状态；局部截图直接取自浏览器，未拼接或修饰界面。
 
+## Interaction recordings / 交互动图
+
+Captured on **2026-11-13** from local **v0.24.2** application code at `3f7fa40`. The site and real user records were not changed.
+
+2026-11-13 基于 `3f7fa40` 的 v0.24.2 本地应用录制；没有更新网站或修改真实用户记录。
+
+| Files / 文件 | Interaction / 操作 | Duration / 时长 |
+| --- | --- | --- |
+| `schedule-motion-zh.gif` / `schedule-motion-en.gif` | Switch list/timeline, move a fictional reading task from 11:00 to 11:30, then resize 45 minutes to 60 minutes / 切换列表与时间轴，将虚构阅读任务从 11:00 拖到 11:30，再从 45 分钟调整为 60 分钟 | About 10 seconds / 约 10 秒 |
+| `focus-motion-zh.gif` / `focus-motion-en.gif` | Select stopwatch, start, pause and resume a fictional design task / 为虚构设计任务选择正向计时，开始、暂停与继续 | About 13 seconds / 约 13 秒 |
+
+- Recorded in fresh browser contexts against the local `demo-friends-isolation` emulators, using only the fictional projects and tasks described above. No production login, data, credentials or personal browser profile was used.
+- Frames were captured from real browser actions at approximately 5 fps, resized to 960 px wide and encoded as looping GIFs. Frame timing is preserved; identical frames are coalesced and the final frame is held briefly before replay. No interface or timer values were fabricated.
+- Both schedule changes were verified in the UI after saving. All four encoded GIFs were checked through decoded key frames, durations and image integrity. Each file is smaller than 1 MB.
+- Focus shows real seconds and virtual growth points, including the pause. It does not claim to demonstrate a finished work session or a real financial return.
+
+仅连接本地模拟器，以独立浏览器会话操作虚构测试账号。未使用生产登录、个人浏览器资料或真实记录。约每秒采集 5 帧，缩放到 960 像素宽后编码为循环 GIF，保留采集时序并合并相同帧，末帧短暂停留后循环；没有修改界面内容或伪造计时数字。时间轴的移动和时长调整均已核对保存结果，四张动图均已检查解码关键帧、播放时长及文件完整性，每张小于 1 MB。专注仅展示真实计时、暂停与虚拟激励，不代表已完成任务或实际收益。
+
 ## Other retained assets / 其他保留图片
 
 These older files are not currently embedded in the main READMEs:
