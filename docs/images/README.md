@@ -48,8 +48,8 @@ Recorded on **2026-11-13** from local **v0.24.2** application code at `f92d018`.
 
 | Files / 文件 | Dimensions / 尺寸 | Duration / 时长 | Size / 大小 |
 | --- | --- | --- | --- |
-| `planning-walkthrough-zh.gif` | 1120 × 834 | 31.37 s | 2.37 MiB |
-| `planning-walkthrough-en.gif` | 1120 × 834 | 31.35 s | 2.13 MiB |
+| `planning-walkthrough-zh.gif` | 1120 × 834 | 58.77 s | 2.37 MiB |
+| `planning-walkthrough-en.gif` | 1120 × 834 | 58.75 s | 2.13 MiB |
 
 The same fictional website-design project runs through four chapters:
 
@@ -62,11 +62,11 @@ The same fictional website-design project runs through four chapters:
 
 - New synthetic accounts were created only in the local `demo-friends-isolation` Authentication and Firestore emulators. No personal account, production data, browser profile, private backup or WeRead connection was accessed.
 - Real UI actions were captured in isolated 1440 × 1000 desktop browser contexts at approximately 4 fps. Frames were resized to 1120 × 778; a separate 56 px editorial chapter strip was added above the unaltered interface. The strip is a video guide, not an app feature.
-- Captured action timing is preserved within each chapter. Navigation between chapters is cut; chapter endings are held briefly. Identical frames are coalesced in looping 128-color GIFs. No timer values or application content were fabricated.
-- UI assertions verified a 12-hour allocation total, the saved one-hour session and its new 10:30 start time. Both encoded GIFs were decoded and their chapter key frames inspected, including the paused and resumed timer. Relative README image links were checked.
+- Playback pacing was revised on 2026-11-13: the first three chapters use 1.5× frame durations, with extra holds on automatic allocation, manual adjustments, saved results and the weekly scheduling form. Monthly allocation lasts 20.91 seconds, weekly scheduling about 19.45 seconds, and timeline adjustment about 8.47 seconds. The focus chapter retains its original real-time pacing. Navigation between chapters is cut. Identical frames are coalesced in looping 128-color GIFs. No timer values or application content were fabricated.
+- UI assertions verified a 12-hour allocation total, the saved one-hour session and its new 10:30 start time. Both encoded GIFs were decoded and their chapter key frames inspected, including the paused and resumed timer. Relative README image links were checked. After retiming, all decoded frame pixels were compared with the previous GIFs and confirmed identical; only playback durations changed.
 - Only documentation and public media are changed. The website and real user records are not updated. Temporary fixture and capture scripts stay outside the public commit.
 
-仅在本地模拟器创建虚构测试账号，以隔离浏览器录制真实界面。未读取个人账号、生产数据、浏览器个人资料、私人备份或微信读书连接。1440 × 1000 桌面画面约每秒采集 4 帧，缩放至 1120 × 778，再在画面外增加 56 像素步骤标题；标题是演示说明，不是新增的应用界面。保留章节内部操作时序，省略章节之间的导航等待，并在章节末短暂停留。采用 128 色循环 GIF，合并重复帧，不修改计时数字或界面内容。录制中核对了 12 小时总分配、保存的 1 小时安排与 10:30 开始时间；编码后检查两种语言的解码关键帧、暂停和继续状态以及 README 链接。本次只更新文档与公开媒体，不部署网站，不改真实记录。
+仅在本地模拟器创建虚构测试账号，以隔离浏览器录制真实界面。未读取个人账号、生产数据、浏览器个人资料、私人备份或微信读书连接。1440 × 1000 桌面画面约每秒采集 4 帧，缩放至 1120 × 778，再在画面外增加 56 像素步骤标题；标题是演示说明，不是新增的应用界面。2026-11-13 调慢播放节奏：前三章帧时长延长至原来的 1.5 倍，并在自动分配、手动微调、保存结果和每周安排表单处额外停留。月度分配展示 20.91 秒，每周安排约 19.45 秒，时间轴调整约 8.47 秒；专注章节保留原始真实计时节奏。省略章节之间的导航等待。采用 128 色循环 GIF，合并重复帧，不修改计时数字或界面内容。录制中核对了 12 小时总分配、保存的 1 小时安排与 10:30 开始时间；编码后检查两种语言的解码关键帧、暂停和继续状态以及 README 链接。本次只更新文档与公开媒体，不部署网站，不改真实记录。
 
 ## Earlier interaction recordings / 之前的短动图
 

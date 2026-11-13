@@ -51,7 +51,7 @@ Follow the fictional **Creative website** project: set a **12-hour monthly goal*
 
 <a href="docs/images/planning-walkthrough-en.gif"><img src="docs/images/planning-walkthrough-en.gif" alt="End-to-end demo: allocate a monthly goal across weeks, schedule a task, adjust its timeline and start focusing" width="100%" /></a>
 
-A roughly 30-second loop, with the current step labeled at the top. Click to enlarge. Every frame uses a synthetic local test account; static screenshots below make details easier to inspect. Monthly allocations and scheduled sessions are plans, while focus tracks actual effort; they are not added together as actual time.
+A roughly one-minute loop. Monthly allocation and weekly scheduling play more slowly, with extra pauses on key results. The current step is labeled at the top; click to enlarge. Every frame uses a synthetic local test account; static screenshots below make details easier to inspect. Monthly allocations and scheduled sessions are plans, while focus tracks actual effort; they are not added together as actual time.
 
 ## Three core experiences
 
