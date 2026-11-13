@@ -6,6 +6,7 @@ import {onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPass
 import {auth} from '../lib/firebase';
 import Workbench from '../app/workbench';
 import BrandMark from '../app/brand-mark';
+import DesktopRecommendation from '../app/desktop-recommendation';
 import {SessionContext} from '../app/session';
 import '../app/globals.css';import '../app/life.css';import '../app/home.css';import '../app/focus.css';import '../app/scenes.css';import '../app/readability.css';import '../app/offline.css';import './auth.css';
 
@@ -42,7 +43,7 @@ function App(){useLanguage();
  {error&&<p className="auth-error" role="alert">{ui(error)}</p>}{notice&&<p className="auth-notice" role="status">{ui(notice)}</p>}
  <p className="auth-foot">{ui("邮箱用于登录、验证及找回密码。请在共享设备上退出登录。")}</p><LanguageSwitch/></section></main>;
 }
-createRoot(document.getElementById('root')!).render(<><LanguageMetadata/><App/></>);
+createRoot(document.getElementById('root')!).render(<><LanguageMetadata/><DesktopRecommendation><App/></DesktopRecommendation></>);
 
 import '../app/identity.css';
 

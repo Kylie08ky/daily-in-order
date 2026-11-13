@@ -1,5 +1,13 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"建议使用电脑打开":"Best experienced on a computer",
+"当前版本优先支持电脑端，手机布局仍在完善中。使用电脑安排任务、查看时间轴，会有更完整的体验。":"This version is designed primarily for desktop. The mobile layout is still being improved. For the full task-planning and timeline experience, use a computer.",
+"你仍可以在手机上继续使用，已有记录会保留。":"You can still continue on your phone. Your existing records will be kept.",
+"仍然继续使用":"Continue anyway",
+"本次打开期间不再提示。":"This notice will stay dismissed for this session.",
+"电脑优先，手机可继续使用":"Desktop first, mobile access remains available",
+"手机打开时提示建议使用电脑，保留继续使用入口；不改变账号、记录或同步。":"On phones, recommend using a computer while keeping a Continue anyway option. Accounts, records and synchronization are unchanged.",
+
 "时间轴恢复原样，手机排布更紧凑":"Restore the timeline and refine mobile spacing","移除首页时间轴上方新增的灵活事项框；手机缩短顶部间距，任务标题与操作分行显示，保留原记录与统计。":"Remove the extra flexible-task box above the home timeline. Compact mobile spacing and separate task titles from actions, preserving all records and statistics.",
 "灵活事项":"Flexible tasks",
 "不必填写开始时间":"No start time required",

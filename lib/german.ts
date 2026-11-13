@@ -1,5 +1,13 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"建议使用电脑打开":"Am besten am Computer nutzen",
+"当前版本优先支持电脑端，手机布局仍在完善中。使用电脑安排任务、查看时间轴，会有更完整的体验。":"Diese Version ist vor allem für Computer ausgelegt. Die mobile Ansicht wird noch verbessert. Am Computer lassen sich Aufgaben und Zeitpläne übersichtlicher verwalten.",
+"你仍可以在手机上继续使用，已有记录会保留。":"Du kannst die App weiterhin auf dem Smartphone nutzen. Deine bisherigen Einträge bleiben erhalten.",
+"仍然继续使用":"Trotzdem fortfahren",
+"本次打开期间不再提示。":"Dieser Hinweis bleibt für diese Sitzung ausgeblendet.",
+"电脑优先，手机可继续使用":"Computer zuerst, mobile Nutzung weiterhin möglich",
+"手机打开时提示建议使用电脑，保留继续使用入口；不改变账号、记录或同步。":"Auf Smartphones empfehlen wir die Nutzung am Computer, mit der Option Trotzdem fortfahren. Konten, Einträge und Synchronisierung bleiben unverändert.",
+
 "时间轴恢复原样，手机排布更紧凑":"Zeitleiste wiederherstellen und mobile Abstände verbessern","移除首页时间轴上方新增的灵活事项框；手机缩短顶部间距，任务标题与操作分行显示，保留原记录与统计。":"Den zusätzlichen Bereich für flexible Aufgaben oberhalb der Startseiten-Zeitleiste entfernen. Kompaktere mobile Abstände und getrennte Zeilen für Aufgabentitel und Aktionen; alle Einträge und Statistiken bleiben erhalten.",
 "灵活事项":"Flexible Aufgaben",
 "不必填写开始时间":"Keine Startzeit erforderlich",

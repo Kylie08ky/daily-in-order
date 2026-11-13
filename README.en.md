@@ -1,5 +1,7 @@
 # Daily in Order · 日常有序
 
+**v0.24.2 preview: desktop-first support.** Phones show a recommendation to use a computer, with a **Continue anyway** option. The notice stays dismissed for the current session. Mobile layouts are still being improved; desktop users enter directly. Accounts, records and sync are unchanged. Preview only.
+
 **v0.24.1 preview: restore the original timeline layout.** Remove the extra flexible-task box above the home timeline; tasks without a start time remain available in the list. Compact mobile spacing and separate task titles from actions while preserving the green palette, records and statistics. Preview only.
 
 **v0.24.0 preview: easier first steps and feedback.** Days with only flexible tasks default to the list. Local view choices are remembered per account and environment. Planning opens the calendar by default and its task pool starts with all task types. Mobile navigation moves into a top menu so today's tasks come first, with quick AI and feedback access. Completing a task clearly labels cumulative actual time; unset availability no longer appears as zero. Existing records and statistics are preserved. Production has not been updated.
@@ -19,7 +21,7 @@ Make room for your goals. Keep track of the time you put in.
 
 [Try the app](https://personal-daily-organize.web.app/) · [Features](#features) · [Run locally](#run-locally) · [Deploy your own instance](#deploy-your-own-instance)
 
-Daily in Order is a personal workspace with Chinese, English and German interfaces. Plan tasks, track focus sessions and review project progress, then enable learning, reading, habits, fitness and finance modules as needed. The interface uses a green palette and card layouts for desktop and mobile.
+Daily in Order is a personal workspace with Chinese, English and German interfaces. Plan tasks, track focus sessions and review project progress, then enable learning, reading, habits, fitness and finance modules as needed. The interface uses a green palette and card layouts. Desktop is currently the primary supported experience. Mobile layouts are still being improved, but mobile access remains available.
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
