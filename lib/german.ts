@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"首页书封面，恢复紧凑布局":"Kompakte Cover in der Leseübersicht",
+"修复首页阅读卡片封面过大、书名竖排和相邻卡片被撑高的问题，长书名与手机布局保持可读。":"Überdimensionierte Cover, zusammengedrückte Titel und überhöhte Nachbarkarten in der Startseitenübersicht behoben; lange Titel bleiben mobil lesbar.",
+
 "编辑事项，字体更统一":"Einheitliche Schrift in der Aufgabenbearbeitung",
 "编辑事项与时间安排统一字体、正文字号和行高，说明文字保持清晰对比，标题保留层级。":"Aufgabenbearbeitung und Zeitplanung verwenden einheitliche Schrift, Textgröße und Zeilenhöhe mit gut lesbaren Hinweisen und klaren Überschriften.",
 

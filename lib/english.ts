@@ -1,5 +1,8 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"首页书封面，恢复紧凑布局":"Compact reading summary covers",
+"修复首页阅读卡片封面过大、书名竖排和相邻卡片被撑高的问题，长书名与手机布局保持可读。":"Fix oversized covers, squeezed vertical titles and stretched adjacent cards in the home reading summary; long titles remain readable on mobile.",
+
 "编辑事项，字体更统一":"Consistent task editor typography",
 "编辑事项与时间安排统一字体、正文字号和行高，说明文字保持清晰对比，标题保留层级。":"Task editing and scheduling now share a consistent font, body size and line height, with readable helper text and a distinct heading.",
 

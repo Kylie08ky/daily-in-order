@@ -1,6 +1,9 @@
 # Daily in Order · 日常有序
 
 
+**v0.23.5 preview:** Fix oversized covers, squeezed vertical titles and stretched adjacent cards in the home reading summary; long titles remain readable on mobile.
+
+
 **v0.23.4 preview:** Task editing and scheduling now share a consistent font, body size and line height, with readable helper text and a distinct heading.
 
 
