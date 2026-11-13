@@ -10,7 +10,9 @@ Daily in Order is a personal workspace with Chinese, English and German interfac
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
-**Current production release: v0.15.0 (2026-11-10).** The owner-approved `workbench-review` build was promoted unchanged to production. It includes the accumulated monthly/weekly planning, split schedules, learning assignments, three task-pool categories and daily-list gestures. Switch Today to **List** to swipe left to complete, swipe right to the next day, tap to edit and drag the handle to reorder. The release updates application files only; preview and production records remain isolated.
+**Current production release: v0.22.0 (2026-11-13).** The owner-approved preview Hosting version was promoted unchanged. Seven preview updates are grouped into one production release entry; production does not show preview change details or pending batches. This includes daily progress recording, concrete project outcomes and historical pages, traceable study time, real book covers, the WeRead interface, remaining-work estimates and separate release histories. Preview and production records remain isolated. The WeRead gateway still allows preview origins only; approval to enable the production origins is pending, so connecting from production is not yet available.
+
+The v0.16–v0.22 entries below are development-time preview notes, now grouped into this release. The production notice above describes the current WeRead gateway limitation.
 
 **v0.22.0 preview: separate release histories.** Settings → About keeps individual preview changes and offers production-history and pending-batch views. Production shows only published batches. The release command pins the reviewed Hosting version and records one batch with the actual publication date after promotion succeeds; retries do not duplicate entries. Publishing never reads or copies user workspaces or test data.
 

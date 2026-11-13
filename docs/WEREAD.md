@@ -2,6 +2,11 @@
 
 ## 状态与范围
 
+2026-11-13：v0.22.0 前端已按负责人确认原样发布。中转服务的正式来源扩展被自动审批拦截，等待负责人另行确认；目前微信读书连接仍仅在预览可用。部署配置不含个人微信读书密钥，用户在连接时临时提供各自密钥。
+
+2026-11-13: The approved v0.22.0 frontend is now live. Automatic approval review blocked expanding the gateway to production origins; separate owner confirmation remains pending. The connection currently works only from preview. Deployment configuration contains no personal WeRead keys; users supply their own keys for each connection.
+
+
 2026-11-12：负责人预览环境的只读 Cloudflare Worker 已部署，并设置 `VITE_WEREAD_GATEWAY`；HTTPS、预览来源预检、未登录／无效登录拒绝，以及正式来源拒绝均已验证。已在已登录预览窗口用虚构微信读书密钥验证：通过 Firebase 校验并收到腾讯的无效密钥响应。正式版未更新。真实书架、封面与进度仍需用户在预览界面输入个人密钥验证；本地虚构响应测试不代表真实账号联调通过。自行部署者仍需配置自己的 Worker；未配置时界面明确提示不可连接。
 
 - 阅读书房 → 连接微信读书 → 输入个人 API Key → 选择电子书 → 关联旧书或新增 → 同步所选书籍。
