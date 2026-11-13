@@ -17,7 +17,7 @@ Updated on **2026-11-13**, using **v0.24.2** application code (initial set at `4
 | `learning-demo-zh.jpg` / `learning-demo-en.jpg` | Modules, activities, time and quantity / 学习模块、子项、时长与数量 | 1440 × 1320 desktop viewport / 桌面视口 |
 | `reading-demo-zh.jpg` / `reading-demo-en.jpg` | Fictional bookshelf and reading positions / 虚构书架与阅读位置 | 1440 × 1320 desktop viewport / 桌面视口 |
 
-### Data and privacy / 数据与隐私
+### Static screenshot data and privacy / 静态截图的数据与隐私
 
 - Only the local `demo-friends-isolation` Authentication and Firestore emulators were used. The site ran on localhost with emulator mode explicitly enabled.
 - The original four screenshot sets use dedicated Chinese and English synthetic accounts, with translated versions of three fictional projects and six tasks. Two tasks are complete; a third has partial effort. The projects concern website design, English practice and reading.
@@ -70,6 +70,31 @@ The same fictional website-design project runs through four chapters:
 仅在本地模拟器创建虚构测试账号，以隔离浏览器重新录制真实点击、输入和拖动。未读取个人账号、生产数据、浏览器个人资料、私人备份或微信读书连接。1440 × 1000 桌面画面约每秒采集 5 帧，缩放至 1120 × 778，再在画面外增加 56 像素步骤标题。可见光标按录制时实际鼠标坐标叠加，按下或释放时显示点击圆环，拖动时间轴时显示短轨迹；这些与步骤标题均为演示辅助，不是应用新增功能。
 
 录制时使用较慢的鼠标移动，并在关键结果处停留 3–3.5 秒，月度分配约 26 秒、每周安排约 19 秒；专注按真实速度播放。省略章节间导航等待，章节末短暂停留，采用 128 色循环 GIF 并合并重复帧，不修改界面内容或计时数字。录制中核对 12 小时总分配、保存的 1 小时安排与 10:30 开始时间；编码后检查两种语言的解码关键帧、鼠标与点击提示、拖动、暂停和继续状态、播放时长及 README 链接。本次只更新文档与公开媒体，不部署网站，不改真实记录。
+
+## Real AI assistant walkthrough / 真实 AI 助手动图
+
+Captured on **2026-11-13** from the v0.24.2 preview in ordinary Edge, using a dedicated test account and fictional content. The owner explicitly requested real AI generation instead of a mock reply; this recording is the cloud-preview exception to the local-only capture workflow used above.
+
+2026-11-13 在普通 Edge 浏览器的 v0.24.2 预览版录制，使用专用测试账号与虚构内容。用户明确选择真实 AI 生成，因此本段使用云端预览，区别于上面的本地模拟器截图与规划动图。
+
+| Files / 文件 | Dimensions / 尺寸 | Duration / 时长 | Size / 大小 |
+| --- | --- | --- | --- |
+| `ai-assistant-walkthrough-zh.gif` | 1120 × 834 | 38.8 s | 0.88 MiB |
+| `ai-assistant-walkthrough-en.gif` | 1120 × 834 | 38.8 s | 0.91 MiB |
+
+The prompt requests a new “摄影入门 · README 演示” project with camera settings (30 minutes), composition practice (45 minutes) and photo organization (20 minutes), all scheduled for tomorrow with no fixed start time. The captured flow includes consent, one real generation request, the returned project/task drafts, review of all three schedules and a successful save. The 95 minutes are planned time, not actual effort.
+
+输入要求创建虚构「摄影入门 · README 演示」项目：了解相机设置 30 分钟、练习构图 45 分钟、整理照片 20 分钟，全部安排到明天，开始时间留空。记录包含同意发送、一次真实生成请求、返回的项目与任务草稿、逐项核对和成功保存。合计 95 分钟属于预计用时，不是实际投入。
+
+- Both files use the same actual Chinese UI capture. English labels translate the editorial explanation and task summary; they do not represent a second English AI request or an English UI recording.
+- This is an edited keyframe walkthrough, not continuous real-time video. Waiting and scrolling are shortened, while results are held for reading. The captured pointer/halo and added gold rings identify observed clicks; captions sit outside the app. No AI reply, draft values or success state is reconstructed.
+- Only the dialog is published. Browser chrome, account information and surrounding workspace are cropped out. The recording creates synthetic preview plans only; it does not use personal workbench records, backups or production workspace data. No actual effort or completion records are invented.
+- No App Check policy, allowed domains, authentication rules or billing settings were changed. There is no website deployment for this documentation update.
+- Decoded GIF keyframes, duration, image integrity and both README links were checked. Raw full-window captures, capture scripts, logs and credentials remain outside the public commit.
+
+两份动图使用同一段中文界面真实操作；英文版仅翻译画面外的步骤说明与任务摘要，并非另一次英文 AI 请求或英文界面录像。动图以实际关键画面剪辑，缩短等待和滚动，延长结果停留；鼠标与光晕来自捕获画面，金色点击圈标示实际点击位置，未重构 AI 回复、表单值或保存结果。
+
+只公开裁切后的弹窗，排除浏览器工具栏、账号信息与背景工作台。本次仅创建虚构的预览测试计划，不使用私人工作台、备份或正式工作区资料，不伪造实际投入。未修改安全验证、域名白名单、认证规则或付费设置，也不部署网站。已检查解码关键帧、播放时长、图片完整性及双语引用；原始全窗口截图、脚本、日志和凭证不公开。
 
 ## Earlier interaction recordings / 之前的短动图
 

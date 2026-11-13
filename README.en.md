@@ -65,6 +65,12 @@ For example, you could describe a plan like this:
 
 The assistant supports monthly and weekly planning, reusable tasks, study items and sessions across multiple days. It can also revise the remaining estimate for an existing task. Drafts are plans for review, not invented actual time or completion counts. Manual list entry remains available.
 
+Watch a **real AI generation** create a fictional photography project from one prompt. Review three tasks of 30, 45 and 20 minutes scheduled for tomorrow, then confirm and save. Start times remain optional; the plan does not need to be entered again manually.
+
+![Real AI conversation, project and task drafts, and confirmed creation](docs/images/ai-assistant-walkthrough-en.gif)
+
+About 39 seconds, with a visible pointer and click cues. Captured from real preview interactions using fictional test content. The Chinese app UI is accompanied by English captions; generation waits and scrolling are shortened, with longer holds on key results. This is not a scripted AI response.
+
 ### 02 / One task, progress across several days
 
 A six-hour task can have two hours planned this week and four next week. All actual effort still belongs to the original task.
@@ -95,7 +101,7 @@ Start a count-up or countdown timer directly from a daily task and enter full-sc
 </tr>
 </table>
 
-This shows the current assistant entry. Cloud AI is disabled in the local emulator; no conversation was sent and no generated result was fabricated.
+The static screenshot above shows the assistant entry in the local emulator without calling cloud AI. The earlier AI walkthrough captures actual generation and saving in preview.
 
 “Potential wealth” grows with focus time as a virtual incentive. It is not real income.
 
