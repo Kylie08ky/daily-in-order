@@ -57,3 +57,17 @@ This is the project owner's standing maintenance agreement. A separate request t
 For documentation-only or README-image changes, check both languages, relative links, image rendering and privacy, then commit and push. Do not deploy the website.
 
 Screenshots must show empty interfaces or synthetic test accounts. After a related UI change, check whether existing images remain accurate and update both README references and captions when needed.
+
+## 版本足迹 / Release history
+
+- 每次预览修改在 `lib/update-history.ts` 增加带稳定 ID、版本号与开发日期的条目，并补齐中英德文案。构建输出 `release-notes.json`，与入口脚本摘要绑定。
+- 预览页显示开发明细；正式页仅显示 `releaseHistory/live` 的发布批次。该文档只包含公开更新说明，客户端仅能读取，不能写入或枚举集合；发布脚本通过已有 CLI 管理授权写入，不接触任何用户工作台。
+- `npm run release:friends -- --check` 只核对当前预览及待发布内容。获得用户对当前预览的确认后，使用原发布命令；脚本按确切 Hosting 版本发布，不重建，从 Hosting 获取实际发布时间（展示使用 Europe/Berlin 日期），仅把上次正式版之后的更新合成一条。
+- 同一 Hosting 版本重复运行不新增记录；元数据写入采用版本前置条件，避免覆盖并发发布。若 Hosting 已成功、更新记录写入失败，脚本明确报错；用同一已批准命令重试，仅补记同一发布，不重新构建。未发布、失败的发布不进入正式足迹。
+- 已核实的历史 v0.8.2、v0.15.0 作为离线/初始回退；其他旧日期不推测。自行部署的维护者应替换 `knownReleases`，不要沿用本服务历史。
+
+- Add every preview iteration to `lib/update-history.ts` with a stable ID, version and development date; keep Chinese, English and German copy aligned. Builds produce `release-notes.json` tied to the entry digest.
+- Preview displays development changes. Production displays publication batches from the public, client-read-only `releaseHistory/live` document. Only public release copy is stored; the authenticated CLI publisher never reads user workspaces.
+- `npm run release:friends -- --check` is read-only. After explicit approval, the standard release command pins and promotes the reviewed Hosting version without rebuilding, then records only changes since the previous release using Hosting’s actual release time (Europe/Berlin date).
+- A repeated Hosting version is idempotent. Conditional metadata writes reject concurrent overwrites. If Hosting succeeds but metadata fails, the command reports this partial outcome; rerun the same approved command to repair that release’s metadata without rebuilding. Failed or unapproved releases never enter production history.
+- Verified v0.8.2 and v0.15.0 entries are initial/offline fallbacks; other historical dates are not inferred. Self-hosters must replace `knownReleases` with their own history.

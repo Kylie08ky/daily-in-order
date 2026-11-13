@@ -1,6 +1,8 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Public release notes only. Clients cannot publish or alter release history.
+    match /releaseHistory/live { allow get: if true; allow write: if false; }
     function owner(uid) {
       return request.auth != null && request.auth.uid == uid && request.auth.token.email_verified == true;
     }
