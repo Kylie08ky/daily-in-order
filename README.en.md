@@ -1,19 +1,6 @@
 # Daily in Order · 日常有序
 
-**v0.24.2 preview: desktop-first support.** Phones show a recommendation to use a computer, with a **Continue anyway** option. The notice stays dismissed for the current session. Mobile layouts are still being improved; desktop users enter directly. Accounts, records and sync are unchanged. Preview only.
-
-**v0.24.1 preview: restore the original timeline layout.** Remove the extra flexible-task box above the home timeline; tasks without a start time remain available in the list. Compact mobile spacing and separate task titles from actions while preserving the green palette, records and statistics. Preview only.
-
-**v0.24.0 preview: easier first steps and feedback.** Days with only flexible tasks default to the list. Local view choices are remembered per account and environment. Planning opens the calendar by default and its task pool starts with all task types. Mobile navigation moves into a top menu so today's tasks come first, with quick AI and feedback access. Completing a task clearly labels cumulative actual time; unset availability no longer appears as zero. Existing records and statistics are preserved. Production has not been updated.
-
-
-**v0.23.5 preview:** Fix oversized covers, squeezed vertical titles and stretched adjacent cards in the home reading summary; long titles remain readable on mobile.
-
-
-**v0.23.4 preview:** Task editing and scheduling now share a consistent font, body size and line height, with readable helper text and a distinct heading.
-
-
-**v0.23.3 preview: scheduling inside the task editor.** Split tasks show remaining sessions with dates, time ranges or Flexible time. Use Adjust schedule in the same window; start times remain optional. Schedule changes save separately while title and note drafts survive returning to the editor. Leaving unsaved schedule edits asks for confirmation. Actual investment, focus records and original dates are preserved.
+**Production v0.24.2 released (2026-11-13).** The approved preview was promoted unchanged, grouping 9 preview iterations into one production release entry: AI and onboarding support monthly/weekly planning, reusable tasks and split schedules; focus history is archived by month; scheduling is available inside the task editor with consistent typography; home book-cover layout is fixed; navigation, feedback and time labels are improved; the original home timeline layout is restored. Desktop is the primary supported experience. Phones recommend using a computer while retaining **Continue anyway**.
 
 Make room for your goals. Keep track of the time you put in.
 
@@ -25,7 +12,7 @@ Daily in Order is a personal workspace with Chinese, English and German interfac
 
 This repository contains application source, tests and deployment scripts. It does not include the author's or other users' workspace records, backups, account credentials or production configuration. The hosted app requires your own account; self-hosted installations should use their own Firebase project.
 
-**Current production release: v0.22.0 (2026-11-13).** The owner-approved preview Hosting version was promoted unchanged. Seven preview updates are grouped into one production release entry; production does not show preview change details or pending batches. This includes daily progress recording, concrete project outcomes and historical pages, traceable study time, real book covers, the WeRead interface, remaining-work estimates and separate release histories. Preview and production records remain isolated. The WeRead gateway still allows preview origins only; approval to enable the production origins is pending, so connecting from production is not yet available.
+Publication promotes the exact owner-approved Hosting version without rebuilding. Production shows release batches, not preview change details. Preview and production records remain isolated; publishing does not copy or overwrite user workspaces. The WeRead gateway still allows preview origins only; approval to enable the production origins is pending, so connecting from production is not yet available.
 
 The v0.16–v0.22 entries below are development-time preview notes, now grouped into this release. The production notice above describes the current WeRead gateway limitation.
 
