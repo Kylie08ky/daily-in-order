@@ -133,7 +133,7 @@ Chinese UI with illustrative test entries. The nutrition figures are not dietary
 | Review and backup | Review time trends, back up/restore full JSON state, and import/export task CSV and calendar ICS files |
 | Onboarding and feedback | Choose modules, set goals, follow a usage walkthrough, submit feedback and see its status |
 
-**v0.23.1 preview: focus history grouped by date.** Only the latest recorded day is expanded initially, with up to seven dates per page. Expanded days use a bounded scroll area; pagination reaches older records. Day summaries show record counts, time and potential wealth. All history is accessible instead of the former 50-record cap; no time or statistics are changed.
+**v0.23.2 preview: focus history archived by month.** The workspace’s current month is shown by default. Select past months from the archive or return to this month in one click. Days remain collapsible, with bounded session scrolling and seven dates per page. Month summaries cover only the selected month. Archiving is presentation-only: no records are moved or deleted and lifetime statistics stay unchanged.
 
 **v0.23.0 preview: discuss a plan → review the draft → confirm once.** New verified users see Get started with AI; returning users can reopen it from the sidebar or Settings → User guide. Draft projects, monthly targets (allocated by in-month days, with editable weekly minutes), permanent/stage resident entries, learning modules with weekly targets and items with quantity targets, and multiple sessions for one task. Start times are always optional: dated sessions without a clock time are flexible items. Resident entries do not create automatic recurrence; only explicit dates produce occurrences.
 

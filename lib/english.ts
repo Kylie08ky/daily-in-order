@@ -1,5 +1,13 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"本月专注留在眼前，过往记录按月归档。":"Focus on this month. Past records are archived by month.",
+"查看其他月份":"View other months",
+"历史月份":"Past months",
+"未来日期":"Future date",
+"这个月还没有专注记录，可从历史月份查看过往投入。":"No focus records this month. Select a past month to review earlier sessions.",
+"专注记录，按月归档":"Focus history, archived by month",
+"默认查看当前月，其他月份从历史入口切换；月内按日折叠，原记录与累计统计完整保留。":"Show the current month by default and select other months from the archive. Days remain collapsible; original records and lifetime statistics are preserved.",
+
 "按日期收起，展开查看每段投入。":"Grouped by date. Expand to see each session.",
 "专注记录分页":"Focus history pages",
 "每页最多 7 个日期":"Up to 7 dates per page",

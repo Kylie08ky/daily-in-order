@@ -1,5 +1,13 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"本月专注留在眼前，过往记录按月归档。":"Diesen Monat im Blick. Frühere Einträge sind nach Monaten archiviert.",
+"查看其他月份":"Andere Monate ansehen",
+"历史月份":"Frühere Monate",
+"未来日期":"Zukünftiges Datum",
+"这个月还没有专注记录，可从历史月份查看过往投入。":"Diesen Monat gibt es noch keine Fokuseinträge. Wähle einen früheren Monat, um vergangene Einheiten anzusehen.",
+"专注记录，按月归档":"Fokusverlauf nach Monaten archiviert",
+"默认查看当前月，其他月份从历史入口切换；月内按日折叠，原记录与累计统计完整保留。":"Standardmäßig wird der aktuelle Monat angezeigt. Andere Monate sind über das Archiv erreichbar. Tage bleiben einklappbar; Originaleinträge und Gesamtstatistiken bleiben erhalten.",
+
 "按日期收起，展开查看每段投入。":"Nach Datum gruppiert. Aufklappen, um einzelne Einheiten zu sehen.",
 "专注记录分页":"Seiten des Fokusverlaufs",
 "每页最多 7 个日期":"Bis zu 7 Tage pro Seite",
