@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"调整时间安排":"Adjust schedule",
+"返回编辑事项":"Back to task editor",
+"放弃尚未保存的时间安排？":"Discard unsaved schedule changes?",
+"时间安排单独保存；返回后可继续编辑标题和备注。开始时间可以留空。":"Schedule changes are saved separately. Return to continue editing the title and notes. Start times are optional.",
+"时间安排":"Schedule",
+"暂无未做安排，可直接添加日期和时长。":"No remaining sessions scheduled. Add a date and duration.",
+"这里只显示未做安排；已发生投入保留在原日期。":"Only remaining sessions are shown here. Recorded time stays on its original dates.",
+"操作引导：填写安排日期和预计用时，开始时间可留空。实际用时不用现在填写。":"Guide: enter a planned date and duration. The start time is optional; actual time can be recorded later.",
+"编辑事项，直接调整时间安排":"Adjust schedules inside the task editor",
+"分段任务直接展示日期、时间段与灵活安排；在同一窗口调整，返回时保留标题和备注草稿。":"Split tasks show dates, time ranges and flexible sessions. Adjust them in the same window without losing title or note drafts.",
+
 "本月专注留在眼前，过往记录按月归档。":"Focus on this month. Past records are archived by month.",
 "查看其他月份":"View other months",
 "历史月份":"Past months",

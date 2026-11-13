@@ -1,5 +1,8 @@
 # Daily in Order · 日常有序
 
+
+**v0.23.3 preview: scheduling inside the task editor.** Split tasks show remaining sessions with dates, time ranges or Flexible time. Use Adjust schedule in the same window; start times remain optional. Schedule changes save separately while title and note drafts survive returning to the editor. Leaving unsaved schedule edits asks for confirmation. Actual investment, focus records and original dates are preserved.
+
 Make room for your goals. Keep track of the time you put in.
 
 [简体中文](README.md) · **English**

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 import {type Task,type State,type Command,businessDate,formatTime as fmt,offsetDate} from '../lib/model';
 import {planningMetrics,planningSignature,rawPlans} from '../lib/task-plans';
 import {recommendSlot} from '../lib/planning-workflow';
@@ -6,12 +6,14 @@ import {localParts} from '../lib/task-investment';
 import {t as ui} from '../lib/i18n';
 import DurationInput from './duration-input';
 import './task-plans.css';
-type Props={task:Task;state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;from?:string;to?:string;windowStart?:string;windowEnd?:string};
+type Props={task:Task;state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;from?:string;to?:string;windowStart?:string;windowEnd?:string;initiallyEditing?:boolean;onEditingChange?:(editing:boolean)=>void};
 type Draft={id:string;date:string;start:string;minutes:number};
-export default function TaskPlanEditor({task,state,busy,mutate,from=businessDate(state.settings),to=offsetDate(from,6),windowStart='09:00',windowEnd='21:00'}:Props){
+export default function TaskPlanEditor({task,state,busy,mutate,from=businessDate(state.settings),to=offsetDate(from,6),windowStart='09:00',windowEnd='21:00',initiallyEditing=false,onEditingChange}:Props){
  const metrics=planningMetrics(state,task),today=businessDate(state.settings);
  const [editing,setEditing]=useState(false),[remaining,setRemaining]=useState<number|null>(null),[drafts,setDrafts]=useState<Draft[]>([]),[expected,setExpected]=useState(''),[error,setError]=useState('');
  const begin=()=>{setExpected(planningSignature(task));setRemaining(Math.round(metrics.remaining));setDrafts(metrics.ledger.filter(p=>!p.closed&&p.left>0).map(p=>({id:p.seconds>0?crypto.randomUUID():p.id,date:p.date,start:p.used?'':p.start,minutes:Math.ceil(p.left)})));setError('');setEditing(true);};
+ useEffect(()=>{if(initiallyEditing&&task.progress!==100)begin();},[]);
+ useEffect(()=>{onEditingChange?.(editing);},[editing,onEditingChange]);
  const total=drafts.reduce((n,p)=>n+p.minutes,0),excess=total-(remaining||0),changed=expected!==planningSignature(task),patch=(id:string,v:Partial<Draft>)=>setDrafts(list=>list.map(p=>p.id===id?{...p,...v}:p));
  const suggest=(p:Draft)=>{const copy=structuredClone(state),item=copy.tasks.find(x=>x.id===task.id)!;item.plans=drafts.filter(x=>x.id!==p.id);const slot=recommendSlot(copy,{...task,id:'suggestion-only'},from<today?today:from,to,p.minutes,windowStart,windowEnd,localParts(Date.now(),state.settings.timezone));if(slot){patch(p.id,{date:slot.date,start:slot.start});setError('');}else setError(ui('没有足够的连续空档，请调整时长、可安排时间或手动选择。'));};
  const add=()=>setDrafts(v=>[...v,{id:crypto.randomUUID(),date:from<today?today:from,start:'',minutes:Math.min(1440,Math.max(1,(remaining||0)-total))}]);

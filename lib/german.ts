@@ -1,5 +1,16 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"调整时间安排":"Zeitplanung anpassen",
+"返回编辑事项":"Zurück zur Aufgabenbearbeitung",
+"放弃尚未保存的时间安排？":"Nicht gespeicherte Planänderungen verwerfen?",
+"时间安排单独保存；返回后可继续编辑标题和备注。开始时间可以留空。":"Planänderungen werden separat gespeichert. Danach kannst du Titel und Notizen weiter bearbeiten. Startzeiten sind optional.",
+"时间安排":"Zeitplanung",
+"暂无未做安排，可直接添加日期和时长。":"Noch keine offenen Einheiten geplant. Datum und Dauer hinzufügen.",
+"这里只显示未做安排；已发生投入保留在原日期。":"Hier stehen nur offene Einheiten. Erfasste Zeiten bleiben am ursprünglichen Datum.",
+"操作引导：填写安排日期和预计用时，开始时间可留空。实际用时不用现在填写。":"Anleitung: Datum und geplante Dauer eingeben. Die Startzeit ist optional; die tatsächliche Zeit wird später erfasst.",
+"编辑事项，直接调整时间安排":"Zeitplanung direkt in der Aufgabe anpassen",
+"分段任务直接展示日期、时间段与灵活安排；在同一窗口调整，返回时保留标题和备注草稿。":"Aufgeteilte Aufgaben zeigen Datum, Zeitfenster und flexible Einheiten. Im selben Fenster anpassen, ohne Titel- oder Notizentwürfe zu verlieren.",
+
 "本月专注留在眼前，过往记录按月归档。":"Diesen Monat im Blick. Frühere Einträge sind nach Monaten archiviert.",
 "查看其他月份":"Andere Monate ansehen",
 "历史月份":"Frühere Monate",
