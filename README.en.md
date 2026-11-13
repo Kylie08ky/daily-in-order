@@ -14,11 +14,24 @@ React · TypeScript · Firebase · PWA
 
 </div>
 
-![Today: daily plans, project progress and optional life modules](docs/images/today-demo-en.jpg)
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>Today overview</strong><br />
+<a href="docs/images/today-demo-en.jpg"><img src="docs/images/today-demo-en.jpg" alt="Today overview" width="100%" /></a>
+<br />Daily plans, project progress and notes.
+</td>
+<td width="50%" valign="top">
+<strong>Daily timeline</strong><br />
+<a href="docs/images/timeline-demo-en.jpg"><img src="docs/images/timeline-demo-en.jpg" alt="Daily timeline" width="100%" /></a>
+<br />Actual effort and future plans on one timeline.
+</td>
+</tr>
+</table>
 
 > Current production release: **v0.24.2**, with desktop support prioritized. The hosted app requires registration and email verification. Mobile visitors see a desktop recommendation and can choose to continue.
 >
-> All four screenshot sets were refreshed on 2026-11-13 using the local v0.24.2 app and synthetic data only. The PREVIEW label identifies the isolated test environment; see the [screenshot notes](docs/images/README.md).
+> All eight screenshot sets were refreshed on 2026-11-13 using the local v0.24.2 app and synthetic data only. The PREVIEW label identifies the isolated test environment; click any image to enlarge it. See the [screenshot notes](docs/images/README.md).
 
 ## Why I built it
 
@@ -42,10 +55,6 @@ For example, you could describe a plan like this:
 
 The assistant supports monthly and weekly planning, reusable tasks, study items and sessions across multiple days. It can also revise the remaining estimate for an existing task. Drafts are plans for review, not invented actual time or completion counts. Manual list entry remains available.
 
-![AI onboarding and assistant entry, with an empty input and example prompts](docs/images/quick-start-en.jpg)
-
-This shows the current assistant entry. Cloud AI is disabled in the local emulator; no conversation was sent and no generated result was fabricated.
-
 ### 02 / One task, progress across several days
 
 A six-hour task can have two hours planned this week and four next week. All actual effort still belongs to the original task.
@@ -55,22 +64,28 @@ A six-hour task can have two hours planned this week and four next week. All act
 - **Re-estimate remaining work**: see actual time, remaining work and allocated sessions separately.
 - **Keep the past intact**: moving future plans does not move recorded effort. Exceeding an estimate does not automatically complete a task.
 
-<details>
-<summary><strong>View the daily timeline</strong></summary>
-
-![Daily timeline and scheduled tasks](docs/images/timeline-demo-en.jpg)
-
-A detail of the current interface: adjacent activities share one timeline, with actual effort and future plans labeled separately.
-
-</details>
-
 ### 03 / Record the effort and what came out of it
 
 Start a count-up or countdown timer directly from a daily task and enter full-screen focus. Afterward, record actual effort and add video counts, a reading position or project outcomes for the linked activity.
 
 **One activity contributes time only once.** Daily tasks, study items, books and project progress link to the original record. Adding outcomes does not add another copy of the time.
 
-![Full-screen focus with a timer and continuously growing virtual reward](docs/images/focus-demo-en.jpg)
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>AI assistant</strong><br />
+<a href="docs/images/quick-start-en.jpg"><img src="docs/images/quick-start-en.jpg" alt="AI assistant" width="100%" /></a>
+<br />Describe a plan and review its draft before saving.
+</td>
+<td width="50%" valign="top">
+<strong>Full-screen focus</strong><br />
+<a href="docs/images/focus-demo-en.jpg"><img src="docs/images/focus-demo-en.jpg" alt="Full-screen focus" width="100%" /></a>
+<br />A timer alongside a virtual incentive.
+</td>
+</tr>
+</table>
+
+This shows the current assistant entry. Cloud AI is disabled in the local emulator; no conversation was sent and no generated result was fabricated.
 
 “Potential wealth” grows with focus time as a virtual incentive. It is not real income.
 
@@ -88,6 +103,38 @@ Scheduling and projects form the core. Users choose which additional modules to 
 | Finance and budgets | User-defined accounts, budgets and currencies, with totals kept separate by currency |
 | Review | Effort trends, project progress and focus history; corrections from source records |
 | Backup and exchange | JSON backup and restore, task CSV and calendar ICS import/export |
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>Monthly goals</strong><br />
+<a href="docs/images/monthly-demo-en.jpg"><img src="docs/images/monthly-demo-en.jpg" alt="Monthly goals" width="100%" /></a>
+<br />Set a time budget for each project and allocate it across weeks.
+</td>
+<td width="50%" valign="top">
+<strong>Weekly planning</strong><br />
+<a href="docs/images/weekly-demo-en.jpg"><img src="docs/images/weekly-demo-en.jpg" alt="Weekly planning" width="100%" /></a>
+<br />Plan around fixed commitments and each day’s availability.
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>Learning modules &amp; activities</strong><br />
+<a href="docs/images/learning-demo-en.jpg"><img src="docs/images/learning-demo-en.jpg" alt="Learning modules &amp; activities" width="100%" /></a>
+<br />Weekly targets, actual time and course counts remain distinct.
+</td>
+<td width="50%" valign="top">
+<strong>Reading room</strong><br />
+<a href="docs/images/reading-demo-en.jpg"><img src="docs/images/reading-demo-en.jpg" alt="Reading room" width="100%" /></a>
+<br />A bookshelf, reading positions and this month’s effort.
+</td>
+</tr>
+</table>
+
+Reading screenshots use fictional books and default cover placeholders; no real WeRead account is connected.
 
 The interface supports **中文 / English / Deutsch**. User-written tasks and notes are not automatically translated.
 

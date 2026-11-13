@@ -14,11 +14,24 @@ React · TypeScript · Firebase · PWA
 
 </div>
 
-![今日概览：今天的安排、项目进度与生活模块](docs/images/today-demo-zh.jpg)
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>今日概览</strong><br />
+<a href="docs/images/today-demo-zh.jpg"><img src="docs/images/today-demo-zh.jpg" alt="今日概览" width="100%" /></a>
+<br />今天的安排、项目进度与随记。
+</td>
+<td width="50%" valign="top">
+<strong>当日时间轴</strong><br />
+<a href="docs/images/timeline-demo-zh.jpg"><img src="docs/images/timeline-demo-zh.jpg" alt="当日时间轴" width="100%" /></a>
+<br />实际投入与未来安排，在同一时间轴查看。
+</td>
+</tr>
+</table>
 
 > 当前正式版 **v0.24.2**，优先支持电脑端。在线体验需注册并验证邮箱；手机端会提示建议使用电脑，也可以选择继续使用。
 >
-> 本页 4 组截图于 2026-11-13 使用 v0.24.2 本地应用重新拍摄，仅含虚构测试数据。图片中的 PREVIEW 标识来自隔离测试环境，详见[截图说明](docs/images/README.md)。
+> 本页 8 组截图于 2026-11-13 使用 v0.24.2 本地应用重新拍摄，仅含虚构测试数据。图片中的 PREVIEW 标识来自隔离测试环境，点击图片可查看大图，详见[截图说明](docs/images/README.md)。
 
 ## 为什么做这个项目
 
@@ -42,10 +55,6 @@ React · TypeScript · Firebase · PWA
 
 助手支持月周规划、常驻任务、学习子项与跨日分段；也可以选择原任务，重新估算剩余工作量。它生成的是待确认的计划，不代替用户填写真实投入或完成数量。也保留普通清单录入。
 
-![AI 入门与助手入口，展示为空白输入和示例提示](docs/images/quick-start-zh.jpg)
-
-截图展示当前助手入口；本地模拟器关闭云端 AI，未发送对话或伪造生成结果。
-
 ### 02 / 一个任务，多天推进
 
 一个预计 6 小时的任务，可以本周安排 2 小时、下周安排 4 小时，所有投入仍汇总到原任务。
@@ -55,22 +64,28 @@ React · TypeScript · Firebase · PWA
 - **重新估算剩余工作**：已经做了多久、还需要多久、剩余已安排多少，分别展示。
 - **保留实际历史**：调整未来计划不移动已经发生的投入；用时超过预计也不会自动完成任务。
 
-<details>
-<summary><strong>查看当日时间轴截图</strong></summary>
-
-![当日时间轴与任务安排](docs/images/timeline-demo-zh.jpg)
-
-当前界面的局部截图：相邻事项在同一时间轴排列，实际投入与未来安排分别标明。
-
-</details>
-
 ### 03 / 做完一段，时间与成果一起留下
 
 从今日事项直接开始正向或倒计时，进入全屏专注。结束后记录实际投入，并按关联对象补充视频数量、阅读页码或项目成果。
 
 **同一次活动只记录一次时间。** 今日事项、学习子项、阅读书房和项目进度通过原记录关联，补填成果不再增加一份用时。
 
-![全屏专注：任务计时与持续增长的虚拟激励](docs/images/focus-demo-zh.jpg)
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>AI 助手</strong><br />
+<a href="docs/images/quick-start-zh.jpg"><img src="docs/images/quick-start-zh.jpg" alt="AI 助手" width="100%" /></a>
+<br />描述计划，核对草稿后再保存。
+</td>
+<td width="50%" valign="top">
+<strong>全屏专注</strong><br />
+<a href="docs/images/focus-demo-zh.jpg"><img src="docs/images/focus-demo-zh.jpg" alt="全屏专注" width="100%" /></a>
+<br />计时与虚拟激励并排展示。
+</td>
+</tr>
+</table>
+
+截图展示当前助手入口；本地模拟器关闭云端 AI，未发送对话或伪造生成结果。
 
 “潜在财富”随专注时间增长，是虚拟激励，不代表真实收入。
 
@@ -88,6 +103,38 @@ React · TypeScript · Firebase · PWA
 | 财务与预算 | 自定义账户、预算和币种，不同币种分别统计 |
 | 数据复盘 | 查看投入趋势、项目进度和专注历史；从来源纠正时长或归属 |
 | 备份与交换 | JSON 备份与恢复、任务 CSV、日历 ICS 导入导出 |
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>月度目标</strong><br />
+<a href="docs/images/monthly-demo-zh.jpg"><img src="docs/images/monthly-demo-zh.jpg" alt="月度目标" width="100%" /></a>
+<br />按项目设定月度投入，再分配到各周。
+</td>
+<td width="50%" valign="top">
+<strong>每周安排</strong><br />
+<a href="docs/images/weekly-demo-zh.jpg"><img src="docs/images/weekly-demo-zh.jpg" alt="每周安排" width="100%" /></a>
+<br />结合每天的固定安排与可用时间继续拆解。
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>学习模块与子项</strong><br />
+<a href="docs/images/learning-demo-zh.jpg"><img src="docs/images/learning-demo-zh.jpg" alt="学习模块与子项" width="100%" /></a>
+<br />周目标、实际时长与课程数量分别展示。
+</td>
+<td width="50%" valign="top">
+<strong>阅读书房</strong><br />
+<a href="docs/images/reading-demo-zh.jpg"><img src="docs/images/reading-demo-zh.jpg" alt="阅读书房" width="100%" /></a>
+<br />书架、当前页码与本月阅读投入。
+</td>
+</tr>
+</table>
+
+阅读截图使用虚构书籍与默认封面占位；未连接真实微信读书账号。
 
 界面支持 **中文 / English / Deutsch**，用户填写的任务与笔记不会被自动翻译。
 
