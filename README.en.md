@@ -18,7 +18,7 @@ React · TypeScript · Firebase · PWA
 
 > Current production release: **v0.24.2**, with desktop support prioritized. The hosted app requires registration and email verification. Mobile visitors see a desktop recommendation and can choose to continue.
 >
-> Screenshots show the real application with synthetic local data, never personal records. Some show earlier interfaces; see the [screenshot notes](docs/images/README.md).
+> All four screenshot sets were refreshed on 2026-11-13 using the local v0.24.2 app and synthetic data only. The PREVIEW label identifies the isolated test environment; see the [screenshot notes](docs/images/README.md).
 
 ## Why I built it
 
@@ -44,6 +44,8 @@ The assistant supports monthly and weekly planning, reusable tasks, study items 
 
 ![AI onboarding and assistant entry, with an empty input and example prompts](docs/images/quick-start-en.jpg)
 
+This shows the current assistant entry. Cloud AI is disabled in the local emulator; no conversation was sent and no generated result was fabricated.
+
 ### 02 / One task, progress across several days
 
 A six-hour task can have two hours planned this week and four next week. All actual effort still belongs to the original task.
@@ -58,7 +60,7 @@ A six-hour task can have two hours planned this week and four next week. All act
 
 ![Daily timeline and scheduled tasks](docs/images/timeline-demo-en.jpg)
 
-Synthetic-data example from an earlier version. The language selector has since moved into Settings.
+A detail of the current interface: adjacent activities share one timeline, with actual effort and future plans labeled separately.
 
 </details>
 
