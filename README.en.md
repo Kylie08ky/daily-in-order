@@ -4,13 +4,13 @@
 
 # Daily in Order · 日常有序
 
-**Make room for your goals. Keep track of the effort behind them.**
+**Make room for what you want to do.**
 
-An AI-assisted planning and activity workspace, built from everyday personal use.
+From monthly goals to today's tasks: plan your time, focus on the work, and keep track of your progress in one workspace.
 
-[Try the app](https://personal-daily-organize.web.app/?lang=en) · [简体中文](README.md) · [Feedback](https://github.com/Kylie08ky/daily-in-order/issues)
+[Get started](https://personal-daily-organize.web.app/?lang=en) · [简体中文](README.md) · [Feedback](https://github.com/Kylie08ky/daily-in-order/issues)
 
-React · TypeScript · Firebase · PWA
+Desktop first · 中文 / English / Deutsch · Installable web app
 
 </div>
 
@@ -29,96 +29,35 @@ React · TypeScript · Firebase · PWA
 </tr>
 </table>
 
-> Current production release: **v0.24.2**, with desktop support prioritized. The hosted app requires registration and email verification. Mobile visitors see a desktop recommendation and can choose to continue.
->
-> All eight screenshot sets were refreshed on 2026-11-13 using the local v0.24.2 app and synthetic data only. The PREVIEW label identifies the isolated test environment; click any image to enlarge it. See the [screenshot notes](docs/images/README.md).
+## Start with one goal
 
-## Why I built it
+Want to finish a course, move a personal project forward, or make time for reading? Turn it into a project, then decide how much time to give it this week and today. Your plans can change without losing track of the effort you have already put in.
 
-Plans tend to be scattered across calendars, to-do lists, study notes and reading trackers. Taking a task from “something to do this month” to “what I actually spent time on today” means entering the same information in several places. When plans change, past effort can lose its context.
+1. **Register and verify your email** to open your own workspace.
+2. **Tell the AI assistant what you want to do.** Review the draft to create projects, tasks and schedules together, or add them manually.
+3. **Start with one task today:** schedule it, start focusing, or record progress you have already made.
 
-Daily in Order brings that process into one workspace:
+You do not need to configure everything at once. Enable learning, reading, habits, fitness and budgets as you need them.
 
-**Monthly goals → Weekly allocation → Daily plans → Focus → Progress → Review**
+## Turn a sentence into your first plan
 
-It started as a tool for my own planning habits. Independent accounts, optional modules and multiple languages gradually made it usable by others with different routines.
+> Tomorrow I'd like to start learning photography: 30 minutes on camera settings, 45 minutes practicing composition, and 20 minutes organizing photos. Keep them in one project and leave the start times open.
 
-## See it in action
+The assistant turns your ideas into an editable draft with linked projects, tasks and dates. Nothing is added until you review and confirm it, and you do not need to fill out the same plan again.
 
-**One walkthrough, from a monthly goal to today’s focus session.**
+![AI assistant: describe a goal, review the draft, and create projects and tasks](docs/images/ai-assistant-walkthrough-en.gif)
 
-Follow the fictional **Creative website** project: set a **12-hour monthly goal** → allocate it across weeks automatically and make adjustments → check daily capacity and schedule **one hour** for the original task → drag its start time on the timeline → start, pause and resume a focus session.
+*Real AI interaction using a sample project. You can also ask the assistant to break down monthly and weekly plans, create reusable tasks, or revise the remaining work for an existing task.*
 
-<a href="docs/images/planning-walkthrough-en.gif"><img src="docs/images/planning-walkthrough-en.gif" alt="End-to-end demo: allocate a monthly goal across weeks, schedule a task, adjust its timeline and start focusing" width="100%" /></a>
+## Bring a monthly goal into your day
 
-A roughly 70-second loop. Monthly allocation and weekly scheduling play more slowly, with extra pauses on key results. The current step is labeled at the top. A visible pointer, click rings and drag trails make each action easier to follow; click the animation to enlarge it. Every frame uses a synthetic local test account; static screenshots below make details easier to inspect. Monthly allocations and scheduled sessions are plans, while focus tracks actual effort; they are not added together as actual time.
+**Monthly goals → Weekly allocation → Daily plans → Focus → Review**
 
-## Three core experiences
+Choose the projects you want to work on this month and estimate the time they need. Allocate that time across weeks, then schedule tasks around fixed commitments and the time available each day.
 
-### 01 / Turn a conversation into a plan you can act on
+Follow a 12-hour design goal through weekly allocation, daily scheduling, a timeline adjustment and a focus session.
 
-Describe a goal to the AI assistant, review and edit the draft, then confirm to create projects, tasks and schedules. New users can start with a conversation; returning users can reopen the guide whenever they need it.
-
-For example, you could describe a plan like this:
-
-> “I want to finish a course this month. It should take 12 hours. Spread that across the weeks, with more time on weekends. Leave the start times open.”
-
-The assistant supports monthly and weekly planning, reusable tasks, study items and sessions across multiple days. It can also revise the remaining estimate for an existing task. Drafts are plans for review, not invented actual time or completion counts. Manual list entry remains available.
-
-Watch a **real AI generation** create a fictional photography project from one prompt. Review three tasks of 30, 45 and 20 minutes scheduled for tomorrow, then confirm and save. Start times remain optional; the plan does not need to be entered again manually.
-
-![Real AI conversation, project and task drafts, and confirmed creation](docs/images/ai-assistant-walkthrough-en.gif)
-
-About 39 seconds, with a visible pointer and click cues. Recorded in the **English app interface**, using an English prompt and a separate real AI generation for the fictional “Photography Basics - README Demo” project. Generation waits and scrolling are shortened, with longer holds on key results. This is not a scripted AI response.
-
-### 02 / One task, progress across several days
-
-A six-hour task can have two hours planned this week and four next week. All actual effort still belongs to the original task.
-
-- **Flexible scheduling**: choose a date and duration without a required start time.
-- **Timeline and list views**: drag scheduled blocks to adjust their timing.
-- **Re-estimate remaining work**: see actual time, remaining work and allocated sessions separately.
-- **Keep the past intact**: moving future plans does not move recorded effort. Exceeding an estimate does not automatically complete a task.
-
-### 03 / Record the effort and what came out of it
-
-Start a count-up or countdown timer directly from a daily task and enter full-screen focus. Afterward, record actual effort and add video counts, a reading position or project outcomes for the linked activity.
-
-**One activity contributes time only once.** Daily tasks, study items, books and project progress link to the original record. Adding outcomes does not add another copy of the time.
-
-<table>
-<tr>
-<td width="50%" valign="top">
-<strong>AI assistant</strong><br />
-<a href="docs/images/quick-start-en.jpg"><img src="docs/images/quick-start-en.jpg" alt="AI assistant" width="100%" /></a>
-<br />Describe a plan and review its draft before saving.
-</td>
-<td width="50%" valign="top">
-<strong>Full-screen focus</strong><br />
-<a href="docs/images/focus-demo-en.jpg"><img src="docs/images/focus-demo-en.jpg" alt="Full-screen focus" width="100%" /></a>
-<br />A timer alongside a virtual incentive.
-</td>
-</tr>
-</table>
-
-The static screenshot above shows the assistant entry in the local emulator without calling cloud AI. The earlier AI walkthrough captures actual generation and saving in preview.
-
-“Potential wealth” grows with focus time as a virtual incentive. It is not real income.
-
-## Build the workspace you need
-
-Scheduling and projects form the core. Users choose which additional modules to enable.
-
-| Module | What it supports |
-| --- | --- |
-| Monthly and weekly planning | Monthly goals, initial allocation by days in each week, and adjustments around fixed commitments |
-| Projects and task pool | Long-term reusable, phase-based reusable and one-off tasks; multi-day execution of one task |
-| Learning | Modules and study items; separate time and quantity tracking; weekly, monthly and all-time views with traceable sources |
-| Reading | Real book covers, current reading positions and per-session page records |
-| Habits and fitness | Habit, sleep and workout logs, with optional daily intake and nutrition targets |
-| Finance and budgets | User-defined accounts, budgets and currencies, with totals kept separate by currency |
-| Review | Effort trends, project progress and focus history; corrections from source records |
-| Backup and exchange | JSON backup and restore, task CSV and calendar ICS import/export |
+<a href="docs/images/planning-walkthrough-en.gif"><img src="docs/images/planning-walkthrough-en.gif" alt="Break a monthly goal into weekly and daily plans, adjust the timeline and start focusing" width="100%" /></a>
 
 <table>
 <tr>
@@ -135,6 +74,53 @@ Scheduling and projects form the core. Users choose which additional modules to 
 </tr>
 </table>
 
+### One task can span several days
+
+Plan two hours of a six-hour task this week and four hours next week, without creating duplicate tasks. Each session's actual effort stays linked to the original task.
+
+- **Not sure when to start?** Choose a date and estimated duration, leaving the time flexible.
+- **Have a specific time in mind?** Switch to the timeline and drag the block to adjust it.
+- **Halfway through and need more time?** Re-estimate the remaining work and schedule what is left.
+- **Have a regular practice you return to?** Keep a reusable entry and add it to a day when needed. Course-related tasks can stay available for a limited phase, too.
+
+Moving future plans does not change past effort. Spending longer than estimated does not automatically mark a task complete.
+
+### Record once, see progress where it belongs
+
+Start a count-up or countdown timer from today's task and enter full-screen focus. Afterward, add the videos you completed, the page you reached, or a project outcome. You can also log progress manually without using the timer.
+
+**An activity's time is counted once.** Daily tasks, learning, reading and projects display linked records. Adding a page number or an outcome does not add another copy of the time.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<strong>AI assistant</strong><br />
+<a href="docs/images/quick-start-en.jpg"><img src="docs/images/quick-start-en.jpg" alt="AI assistant" width="100%" /></a>
+<br />Describe a plan and review its draft before saving.
+</td>
+<td width="50%" valign="top">
+<strong>Full-screen focus</strong><br />
+<a href="docs/images/focus-demo-en.jpg"><img src="docs/images/focus-demo-en.jpg" alt="Full-screen focus" width="100%" /></a>
+<br />A timer alongside a virtual incentive.
+</td>
+</tr>
+</table>
+
+*“Potential wealth” is a virtual incentive that grows with focus time. It is not real income.*
+
+## Choose the modules you need
+
+Scheduling and projects are the core. Add other modules to suit the way you work and live.
+
+| What you want to do | Features |
+| --- | --- |
+| Follow your learning and course progress | Custom modules and activities, separate time and quantity tracking, weekly, monthly and all-time views |
+| Remember where you left off in a book | A bookshelf, covers, current page and session history, with reading time and progress |
+| Build routines and keep moving | Habit, sleep and workout logs, with optional daily intake and nutrition targets |
+| Manage everyday spending | Custom accounts, budgets and currencies, with separate totals for each currency |
+| See where your time went | Effort trends, project progress and focus history, with sources you can review and correct |
+| Back up or take your records with you | JSON backup and restore, task CSV and calendar ICS import/export |
+
 <table>
 <tr>
 <td width="50%" valign="top">
@@ -150,72 +136,41 @@ Scheduling and projects form the core. Users choose which additional modules to 
 </tr>
 </table>
 
-Reading screenshots use fictional books and default cover placeholders; no real WeRead account is connected.
+## Before you start
 
-The interface supports **中文 / English / Deutsch**. User-written tasks and notes are not automatically translated.
+**Do I need to install anything?**
 
-## Engineering decisions
+Open the [web app](https://personal-daily-organize.web.app/?lang=en), or install it on your desktop. Desktop is the primary supported experience. You can continue on a phone, but the mobile layout is still being refined.
 
-A central challenge is keeping multiple views connected to the same record while preserving history through ongoing changes.
+**Can friends see my records?**
 
-| Challenge | Approach |
-| --- | --- |
-| Counting one activity in several modules | Stable IDs link original tasks, effort and outcomes through shared aggregation logic |
-| Changes to plans rewriting actual history | Estimates, remaining work, scheduled sessions and actual effort are separate; planning edits retain actual dates and time |
-| Offline edits and cloud synchronization | An IndexedDB operation queue, retry handling and conflict resolution preserve pending edits |
-| Test data entering production workspaces | Preview and production share authentication identities, but separate workspace, feedback and offline queue namespaces |
-| AI drafts changing real records too early | Structured validation and user confirmation; existing domain operations apply changes, while AI never fabricates actual effort |
-| Releases that are difficult to trace | Preview first, explicit approval, then promotion of the exact reviewed Hosting version; production history groups changes by release |
+Each person signs in with their own account and has a separate workspace. Sharing the app link does not share your tasks or notes.
 
-**Stack**
+**Does it work offline?**
 
-- **Interface**: React 19, TypeScript, Vite and Lucide.
-- **Accounts and storage**: Firebase Authentication, Cloud Firestore and security rules.
-- **AI**: Firebase AI Logic, Gemini and App Check; cloud AI is optionally configured.
-- **Offline and installation**: Service Worker, IndexedDB and PWA.
-- **Verification**: Node.js tests, Firebase emulators and rules tests, plus build checks.
+Initial loading and sign-in require a connection. Cached content is available offline; edits sync when the app is open and connected again. There is currently no cloud scheduler running after the app closes.
 
-Explore [app](app), [lib](lib) and [tests](tests) for implementation and verification. Release conventions are documented in [Maintenance](docs/MAINTENANCE.md).
+**Do I have to use AI?**
 
-## Run it locally
+No. Manual entry and list input remain available. AI requires a connection and is subject to security verification and service quotas. Review suggested dates, durations and schedules before saving.
 
-Requires **Node.js 24.12+, npm and Java 21+**. Development defaults to local authentication and database emulators, without connecting to real user data.
+**Can I connect WeRead?**
 
-```bash
-git clone https://github.com/Kylie08ky/daily-in-order.git
-cd daily-in-order
-npm ci
-npm run emulators
-```
+The connection is currently being tested in preview and is not available in the hosted production app. It is intended for read-only cover and reading-progress synchronization, without importing reading time.
 
-In a second terminal:
+**How can I send feedback?**
 
-```bash
-npm run dev
-```
+Use **Settings → Feedback** in the app or open a [GitHub issue](https://github.com/Kylie08ky/daily-in-order/issues). Tell us what you wanted to do and where you got stuck. Remove personal information before attaching screenshots.
 
-Open <http://127.0.0.1:52700> and register a synthetic test account. Email verification links appear in the emulator terminal. Emulator data is not retained across restarts by default.
+## Development and project resources
 
-```bash
-npm test
-npm run test:rules
-npm run build
-```
+Designed and maintained by [Kylie](https://github.com/Kylie08ky). Built with React, TypeScript, Firebase and PWA support.
 
-[Full setup and deployment guide](docs/SETUP.en.md) · [Maintenance and releases](docs/MAINTENANCE.md) · [WeRead connection](docs/WEREAD.md)
+- [Run locally or deploy your own instance](docs/SETUP.en.md)
+- [Tests](tests) · [Maintenance and releases](docs/MAINTENANCE.md)
+- [WeRead connection guide](docs/WEREAD.md)
+- [Demo media notes](docs/images/README.md): screenshots and walkthroughs use sample data, not personal records.
 
-## Current scope
+Change the interface language in Settings; your tasks and notes are not automatically translated. A full backup restore replaces the current workspace, so make a backup first.
 
-- **Desktop first**: the mobile layout is still evolving and is not the primary support target.
-- **Bounded offline support**: initial loading and sign-in need a network. Cached content works offline; edits sync when the app is open and connected again. There is no cloud scheduler running after the app closes.
-- **AI needs review**: connectivity, verification and service quotas affect availability. Suggestions do not guarantee a conflict-free schedule; manual input remains available.
-- **WeRead is preview-only**: the hosted production service has not enabled the connection. It reads covers and reading progress without importing reading time.
-- **Restore carefully**: a full restore replaces the current workspace, so back up first. This public repository contains no user records, personal exports or server credentials.
-
-## About
-
-Designed and iterated by [Kylie](https://github.com/Kylie08ky), starting with everyday needs and refining the experience through feedback.
-
-Use in-app feedback or [GitHub Issues](https://github.com/Kylie08ky/daily-in-order/issues) to share a use case, bug or suggestion. Remove personal information from reports.
-
-The repository does not currently have a selected open-source license. Public source availability does not grant unrestricted redistribution or commercial-use permission. Third-party dependencies and assets retain their respective licenses.
+No open-source license has been selected for this repository. Public source availability does not grant unrestricted redistribution or commercial-use permission. Third-party dependencies and assets retain their respective licenses.
