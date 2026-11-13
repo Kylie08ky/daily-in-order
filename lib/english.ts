@@ -1,5 +1,15 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"按日期收起，展开查看每段投入。":"Grouped by date. Expand to see each session.",
+"专注记录分页":"Focus history pages",
+"每页最多 7 个日期":"Up to 7 dates per page",
+"较近记录":"More recent records",
+"较早记录":"Older records",
+"较近":"Newer",
+"较早":"Older",
+"专注记录，按天轻松回看":"Review focus history by day",
+"专注记录按日期分组，默认仅展开最近一天；较早日期分页浏览，完整历史与统计保持不变。":"Focus history is grouped by date, with only the latest day expanded by default. Older days are paginated; all history and statistics remain unchanged.",
+
   "预览修改明细": "Preview changes",
   "正式发布记录": "Production releases",
   "逐次记录预览修改；确认发布后才进入正式版。": "Each preview change is recorded here; production updates require approval.",

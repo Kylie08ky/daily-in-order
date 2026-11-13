@@ -1,5 +1,15 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"按日期收起，展开查看每段投入。":"Nach Datum gruppiert. Aufklappen, um einzelne Einheiten zu sehen.",
+"专注记录分页":"Seiten des Fokusverlaufs",
+"每页最多 7 个日期":"Bis zu 7 Tage pro Seite",
+"较近记录":"Neuere Einträge",
+"较早记录":"Ältere Einträge",
+"较近":"Neuer",
+"较早":"Älter",
+"专注记录，按天轻松回看":"Fokusverlauf nach Tagen ansehen",
+"专注记录按日期分组，默认仅展开最近一天；较早日期分页浏览，完整历史与统计保持不变。":"Der Fokusverlauf ist nach Datum gruppiert; nur der neueste Tag ist zunächst geöffnet. Ältere Tage sind seitenweise verfügbar. Verlauf und Statistiken bleiben erhalten.",
+
   "预览修改明细": "Vorschauänderungen",
   "正式发布记录": "Veröffentlichungen",
   "逐次记录预览修改；确认发布后才进入正式版。": "Jede Vorschauänderung wird hier erfasst; die Veröffentlichung erfordert eine Freigabe.",
