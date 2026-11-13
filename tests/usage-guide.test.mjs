@@ -4,12 +4,12 @@ import {emptyState,projectMetrics} from '../lib/model.ts';
 import {applyCommand} from '../lib/commands.ts';
 import {newUsageProgress,usageSelection} from '../lib/usage-guide.ts';
 const now=new Date('2026-11-03T12:00Z'),apply=(s,type,payload)=>applyCommand(s,{type,payload},now);
-test('usage guide requires saved project, task and a real timed schedule in order',()=>{
+test('usage guide requires saved project, task and a saved dated flexible schedule in order',()=>{
  let s=emptyState(),g={...newUsageProgress(),step:3,projectId:'p',taskId:'t'};
  assert.equal(usageSelection(s,g).step,0);
  s=apply(s,'project.save',{id:'p',project:{name:'学习编程'},modules:[]});assert.equal(usageSelection(s,g).step,1);
  s=apply(s,'task.save',{id:'t',task:{title:'完成第一节练习',projectId:'p',minutes:30}});assert.equal(usageSelection(s,g).step,2);
- s=apply(s,'task.schedule',{id:'t',date:'2026-11-03',start:'',minutes:30});assert.equal(usageSelection(s,g).scheduled,false);
+ s=apply(s,'task.schedule',{id:'t',date:'2026-11-03',start:'',minutes:30});assert.equal(usageSelection(s,g).scheduled,true);
  s=apply(s,'task.schedule',{id:'t',date:'2026-11-03',start:'10:00',minutes:30});assert.equal(usageSelection(s,g).step,3);
  assert.equal(s.tasks.length,1);assert.equal(s.tasks[0].actual,null);assert.equal(projectMetrics(s,'p').progress,0);
  s=apply(s,'task.progress',{id:'t',progress:100,actual:25});assert.equal(projectMetrics(s,'p').progress,100);assert.equal(projectMetrics(s,'p').spent,25);

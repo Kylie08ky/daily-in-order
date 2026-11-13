@@ -1,3 +1,4 @@
+import {applyAIPlan} from './ai-plan-apply.ts';
 import {applyWeReadSync} from './weread.ts';
 import {applyInvestmentEdit} from './investment-edits.ts';
 import {applyDevelopmentCommand,applyReadingCheckpoint} from './development-projects.ts';
@@ -19,6 +20,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type==='ai.plan.apply')return applyAIPlan(input,command,instant,applyCommand);
  if(command.type==='reading.weread.sync')return applyWeReadSync(input,command);
  if(command.type.startsWith('investment.'))return applyInvestmentEdit(input,command,instant);
  if(command.type==='development.save')return applyDevelopmentCommand(input,command);
