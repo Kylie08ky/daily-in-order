@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {germanTarget} from '../lib/learning-target';
 import {useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
@@ -15,7 +16,7 @@ type Props={state:State;refId:string;from:string;to:string;mutate:Mutate;busy:bo
 const precise=(n:number)=>{const seconds=Math.round(n*60);return fmt(Math.floor(seconds/60))+(seconds%60?' '+seconds%60+'s':'');};
 function SourceDialog({title,close,children}:{title:string;close:()=>void;children:React.ReactNode}){
  const ref=useRef<HTMLDialogElement>(null);useEffect(()=>{ref.current?.showModal();return()=>ref.current?.close();},[]);
- return createPortal(<dialog ref={ref} className="modal source-dialog" aria-label={title} onCancel={e=>{e.preventDefault();close();}}><header><h2>{title}</h2><button className="icon-btn" aria-label={ui('关闭')} onClick={close}><X/></button></header><div className="source-dialog-body">{children}</div></dialog>,document.body);
+ return createPortal(<dialog {...dialogBackdrop} ref={ref} className="modal source-dialog" aria-label={title} onCancel={e=>{e.preventDefault();close();}}><header><h2>{title}</h2><button className="icon-btn" aria-label={ui('关闭')} onClick={close}><X/></button></header><div className="source-dialog-body">{children}</div></dialog>,document.body);
 }
 function SourceEditor({state:s,row,action,mutate,busy,close}:{state:State;row:LearningSource;action:string;mutate:Mutate;busy:boolean;close:()=>void}){
  const kind=row.taskId?'task':'entry',id=row.taskId||row.entryId,task=s.tasks.find(t=>t.id===row.taskId),entry=s.life.entries.find(e=>e.id===row.entryId);

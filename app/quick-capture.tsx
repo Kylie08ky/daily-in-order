@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {displayLearningCategory} from '../lib/learning';
 import AIPlanningReview,{AIPlanSlots} from './ai-planning-review';
 import {aiReviewToken,selectedPlanningContext} from '../lib/ai-plan-apply';
@@ -56,7 +57,7 @@ export default function QuickCapture({state,date,firstLogin,initialMode='ai',ini
  });
  const undo=()=>void run(async()=>{if(added&&await mutate({type:'quick.undo',payload:added}))setUndone(true);});
  const switchMode=(next:'list'|'ai')=>{setMode(next);setLocalError('');};
- return <dialog ref={dialog} className="modal quick-capture" aria-labelledby="quick-title" onCancel={e=>{e.preventDefault();if(!disabled)close();}}>
+ return <dialog {...dialogBackdrop} ref={dialog} className="modal quick-capture" aria-labelledby="quick-title" onCancel={e=>{e.preventDefault();if(!disabled)close();}}>
   <header className="quick-head"><div><span className="eyebrow">DAILY IN ORDER</span><h2 ref={heading} tabIndex={-1} id="quick-title">{ui(step===0?(mode==='ai'?(first.current?'AI 帮我开始':'AI 助手'):'今天，你想做些什么？'):step===1?'检查一下，再加入清单':undone?'已撤销本次添加':'清单准备好了')}</h2></div><button type="button" className="icon-btn" aria-label={ui('关闭')} disabled={disabled} onClick={close}><X size={20}/></button></header>
   <ol className="quick-steps" aria-label={ui('引导进度')}>{['写下想法','确认草稿','开始行动'].map((label,i)=><li key={label} aria-current={step===i?'step':undefined}><span>{i<step?<Check size={13}/>:i+1}</span>{ui(label)}</li>)}</ol>
   <div className="quick-body"><fieldset disabled={disabled}>

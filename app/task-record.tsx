@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {currentEstimate,remainingMinutes} from '../lib/task-plans';
 import ActivityProgress from './activity-progress';
 import type {ActivityLink} from '../lib/life-schema';
@@ -28,7 +29,7 @@ export default function TaskRecord({task,state,busy,mutate,close,edit,focus,erro
   if(!complete&&!timed&&!minutes&&mode===progressSource(task)&&(mode!=='manual'||percent===task.progress)){setIssue('填一段用时，或调整完成百分比后再保存。');return;}
   const ok=await mutate({type:'task.record',payload:{id:task.id,minutes:timed?0:minutes||0,date,...times,progressSource:mode,...(complete?{progress:100}:mode==='manual'?{progress:percent}:{}),note}},complete?ui("整项任务已完成。"):ui("投入已保存，累计与进度已更新。"));if(ok)close();
  }catch(e){setIssue(e instanceof Error?e.message:'记录未保存。');}};
- return createPortal(<dialog ref={dialog} className="modal task-detail" aria-label={ui("事项进展")} onCancel={e=>{e.preventDefault();close();}}>
+ return createPortal(<dialog {...dialogBackdrop} ref={dialog} className="modal task-detail" aria-label={ui("事项进展")} onCancel={e=>{e.preventDefault();close();}}>
   <header><div><small>{ui("事项进展")}</small><h2>{task.title}</h2></div><button type="button" className="icon-btn" aria-label={ui("关闭进展记录")} onClick={close}><X/></button></header>
   <div className="task-detail-scroll">{task.note&&<details><summary>{ui("事项备注")}</summary><p>{task.note}</p></details>}
    {tab!=='progress'&&<><div className="detail-summary"><div><small>{ui("累计投入")}</small><strong>{fmt(task.actual||0)}</strong></div><div><small>{ui("预计用时")}</small><strong>{currentEstimate(task)?fmt(currentEstimate(task)):ui("未设定")}</strong></div><div><small>{task.progress===100?ui("任务状态"):mode==='time'?ui("按用时推进"):ui("完成进度")}</small><strong>{task.progress===100?ui("已完成"):Math.min(100,mode==='time'&&currentEstimate(task)?Math.round((task.actual||0)/currentEstimate(task)*100):task.progress)+'%'}</strong></div></div>

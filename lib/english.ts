@@ -2628,4 +2628,6 @@ export const english:Record<string,string> = {
 "我同意将本次对话、草稿及主动选择的计划摘要发送给 Google AI 处理。":"I agree to send this conversation, draft and explicitly selected planning summaries to Google AI.",
 "AI 规划与引导跟上你的工作方式":"AI planning and onboarding for your workflow",
 "通过对话设置月周目标、常驻与学习子项，跨日安排原任务并重新估算剩余；灵活安排不必填写钟点。":"Plan month and week targets, resident entries and learning items through conversation. Split original tasks across days and revise remaining work, with optional start times.",
+"点击窗口外侧，轻松关闭":"Click outside to close",
+"弹窗支持点击外侧空白关闭，窗口内操作与拖动不误关；沿用原有关闭确认与保存中保护。":"Close dialogs by clicking the backdrop. Interactions and drags inside stay open; existing close confirmations and saving guards are preserved.",
 };

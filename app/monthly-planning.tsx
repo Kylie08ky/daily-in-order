@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {useMemo,useRef,useEffect,useState,type FormEvent} from 'react';
 import {Plus,Pencil,Trash2,ChevronLeft,ChevronRight,X,CalendarDays,ArrowRight} from 'lucide-react';
 import {type State,type Task,type TaskInput,type Command,formatTime as fmt,finished} from '../lib/model';
@@ -23,7 +24,7 @@ function GoalEditor({state,plan,goal,busy,error,save,close}:{state:State;plan:Mo
  const dismiss=()=>{if(!dirty||confirm(ui('放弃尚未保存的月度目标修改？')))close();};
  const change=(value:Partial<MonthlyGoal>)=>{setDraft(d=>({...d,...value}));setDirty(true);};
  const submit=async(e:FormEvent)=>{e.preventDefault();if(await save(draft))close();};
- return <dialog ref={ref} className="modal wide monthly-goal-editor" aria-label={ui(goal?'调整月度目标':'添加月度目标')} onCancel={e=>{e.preventDefault();dismiss();}}>
+ return <dialog {...dialogBackdrop} ref={ref} className="modal wide monthly-goal-editor" aria-label={ui(goal?'调整月度目标':'添加月度目标')} onCancel={e=>{e.preventDefault();dismiss();}}>
   <header><div><h2>{ui(goal?'调整月度目标':'添加月度目标')}</h2><p>{plan.month}</p></div><button className="icon-btn" aria-label={ui('关闭')} onClick={dismiss}><X/></button></header>
   <form onSubmit={submit}><fieldset disabled={busy}>
    <label>{ui('选择项目')}<select required value={draft.projectId} disabled={!!goal} onChange={e=>change({projectId:e.target.value})}><option value="">{ui('请选择项目')}</option>{projects.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>

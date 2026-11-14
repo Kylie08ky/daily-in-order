@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {t as ui,tr,locale} from '../lib/i18n';
 import ModulePicker,{optionalModules,type OptionalModule} from './module-picker';
 import {useEffect,useRef,useState} from 'react';
@@ -26,7 +27,7 @@ export default function WelcomeGuide({state,mutate,busy,error,onClose,onComplete
   catch{setLocalError(ui("暂未保存成功，请重试；填写的内容还在。"));}
   finally{saving.current=false;setSubmitting(false);}
  };
- return <dialog ref={dialog} className="modal wide welcome-guide" aria-labelledby="welcome-title" aria-describedby="welcome-description" onCancel={e=>{e.preventDefault();if(onClose&&!submitting)onClose();}}>
+ return <dialog {...dialogBackdrop} ref={dialog} className="modal wide welcome-guide" aria-labelledby="welcome-title" aria-describedby="welcome-description" onCancel={e=>{e.preventDefault();if(onClose&&!submitting)onClose();}}>
   <header><div><span className="eyebrow">{ui("日常有序 · 从你的节奏开始")}</span><h2 id="welcome-title">{ui("欢迎，")}{state.settings.name}</h2></div><span className="welcome-mark" aria-hidden="true">{ui("序")}</span></header>
   <p id="welcome-description" className="welcome-intro">{onClose?ui("已带入当前目标。一步一步调整，最后确认后保存。"):ui("先选需要的模块，再设置目标、学习创建项目和安排任务。随时可到「设置 → 问题反馈」提出建议，每一步都可以跳过。")}</p>
   <ol className="welcome-steps" aria-label={ui("引导进度")}>{steps.map((name,i)=><li key={name} aria-current={i===step?'step':undefined} className={i<step?'visited':''}><span>{i+1}</span>{ui(name)}</li>)}</ol>

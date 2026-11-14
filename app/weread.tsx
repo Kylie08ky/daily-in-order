@@ -1,3 +1,4 @@
+import {dialogBackdrop} from './dialog-backdrop';
 import {useEffect,useRef,useState} from 'react';
 import {X,RefreshCw,Link} from 'lucide-react';
 import type {State,Command} from '../lib/model';
@@ -24,7 +25,7 @@ export default function WeReadDialog({state,mutate,close,busy,error,client=reque
    if(c.signal.aborted)return;if(await mutate({type:'reading.weread.sync',payload:changes},ui('封面和阅读进度已保存，原阅读用时保持不变。'))){setKey('');close();}
   }catch(e){if(!c.signal.aborted)setProblem(e instanceof Error?e.message:'连接微信读书失败，请稍后重试。');}finally{saving.current=false;setLoading(false);}
  }
- return <dialog className="modal wide weread-dialog" ref={dialog} aria-label={ui('连接微信读书')} onCancel={e=>{e.preventDefault();dismiss();}}><header><div><h2>{ui('连接微信读书')}</h2><p>{ui('选择书籍，同步真实封面与阅读百分比。')}</p></div><button className="icon-btn" onClick={dismiss} disabled={saving.current} aria-label={ui('关闭')}><X/></button></header>
+ return <dialog {...dialogBackdrop} className="modal wide weread-dialog" ref={dialog} aria-label={ui('连接微信读书')} onCancel={e=>{e.preventDefault();dismiss();}}><header><div><h2>{ui('连接微信读书')}</h2><p>{ui('选择书籍，同步真实封面与阅读百分比。')}</p></div><button className="icon-btn" onClick={dismiss} disabled={saving.current} aria-label={ui('关闭')}><X/></button></header>
  {!enabled?<p role="status">{ui('微信读书连接服务尚未配置。')}</p>:<>
  {!books?<form onSubmit={e=>{e.preventDefault();void connect();}}><p>{ui('从微信读书官方页面获取个人 API Key，仅在本次连接中使用。关闭窗口后清除，不写入云端、备份或浏览器存储。')}</p><a href="https://weread.qq.com/r/weread-skills" target="_blank" rel="noreferrer">{ui('获取微信读书密钥')} ↗</a><label className="weread-key">API Key<div><input type={visible?'text':'password'} value={key} autoComplete="off" spellCheck={false} maxLength={504} placeholder="wrk-…" onChange={e=>setKey(e.target.value)} disabled={loading}/><button type="button" onClick={()=>setVisible(v=>!v)}>{ui(visible?'隐藏':'显示')}</button></div></label><small>{ui('密钥经本应用的连接服务转发至微信读书，仅请求书架、封面和进度，不请求阅读时长或笔记。')}</small><footer><button type="button" onClick={dismiss}>{ui('取消')}</button><button className="primary" disabled={loading||!key.trim().startsWith('wrk-')}><Link size={16}/>{ui(loading?'连接中…':'连接并读取书架')}</button></footer></form>:<>
  <div className="weread-toolbar"><input type="search" aria-label={ui('搜索书名或作者')} placeholder={ui('搜索书名或作者')} value={query} onChange={e=>setQuery(e.target.value)}/><button disabled={loading||busy} onClick={()=>{setKey('');setBooks(null);setChoices({});setProblem('');}}>{ui('断开连接')}</button></div>
