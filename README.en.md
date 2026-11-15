@@ -133,6 +133,9 @@ Scheduling and projects are the core. Add other modules to suit the way you work
 | See where your time went | Effort trends, project progress and focus history, with sources you can review and correct |
 | Back up or take your records with you | JSON backup and restore, task CSV and calendar ICS import/export |
 
+In **Where your time went**, switch between **By category** and **By project** to see actual effort and percentages for the selected period. Categories cover language, learning, reading, fitness, work and everyday life, with unclassified effort shown separately. Switching views keeps the total unchanged. (v0.25.2 preview)
+
+
 <table>
 <tr>
 <td width="50%" valign="top">
