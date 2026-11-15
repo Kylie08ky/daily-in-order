@@ -2630,4 +2630,6 @@ export const german:Record<string,string> = {
 "通过对话设置月周目标、常驻与学习子项，跨日安排原任务并重新估算剩余；灵活安排不必填写钟点。":"Monats- und Wochenziele, Dauereinträge und Lernunterpunkte im Gespräch planen. Ursprüngliche Aufgaben auf Tage verteilen und Restaufwand anpassen; Uhrzeiten bleiben optional.",
 "点击窗口外侧，轻松关闭":"Außerhalb klicken zum Schließen",
 "弹窗支持点击外侧空白关闭，窗口内操作与拖动不误关；沿用原有关闭确认与保存中保护。":"Dialoge lassen sich per Klick auf den Hintergrund schließen. Aktionen und Ziehen im Fenster schließen es nicht; bestehende Bestätigungen und Speicherschutz bleiben erhalten.",
+"问题与建议，字号统一":"Einheitliche Schrift für Feedback",
+"各页面底部的问题与建议入口统一字号、行高与图标尺寸，保持原有配色。":"Feedback-Schaltflächen in allen Seitenfußzeilen verwenden dieselbe Schriftgröße, Zeilenhöhe und Symbolgröße; die Farben bleiben erhalten.",
 };

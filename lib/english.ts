@@ -2630,4 +2630,6 @@ export const english:Record<string,string> = {
 "通过对话设置月周目标、常驻与学习子项，跨日安排原任务并重新估算剩余；灵活安排不必填写钟点。":"Plan month and week targets, resident entries and learning items through conversation. Split original tasks across days and revise remaining work, with optional start times.",
 "点击窗口外侧，轻松关闭":"Click outside to close",
 "弹窗支持点击外侧空白关闭，窗口内操作与拖动不误关；沿用原有关闭确认与保存中保护。":"Close dialogs by clicking the backdrop. Interactions and drags inside stay open; existing close confirmations and saving guards are preserved.",
+"问题与建议，字号统一":"Consistent feedback text",
+"各页面底部的问题与建议入口统一字号、行高与图标尺寸，保持原有配色。":"Feedback buttons across all page footers share the same font size, line height and icon size, with existing colors preserved.",
 };

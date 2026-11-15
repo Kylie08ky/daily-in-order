@@ -2,7 +2,8 @@
 :root .app-shell .mobile-workspace-bar,:root .app-shell .mobile-nav-backdrop{display:none}
 :root .app-shell .resident-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
 :root .app-shell .resident-tabs>button{min-width:0;padding:8px 4px;gap:4px}
-:root .app-shell .feedback-shortcut{display:inline-flex;align-items:center;gap:6px;font:inherit}
+:root .app-shell .page-footer>.feedback-shortcut{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14px;font-weight:500;line-height:20px;letter-spacing:0;white-space:nowrap}
+:root .app-shell .page-footer>.feedback-shortcut>svg{width:16px;height:16px;flex:none}
 :root .app-shell.view-today .home-dashboard>.metrics>.metric{background:#444f3e;color:#f5f7ed;border-color:#7b8b6b}
 :root .app-shell.view-today .home-dashboard>.metrics>.metric.accent{background:#d1debb;color:#293b2e}
 :root .app-shell.view-today .home-dashboard>.metrics>.metric :is(strong,small,button){color:inherit}
