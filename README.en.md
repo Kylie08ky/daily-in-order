@@ -87,7 +87,7 @@ Moving future plans does not change past effort. Spending longer than estimated 
 
 Daily lists show both effort on the selected day and the task total, so a multi-day task does not make each day look like the full total. If a historical archive action happened after the actual completion, you can review and correct the completion date separately while preserving effort and the operation timestamp.
 
-### Record progress by activity type (preview)
+### Record progress by activity type
 
 Choose Languages, Learning, Reading, Fitness, Work or Everyday life. Learning includes Personal projects, Skills and Academic study. Classification is separate from project membership: a skills course can still belong to your development project.
 
@@ -97,7 +97,7 @@ Use **Classification review** in Settings to inspect evidence, unresolved record
 
 ### Record once, see progress where it belongs
 
-When a countdown ends, choose **Resume** to count up from its planned duration—for example, 25:00, 25:01, and so on. Waiting time is excluded. Ending the session records the combined effort once; completing the task remains your choice. (v0.25.1 preview)
+When a countdown ends, choose **Resume** to count up from its planned duration—for example, 25:00, 25:01, and so on. Waiting time is excluded. Ending the session records the combined effort once; completing the task remains your choice.
 
 Start a count-up or countdown timer from today's task and enter full-screen focus. Afterward, add the videos you completed, the page you reached, or a project outcome. You can also log progress manually without using the timer.
 
@@ -133,7 +133,7 @@ Scheduling and projects are the core. Add other modules to suit the way you work
 | See where your time went | Effort trends, project progress and focus history, with sources you can review and correct |
 | Back up or take your records with you | JSON backup and restore, task CSV and calendar ICS import/export |
 
-In **Where your time went**, switch between **By category** and **By project** to see actual effort and percentages for the selected period. Categories cover language, learning, reading, fitness, work and everyday life, with unclassified effort shown separately. Switching views keeps the total unchanged. (v0.25.2 preview)
+In **Where your time went**, switch between **By category** and **By project** to see actual effort and percentages for the selected period. Categories cover language, learning, reading, fitness, work and everyday life, with unclassified effort shown separately. Switching views keeps the total unchanged.
 
 
 <table>
