@@ -29,6 +29,8 @@ Desktop first · 中文 / English / Deutsch · Installable web app
 </tr>
 </table>
 
+When completing a video-course task, record video quantities, IDs and viewing type against a selected session. Completion and progress editing share the same record; adding progress does not add time. (v0.25.4 preview)
+
 ## Start with one goal
 
 Want to finish a course, move a personal project forward, or make time for reading? Turn it into a project, then decide how much time to give it this week and today. Your plans can change without losing track of the effort you have already put in.

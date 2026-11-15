@@ -1,3 +1,4 @@
+import {completeWithProgress} from './completion-progress.ts';
 import {applyClassification} from './classification-commands.ts';
 import {classificationSignature,inheritClassification} from './task-classification.ts';
 import {closeCompletedPlans,completionDate,datesSignature} from './task-completion.ts';
@@ -23,6 +24,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type==='task.complete.progress')return completeWithProgress(input,command,instant,applyCommand);
  if(command.type.startsWith('classification.'))return applyClassification(input,command,instant);
  if(command.type==='task.dates.correct'){
   const p=z.object({id:idString,expected:z.string(),completedDate:dateString.optional(),actualDate:dateString.optional()}).parse(command.payload),s=structuredClone(input),t=s.tasks.find(t=>t.id===p.id&&!t.deletedAt);

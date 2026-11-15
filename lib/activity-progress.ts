@@ -27,7 +27,7 @@ export function applyActivityProgress(input:State,command:Command,instant=new Da
   if(e.startPage!==undefined&&(e.page===undefined||e.startPage>e.page))throw Error('起始页不能大于读到的页码。');
   if(e.kind==='reading')e.units=e.page===undefined&&old?.page===undefined?old?.units??0:0;
   if(e.videoIds?.length){e.videoIds=[...new Set(e.videoIds)];if(!e.rewatch&&e.quantityKnown!==false&&e.units!==e.videoIds.length)throw Error('视频编号数量须与本次视频数量一致。');}
-  if(e.kind==='german'&&(e.rewatch||e.quantityKnown===false))e.units=0;
+  if(e.kind==='german'&&e.quantityKnown===false)e.units=0;
   if(e.kind==='german'&&'mode' in source&&source.mode==='practice'&&e.units)throw Error('请将此子项设置为有数量目标的课程，或在普通练习中记录数量。');
  }
  for(const kind of ['reading','german'] as const){

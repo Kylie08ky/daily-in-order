@@ -1,3 +1,4 @@
+import {defaultProgressScope} from '../lib/completion-progress';
 import {completionDate,datesSignature} from '../lib/task-completion';
 import {dialogBackdrop} from './dialog-backdrop';
 import {currentEstimate,remainingMinutes} from '../lib/task-plans';
@@ -23,7 +24,7 @@ export default function TaskRecord({task,state,busy,mutate,close,edit,focus,erro
  const dialog=useRef<HTMLDialogElement>(null),[minutes,setMinutes]=useState<number|null>(null),[date,setDate]=useState(localParts(Date.now(),state.settings.timezone).date),[timed,setTimed]=useState(false),[start,setStart]=useState(''),[end,setEnd]=useState(''),[mode,setMode]=useState(progressSource(task)),[percent,setPercent]=useState(task.progress),[note,setNote]=useState(''),[issue,setIssue]=useState('');
  const allHistory=state.sessions.filter(x=>x.taskId===task.id).slice().reverse(),history=allHistory.filter(x=>!x.deletedAt),deleted=allHistory.filter(x=>x.deletedAt);
  const [editing,setEditing]=useState<string|null>(initialSessionId||null),[tab,setTab]=useState<'progress'|'add'|'history'|'plans'>(initialTab||'progress');
- const [scope,setScope]=useState(initialSessionId??(state.life.entries.some(e=>e.taskId===task.id&&!e.sessionId)?'':history[0]?.id||'')),[correction,setCorrection]=useState<number|null>(task.actual),[correcting,setCorrecting]=useState(false);
+ const [scope,setScope]=useState(initialSessionId??defaultProgressScope(state,task)),[correction,setCorrection]=useState<number|null>(task.actual),[correcting,setCorrecting]=useState(false);
  useEffect(()=>{const el=dialog.current;el?.showModal();return()=>el?.close();},[]);
  const save=async(complete=false)=>{setIssue('');try{
   const times=timed?{startedAt:localInstant(start,state.settings.timezone),endedAt:localInstant(end,state.settings.timezone)}:{};
