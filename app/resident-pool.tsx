@@ -1,3 +1,4 @@
+import TaskClassification,{TaskObjectFields} from './task-classification';
 import {useState,type ReactNode} from 'react';
 import {CalendarPlus,MoreHorizontal,GripVertical,Plus,RotateCcw} from 'lucide-react';
 import {type State,type Task,type TaskInput,type Command,businessDate,formatTime as fmt,liveProjects} from '../lib/model';
@@ -45,6 +46,7 @@ export function ResidentEditor({state:s,entry,task,sourceTaskId,kind='long-term'
  const set=(key:keyof TaskInput,value:unknown)=>setDraft(t=>({...t,[key]:value}));
  return <form className="resident-editor" onSubmit={async e=>{e.preventDefault();if(await mutate({type:'template.save',payload:{id,task:draft,kind:type,...(sourceTaskId?{sourceTaskId}:{})}},ui('常驻入口已保存，历史执行记录保持不变。')))close();}}><fieldset disabled={busy}>
  <label>{ui('入口名称')}<input required maxLength={200} value={draft.title} onChange={e=>set('title',e.target.value)}/></label><label>{ui('任务类型')}<select value={type} onChange={e=>setType(e.target.value as ResidentKind)}><option value="long-term">{ui('长期常驻')}</option><option value="stage">{ui('阶段性常驻')}</option></select></label>
+ <TaskClassification state={s} task={draft} onChange={c=>set('classification',c)}/><TaskObjectFields state={s} task={draft} onChange={v=>setDraft(t=>({...t,...v}))}/>
  <DurationInput label={ui('默认本次预计时长')} value={draft.minutes} max={1440} onChange={n=>set('minutes',n??0)}/>
  <div className="fields cols-2"><label>{ui('所属项目')}<select value={draft.projectId} onChange={e=>setDraft(t=>({...t,projectId:e.target.value,moduleId:''}))}><option value="">{ui('独立事项')}</option>{liveProjects(s).map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label><label>{ui('模块')}<select value={draft.moduleId} onChange={e=>set('moduleId',e.target.value)}><option value="">{ui('未分模块')}</option>{s.modules.filter(m=>m.projectId===draft.projectId).map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</select></label></div>
  {(!draft.activity||draft.activity.kind==='german')&&<LearningChoice state={s} value={draft.activity?.refId||''} onChange={id=>{const c=s.life.courses.find(c=>c.id===id);set('activity',c?{kind:'german',refId:c.id,category:c.category}:null);}}/>}

@@ -87,6 +87,14 @@ Moving future plans does not change past effort. Spending longer than estimated 
 
 Daily lists show both effort on the selected day and the task total, so a multi-day task does not make each day look like the full total. If a historical archive action happened after the actual completion, you can review and correct the completion date separately while preserving effort and the operation timestamp.
 
+### Record progress by activity type (preview)
+
+Choose Languages, Learning, Reading, Fitness, Work or Everyday life. Learning includes Personal projects, Skills and Academic study. Classification is separate from project membership: a skills course can still belong to your development project.
+
+Progress forms show the relevant quantities, page checkpoint, course chapters, exercise sets or version outcomes. These details are optional; adding progress does not add time again or complete the task. Switching classification preserves existing links and history, with a warning when they do not match.
+
+Use **Classification review** in Settings to inspect evidence, unresolved records and actual-time totals. Preview changes, download a backup and save. Exportable diffs and selective undo restore classifications without overwriting later time records.
+
 ### Record once, see progress where it belongs
 
 Start a count-up or countdown timer from today's task and enter full-screen focus. Afterward, add the videos you completed, the page you reached, or a project outcome. You can also log progress manually without using the timer.

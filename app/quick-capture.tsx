@@ -1,3 +1,4 @@
+import {ClassificationFields} from './task-classification';
 import {dialogBackdrop} from './dialog-backdrop';
 import {displayLearningCategory} from '../lib/learning';
 import AIPlanningReview,{AIPlanSlots} from './ai-planning-review';
@@ -81,6 +82,7 @@ export default function QuickCapture({state,date,firstLogin,initialMode='ai',ini
     <div className="quick-drafts">{rows.map((row,i)=><article className={'quick-row'+(!row.selected?' unselected':'')} key={row.id}>
      <div className="quick-row-title"><input type="checkbox" aria-label={tr('加入第 {0} 项',i+1)} checked={row.selected} onChange={e=>update(row.id,{selected:e.target.checked})}/><label><span>{tr('事项 {0}',i+1)}</span><input aria-label={tr('事项 {0}',i+1)} maxLength={200} value={row.title} onChange={e=>update(row.id,{title:e.target.value})}/></label></div>
      {projects.length>0&&<label className="quick-project-choice">{ui('所属项目')}<select value={row.projectKey||''} onChange={e=>update(row.id,{projectKey:e.target.value})}><option value="">{ui('独立事项')}</option>{projects.map(p=><option key={p.key} value={p.key}>{p.name}</option>)}</select></label>}
+     <ClassificationFields value={row.classification} onChange={c=>update(row.id,{classification:c})}/>
      {mode==='ai'&&<div className="quick-fields"><label>{ui('任务类型')}<select value={row.kind||'once'} onChange={e=>update(row.id,{kind:e.target.value as Row['kind']})}><option value="once">{ui('一次性任务')}</option><option value="long-term">{ui('长期常驻')}</option><option value="stage">{ui('阶段性常驻')}</option></select></label><label>{ui('所属学习子项')}<select value={row.learningKey||''} onChange={e=>update(row.id,{learningKey:e.target.value})}><option value="">{ui('不关联')}</option>{planning.learning.map(c=><option key={c.key} value={c.key}>{displayLearningCategory(c.category)} → {c.name}</option>)}</select></label></div>}
      {row.kind&&row.kind!=='once'&&<small>{ui('常驻只保留入口；仅为下面明确选择的日期创建当次任务，不自动重复排期。')}</small>}
      {repeated[i]&&<small className="quick-duplicate">{ui('已有相同名称与安排，请修改或取消勾选。')}</small>}

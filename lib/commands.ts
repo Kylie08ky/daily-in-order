@@ -1,3 +1,5 @@
+import {applyClassification} from './classification-commands.ts';
+import {classificationSignature,inheritClassification} from './task-classification.ts';
 import {closeCompletedPlans,completionDate,datesSignature} from './task-completion.ts';
 import {applyAIPlan} from './ai-plan-apply.ts';
 import {applyWeReadSync} from './weread.ts';
@@ -21,6 +23,7 @@ import {applyLifeCommand} from './life-commands.ts';
 import { type State,type Command,idString,dateString,optionalDate,optionalTime,projectModuleGroups,progressBasisSchema,taskInput,repeatSchema,projectInput,settingsSchema,assertTask,validateState,initializeDay,businessDate,offsetDate,liveTasks,finished,capacity,recommendations,occurs } from './model.ts';
 
 export function applyCommand(input:State,command:Command,instant=new Date(),newId:()=>string=()=>crypto.randomUUID()):State{
+ if(command.type.startsWith('classification.'))return applyClassification(input,command,instant);
  if(command.type==='task.dates.correct'){
   const p=z.object({id:idString,expected:z.string(),completedDate:dateString.optional(),actualDate:dateString.optional()}).parse(command.payload),s=structuredClone(input),t=s.tasks.find(t=>t.id===p.id&&!t.deletedAt);
   if(!t)throw Error('事项不存在。');if(p.expected!==datesSignature(t))throw Error('记录已更新，请重新打开后核对。');
@@ -29,6 +32,12 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   if(p.completedDate){if(t.progress!==100)throw Error('任务尚未完成。');t.completedDate=p.completedDate;closeCompletedPlans(t);}
   if(p.actualDate)t.actualDate=p.actualDate;
   return validateState(s);
+ }
+ if(command.type==='task.save'){
+  const p=command.payload as {id:string;task:unknown;scope?:string;repeat?:unknown},old=input.tasks.find(t=>t.id===p.id);
+  if(old&&(!p.scope||p.scope==='one')){const next=taskInput.parse(p.task),before=taskInput.parse(old);const {classification:a,...restA}=before,{classification:b,...restB}=next;
+   if(JSON.stringify(restA)===JSON.stringify(restB)&&JSON.stringify(a)!==JSON.stringify(b)&&(!p.repeat||!!old.seriesId))return applyClassification(input,{type:'classification.apply',payload:{id:newId(),changes:[{kind:'task',id:old.id,expected:classificationSignature(old),after:b??null}]}},instant);
+  }
  }
  if(command.type==='ai.plan.apply')return applyAIPlan(input,command,instant,applyCommand);
  if(command.type==='reading.weread.sync')return applyWeReadSync(input,command);
@@ -50,6 +59,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'task.save':{
    const p=z.object({id:idString,task:taskInput,repeat:repeatSchema.nullable().optional(),scope:z.enum(['one','future','series']).default('one')}).parse(command.payload);assertTask(s,s.tasks.find(t=>t.id===p.id)?.plans?{...p.task,start:''}:p.task);if(p.task.parentId&&(p.repeat&&(!s.tasks.some(t=>t.id===p.id&&t.seriesId)||p.scope!=='one')))throw new Error('包含关系请只编辑单次日程。');
    const old=s.tasks.find(t=>t.id===p.id);
+   if(!old)p.task=inheritClassification(s,p.task);
    if(old){
     if(old.deletedAt)throw new Error('请先恢复此事项。');
     if(old.remainingEstimate&&p.task.minutes!==old.minutes)throw Error('请使用调整剩余计划，初始预计保持不变。');

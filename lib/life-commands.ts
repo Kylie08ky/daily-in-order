@@ -1,3 +1,4 @@
+import {inheritClassification} from './task-classification.ts';
 import {learningRows} from './learning-transfer.ts';
 import {nutritionTargets} from './nutrition.ts';
 import {z} from 'zod';
@@ -100,5 +101,6 @@ export function applyLifeCommand(input:State,command:Command,instant=new Date(),
    s.life.transactions.push(transactionSchema.parse({id:newId(),date:p.paidDate||p.date,kind:'expense',currency:paymentCurrency(s,b.accountId),title:b.name,cents:amount,fromId:b.accountId,bucket:b.bucket,category:b.category,billKey:occ.key,taskId:s.tasks.some(t=>t.id===taskId)?taskId:'',note:b.currency===paymentCurrency(s,b.accountId)?'账单确认入账':`原币 ${b.foreignAmount??''} ${b.currency}；按扣款账户币种记录实际金额`}));const t=s.tasks.find(t=>t.id===taskId&&!t.deletedAt);if(t){t.progress=100;t.completedAt=now;t.actual=0;}
   }
  }else throw new Error('不支持的生活模块操作。');
+ for(const t of s.tasks.filter(t=>!input.tasks.some(old=>old.id===t.id)))Object.assign(t,inheritClassification(s,t));
  initializeDay(s,instant);if(command.type==='life.bill.plan')s.targets[today]=recommendations(s,today);return validateState(s);
 }

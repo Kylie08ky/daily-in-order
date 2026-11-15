@@ -2638,3 +2638,76 @@ export const german:Record<string,string> = {
 "各页面底部的问题与建议入口统一字号、行高与图标尺寸，保持原有配色。":"Feedback-Schaltflächen in allen Seitenfußzeilen verwenden dieselbe Schriftgröße, Zeilenhöhe und Symbolgröße; die Farben bleiben erhalten.",
 };
 Object.assign(german, {"完成日期与历史用时日期": "Abschluss- und historische Zeitdaten", "实际完成日期": "Tatsächliches Abschlussdatum", "无明细用时的实际日期": "Tatsächliches Datum für Zeit ohne Einzeleinträge", "待核对：旧用时暂沿用原任务日期，请确认真实发生日期；不会推算或移动专注记录。": "Bitte prüfen: Alte Zeitangaben verwenden vorläufig das ursprüngliche Aufgabendatum. Bestätige das tatsächliche Datum; Fokuseinträge werden nicht geschätzt oder verschoben.", "完成日期与投入日期分别保存；已有专注及手动投入仍保留各自的日期。": "Abschluss- und Aktivitätsdatum werden getrennt gespeichert. Fokus- und manuelle Einträge behalten ihr Datum.", "日期已修正，投入记录与时长保持不变。": "Datum korrigiert. Zeiteinträge und Dauer bleiben unverändert.", "保存日期": "Datum speichern", "完成日期不移动已有投入；仅手填累计用时且没有投入明细时，此日期作为实际发生日期。": "Das Abschlussdatum verschiebt keine Zeiteinträge. Bei einer manuellen Gesamtzeit ohne Einzeleinträge gilt es auch als Aktivitätsdatum.", "完成任务，结束剩余安排": "Aufgaben abschließen und offene Planung beenden", "明确完成任务后自动关闭未做分段；完成日期和实际投入日期分别记录，跨日投入保留原日期。": "Ein ausdrücklicher Abschluss beendet offene Planabschnitte. Abschluss und tatsächlicher Aufwand werden getrennt datiert; Zeit über mehrere Tage bleibt am jeweiligen Datum."});
+
+Object.assign(german, {
+ "当前分类": "Aktuelle Einordnung",
+ "动作、组数、次数与重量": "Übungen, Sätze, Wiederholungen und Gewicht",
+ "动作": "Übung",
+ "移除动作": "Übung entfernen",
+ "添加动作": "Übung hinzufügen",
+ "关联训练计划": "Verknüpfter Trainingsplan",
+ "阻碍（选填）": "Hindernisse (optional)",
+ "分类已更新，原投入与进度保持不变。": "Einordnung aktualisiert. Bisherige Zeit und Fortschritte bleiben unverändert.",
+ "先确认学习对象的类型，再核对任务分类。依据不足的保留为待确认，不按标题猜测。": "Bestätige zuerst den Typ der Lerninhalte, dann die Aufgabeneinordnung. Unklare Einträge bleiben offen; Titel werden nicht zur Vermutung verwendet.",
+ "导出分类映射与待确认清单": "Zuordnungen und offene Einträge exportieren",
+ "学习对象的分类设置": "Einordnung der Lerninhalte",
+ "仅待确认": "Nur offene Einträge",
+ "选择有明确依据的记录": "Einträge mit eindeutiger Grundlage auswählen",
+ "预览分类修改": "Änderungen prüfen",
+ "本次分类修改": "Änderungen der Einordnung",
+ "只修改分类，不修改用时、数量、归属、日期或完成状态。保存前下载完整备份。": "Nur die Einordnung ändert sich. Zeit, Mengen, Verknüpfungen, Daten und Abschluss bleiben erhalten. Vor dem Speichern wird eine vollständige Sicherung heruntergeladen.",
+ "备份并保存分类": "Sichern und Einordnungen speichern",
+ "显示更多": "Mehr anzeigen",
+ "分类修改历史与撤销": "Änderungsverlauf und Rückgängig",
+ "导出修改差异": "Änderungen exportieren",
+ "已撤销分类修改，后续投入保留。": "Einordnung zurückgesetzt. Spätere Zeiteinträge bleiben erhalten.",
+ "对象分类已保存；现有任务请在下方核对。": "Einordnung gespeichert. Prüfe bestehende Aufgaben unten.",
+ "保存对象分类": "Einordnung speichern",
+ "事项分类": "Aufgabeneinordnung",
+ "语言": "Sprachen",
+ "生活事项": "Alltag",
+ "个人项目": "Persönliche Projekte",
+ "技能学习": "Kompetenzerwerb",
+ "专业学习": "Fachstudium",
+ "学习 → 个人项目": "Lernen → Persönliche Projekte",
+ "学习 → 技能学习": "Lernen → Kompetenzerwerb",
+ "学习 → 专业学习": "Lernen → Fachstudium",
+ "语言名称": "Sprache",
+ "学习类型": "Lerntyp",
+ "例如：德语": "Zum Beispiel: Deutsch",
+ "细分类别（选填）": "Unterkategorie (optional)",
+ "分类独立于所属项目；切换分类不会删除关联、历史进度或实际用时。": "Die Einordnung ist unabhängig vom Projekt. Änderungen bewahren Verknüpfungen, Fortschritte und tatsächliche Zeit.",
+ "采用关联对象的分类": "Einordnung des verknüpften Inhalts übernehmen",
+ "新分类与现有对象关联不匹配。原关联及历史内容保留；解除或更换关联需要单独操作。": "Diese Einordnung passt nicht zum verknüpften Inhalt. Verknüpfungen und Verlauf bleiben erhalten; das Entfernen oder Ersetzen ist eine separate Aktion.",
+ "关联对象（独立设置）": "Verknüpfter Inhalt (separate Einstellung)",
+ "现有关联": "Aktuelle Verknüpfung",
+ "选择关联对象": "Verknüpften Inhalt auswählen",
+ "只解除本事项的对象关联，历史记录保持不变。": "Nur diese Aufgabe wird getrennt. Historische Einträge bleiben unverändert.",
+ "解除本事项关联": "Verknüpfung dieser Aufgabe lösen",
+ "具体项目（可多选，共享投入）": "Konkrete Projekte (mehrere, gemeinsame Zeit)",
+ "修改历史学习归属": "Historische Lernzuordnung ändern",
+ "分类核对": "Einordnung prüfen",
+ "仅撤销本次分类": "Nur diese Einordnungen rückgängig machen",
+ "书籍关联": "Buchverknüpfung",
+ "训练关联": "Trainingsverknüpfung",
+ "学习对象已确认分类": "Bestätigte Einordnung des Lerninhalts",
+ "学习对象尚未确认分类": "Lerntyp noch nicht bestätigt",
+ "现有模块映射": "Bestehende Modulzuordnung",
+ "模块对应对象尚未确认分类": "Typ des zugeordneten Inhalts noch nicht bestätigt",
+ "具体项目关联": "Konkrete Projektverknüpfung",
+ "具体项目或版本成果": "Konkretes Projekt oder Versionsergebnis",
+ "具体项目入口": "Konkreter Projekteinstieg",
+ "已有明确工作分类": "Bestehende Arbeitseinordnung",
+ "已有明确生活分类": "Bestehende Alltagseinordnung",
+ "关联冲突": "Widersprüchliche Verknüpfungen"
+});
+
+Object.assign(german, {"常驻入口已确认分类":"Bestätigte Einordnung des dauerhaften Eintrags"});
+
+Object.assign(german,{"分类清楚，记录随事而变": "Klare Kategorien, passende Fortschrittsfelder", "事项分为语言、学习、阅读、健身、工作与生活；分类独立于项目和关联对象，适用进度按需填写。": "Wähle Sprachen, Lernen, Lesen, Fitness, Arbeit oder Alltag. Die Einordnung ist unabhängig von Projekten und Verknüpfungen, mit passenden optionalen Fortschrittsfeldern.", "分类核对支持备份、差异与撤销；历史日期、时长和进度保留，待确认项单独列出。": "Prüfe Einordnungen mit Sicherungen, Änderungsvergleichen und Rückgängig. Daten, Zeit und Fortschritte bleiben erhalten; offene Einträge bleiben sichtbar."});
+
+Object.assign(german,{"课程 · 可记录数量或阶段": "Kurs · Mengen oder Etappen", "课程总量（选填）": "Kursumfang (optional)"});
+
+Object.assign(german,{"课程单元": "Kurseinheit", "课程章节": "Kurskapitel", "阶段进度": "Etappenfortschritt", "已学习内容": "Gelerntes", "待复习内容": "Zu wiederholen", "练习与成果": "Übungen und Ergebnisse", "完成方式": "Abschlussart", "单元编号 / 标题（选填）": "Einheiten-IDs / Titel (optional)", "工作进展": "Arbeitsfortschritt", "事项说明": "Details zur Aktivität", "保留的项目关联与版本": "Erhaltene Projektverknüpfungen und Versionen", "保留的历史关联（与当前分类不同）": "Erhaltene historische Verknüpfung (andere Einordnung)", "重量（kg）": "Gewicht (kg)"});
+
+Object.assign(german, {'重复练习（不增加完成数量）': 'Wiederholung (erhöht die Anzahl nicht)'});

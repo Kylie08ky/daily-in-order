@@ -1,3 +1,5 @@
+import {classificationSchema} from './classification-schema.ts';
+import {classificationSignature} from './task-classification.ts';
 import {z} from 'zod';
 import {type State,type Command,idString,dateString,validateState} from './model.ts';
 import {entrySchema} from './life-schema.ts';
@@ -6,8 +8,9 @@ import {scopeDates,sumMinutes,effectiveLearningUnits} from './progress-records.t
 
 /** Atomic replacement of progress metadata; never touches task time, dates, status or sessions. */
 export function applyActivityProgress(input:State,command:Command,instant=new Date()):State{
- const p=z.object({taskId:idString,sessionId:idString.optional(),date:dateString,recordType:z.enum(['activity','project','practice']),entries:z.array(entrySchema).max(30),outcomes:z.array(outcomeSchema).max(30)}).parse(command.payload);
+ const p=z.object({classification:classificationSchema.nullable().optional(),expectedClassification:z.string().optional(),taskId:idString,sessionId:idString.optional(),date:dateString,recordType:z.enum(['activity','project','practice']),entries:z.array(entrySchema).max(30),outcomes:z.array(outcomeSchema).max(30)}).parse(command.payload);
  const s=structuredClone(input),t=s.tasks.find(t=>t.id===p.taskId&&!t.deletedAt);if(!t)throw Error('关联任务不存在或已删除。');
+ if(p.classification!==undefined){if(p.expectedClassification!==classificationSignature(t))throw Error('分类已被修改，请重新核对。');if(p.classification)t.classification=p.classification;else delete t.classification;}
  if(p.sessionId&&!s.sessions.some(x=>x.id===p.sessionId&&x.taskId===t.id&&!x.deletedAt))throw Error('本段投入不存在或已删除。');
  const keys=new Set<string>(),total=sumMinutes(scopeDates(s,t,p.sessionId));
  for(const e of p.entries){

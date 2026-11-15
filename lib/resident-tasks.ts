@@ -1,3 +1,4 @@
+import {inheritClassification} from './task-classification.ts';
 import {z} from 'zod';
 import {type State,type Task,type Command,idString,dateString,optionalTime,taskInput,assertTask,validateState,businessDate,recommendations} from './model.ts';
 import {taskPlans} from './task-plans.ts';
@@ -21,7 +22,7 @@ export function applyTemplateCommand(input:State,command:Command,instant:Date):S
   const source=p.sourceTaskId?s.tasks.find(t=>t.id===p.sourceTaskId&&!t.deletedAt):undefined;
   if(p.sourceTaskId&&!source)throw Error('原事项不存在。');
   const old=s.templates.find(t=>t.id===p.id)||s.templates.find(t=>source&&(t.id===source.sourceTemplateId||t.originTaskId===source.id))||s.templates.find(t=>source&&t.task.title===p.task.title&&t.task.projectId===p.task.projectId&&t.task.moduleId===p.task.moduleId&&JSON.stringify(t.task.activity)===JSON.stringify(p.task.activity));
-  const entry:Resident={...old,id:old?.id??p.id,task:{...p.task,date:'',start:'',parentId:'',progress:0,actual:null},kind:p.kind??(old?residentKind(old):'long-term'),status:old?residentStatus(old):'active',...(source?{originTaskId:old?.originTaskId??source.id}:{})};
+  const entry:Resident={...old,id:old?.id??p.id,task:{...inheritClassification(s,p.task),date:'',start:'',parentId:'',progress:0,actual:null},kind:p.kind??(old?residentKind(old):'long-term'),status:old?residentStatus(old):'active',...(source?{originTaskId:old?.originTaskId??source.id}:{})};
   assertTask(s,entry.task);
   if(old)Object.assign(old,entry);else s.templates.push(entry);
   if(source){source.sourceTemplateId=entry.id;
@@ -40,7 +41,7 @@ export function applyTemplateCommand(input:State,command:Command,instant:Date):S
   if(!residentAvailable(s,entry))throw Error('此入口已暂停、归档或所属项目已结束，请先恢复。');
   if(residentOccurrence(s,entry,p.date))throw Error('当天已有此入口的任务，请查看或继续原任务。');
   if(s.tasks.some(t=>t.id===p.newId))throw Error('事项 ID 已存在。');
-  const task={...entry.task,id:p.newId,date:p.date,start:p.start??'',minutes:p.minutes??entry.task.minutes,sourceTemplateId:entry.id,templateDate:p.date,parentId:'',progress:0,actual:null,seriesId:'',occurrence:'',createdAt:now,completedAt:null,deletedAt:null,order:s.tasks.length};
+  const task={...inheritClassification(s,entry.task),id:p.newId,date:p.date,start:p.start??'',minutes:p.minutes??entry.task.minutes,sourceTemplateId:entry.id,templateDate:p.date,parentId:'',progress:0,actual:null,seriesId:'',occurrence:'',createdAt:now,completedAt:null,deletedAt:null,order:s.tasks.length};
   assertTask(s,task);s.tasks.push(task);
  }else throw Error('未知常驻入口操作。');
  if(command.type==='template.use'||command.type==='template.save')s.targets[businessDate(s.settings,instant)]=recommendations(s,businessDate(s.settings,instant));

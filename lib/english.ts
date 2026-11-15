@@ -2638,3 +2638,76 @@ export const english:Record<string,string> = {
 "各页面底部的问题与建议入口统一字号、行高与图标尺寸，保持原有配色。":"Feedback buttons across all page footers share the same font size, line height and icon size, with existing colors preserved.",
 };
 Object.assign(english, {"完成日期与历史用时日期": "Completion and historical time dates", "实际完成日期": "Actual completion date", "无明细用时的实际日期": "Actual date for time without entries", "待核对：旧用时暂沿用原任务日期，请确认真实发生日期；不会推算或移动专注记录。": "Needs review: legacy time uses the original task date. Confirm its actual date; focus entries will not be inferred or moved.", "完成日期与投入日期分别保存；已有专注及手动投入仍保留各自的日期。": "Completion and activity dates are stored separately. Existing focus and manual entries keep their own dates.", "日期已修正，投入记录与时长保持不变。": "Dates corrected. Time entries and durations are unchanged.", "保存日期": "Save dates", "完成日期不移动已有投入；仅手填累计用时且没有投入明细时，此日期作为实际发生日期。": "The completion date does not move existing time entries. For a manual total without entries, it also dates that time.", "完成任务，结束剩余安排": "Finish tasks and close remaining plans", "明确完成任务后自动关闭未做分段；完成日期和实际投入日期分别记录，跨日投入保留原日期。": "Explicit completion closes unfinished plan segments. Completion and activity dates remain separate; time across days stays on its original dates."});
+
+Object.assign(english, {
+ "当前分类": "Current classification",
+ "动作、组数、次数与重量": "Exercises, sets, reps and weight",
+ "动作": "Exercise",
+ "移除动作": "Remove exercise",
+ "添加动作": "Add exercise",
+ "关联训练计划": "Linked workout",
+ "阻碍（选填）": "Blockers (optional)",
+ "分类已更新，原投入与进度保持不变。": "Classification updated. Existing time and progress are unchanged.",
+ "先确认学习对象的类型，再核对任务分类。依据不足的保留为待确认，不按标题猜测。": "Confirm each learning item’s type, then review task classifications. Uncertain items remain unclassified; titles are not used to guess.",
+ "导出分类映射与待确认清单": "Export mappings and unresolved items",
+ "学习对象的分类设置": "Learning item classification",
+ "仅待确认": "Unresolved only",
+ "选择有明确依据的记录": "Select records with clear evidence",
+ "预览分类修改": "Review classification changes",
+ "本次分类修改": "Classification changes",
+ "只修改分类，不修改用时、数量、归属、日期或完成状态。保存前下载完整备份。": "Only classification changes. Time, quantity, links, dates and completion stay unchanged. Download a full backup before saving.",
+ "备份并保存分类": "Back up and save classifications",
+ "显示更多": "Show more",
+ "分类修改历史与撤销": "Classification history and undo",
+ "导出修改差异": "Export change details",
+ "已撤销分类修改，后续投入保留。": "Classification changes undone. Later time entries are preserved.",
+ "对象分类已保存；现有任务请在下方核对。": "Item classification saved. Review existing tasks below.",
+ "保存对象分类": "Save item classification",
+ "事项分类": "Task classification",
+ "语言": "Languages",
+ "生活事项": "Everyday life",
+ "个人项目": "Personal projects",
+ "技能学习": "Skills",
+ "专业学习": "Academic study",
+ "学习 → 个人项目": "Learning → Personal projects",
+ "学习 → 技能学习": "Learning → Skills",
+ "学习 → 专业学习": "Learning → Academic study",
+ "语言名称": "Language name",
+ "学习类型": "Learning type",
+ "例如：德语": "For example: German",
+ "细分类别（选填）": "Subcategory (optional)",
+ "分类独立于所属项目；切换分类不会删除关联、历史进度或实际用时。": "Classification is separate from the project. Changing it preserves links, past progress and actual time.",
+ "采用关联对象的分类": "Use the linked item’s classification",
+ "新分类与现有对象关联不匹配。原关联及历史内容保留；解除或更换关联需要单独操作。": "This classification differs from the linked item. Existing links and history are preserved; unlinking or replacing is a separate action.",
+ "关联对象（独立设置）": "Linked item (separate setting)",
+ "现有关联": "Current link",
+ "选择关联对象": "Choose linked item",
+ "只解除本事项的对象关联，历史记录保持不变。": "Only unlink this task. Historical records remain unchanged.",
+ "解除本事项关联": "Unlink this task",
+ "具体项目（可多选，共享投入）": "Specific projects (multiple, shared time)",
+ "修改历史学习归属": "Change historical learning attribution",
+ "分类核对": "Classification review",
+ "仅撤销本次分类": "Undo only these classifications",
+ "书籍关联": "Book link",
+ "训练关联": "Workout link",
+ "学习对象已确认分类": "Confirmed learning item classification",
+ "学习对象尚未确认分类": "Learning item type not confirmed",
+ "现有模块映射": "Existing module mapping",
+ "模块对应对象尚未确认分类": "Mapped item type not confirmed",
+ "具体项目关联": "Specific project link",
+ "具体项目或版本成果": "Specific project or version outcome",
+ "具体项目入口": "Specific project entry",
+ "已有明确工作分类": "Existing work classification",
+ "已有明确生活分类": "Existing life classification",
+ "关联冲突": "Conflicting links"
+});
+
+Object.assign(english, {"常驻入口已确认分类":"Confirmed resident entry classification"});
+
+Object.assign(english,{"分类清楚，记录随事而变": "Clear categories, relevant progress fields", "事项分为语言、学习、阅读、健身、工作与生活；分类独立于项目和关联对象，适用进度按需填写。": "Choose languages, learning, reading, fitness, work or life. Classification is independent of projects and links, with relevant optional progress fields.", "分类核对支持备份、差异与撤销；历史日期、时长和进度保留，待确认项单独列出。": "Review classifications with backups, diffs and undo. Historical dates, time and progress are preserved; unresolved items stay visible."});
+
+Object.assign(english,{"课程 · 可记录数量或阶段": "Course · quantity or milestones", "课程总量（选填）": "Course total (optional)"});
+
+Object.assign(english,{"课程单元": "Course unit", "课程章节": "Course chapter", "阶段进度": "Stage progress", "已学习内容": "What you learned", "待复习内容": "To review", "练习与成果": "Practice and outcomes", "完成方式": "Completion mode", "单元编号 / 标题（选填）": "Unit IDs / titles (optional)", "工作进展": "Work progress", "事项说明": "Activity details", "保留的项目关联与版本": "Preserved project links and versions", "保留的历史关联（与当前分类不同）": "Preserved historical link (different classification)", "重量（kg）": "Weight (kg)"});
+
+Object.assign(english, {'重复练习（不增加完成数量）': 'Repeat practice (does not increase completed count)'});
