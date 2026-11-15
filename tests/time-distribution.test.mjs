@@ -23,3 +23,25 @@ test('empty, deleted, template and invalid contributions never enter distributio
  const rows=[{task:task('deleted',{deletedAt:'2026-11-15T10:00:00Z'}),minutes:90},{task:task('template',{templateOnly:true}),minutes:100},{task:task('zero'),minutes:0},{task:task('nan'),minutes:NaN}];
  for(const mode of ['classification','project'])assert.deepEqual(timeDistribution(rows,[],mode),{rows:[],total:0});
 });
+test('drilldown keeps stable task identities, subtotals and period versus all-time effort',()=>{
+ const inputs=[{task:task('a',{title:'Same title',actual:105,progress:50,classification:{domain:'language'}}),minutes:45},{task:task('b',{title:'Same title',actual:20,progress:100,classification:{domain:'language'}}),minutes:20},{task:task('unknown',{actual:10}),minutes:10}];
+ for(const mode of ['classification','project']){
+  const result=timeDistribution(inputs,[],mode);
+  assert.equal(result.rows.flatMap(r=>r.sources).length,3);
+  for(const row of result.rows)assert.equal(row.sources.reduce((n,x)=>n+x.minutes,0),row.value);
+  const a=result.rows.flatMap(r=>r.sources).find(x=>x.id==='a');
+  assert.equal(a.minutes,45);assert.equal(a.totalMinutes,105);assert.equal(a.completed,false);
+  assert.equal(result.rows.flatMap(r=>r.sources).find(x=>x.id==='b').completed,true);
+  assert.equal(result.total,75);
+ }
+});
+test('week and month drilldown use the exact same dated contributions as their category',()=>{
+ const s=emptyState();s.tasks=[task('cross',{actual:105,classification:{domain:'learning',study:'skills'}})];
+ s.sessions=[{id:'s1',taskId:'cross',date:'2026-11-07',seconds:3600,growth:0,endedAt:'2026-11-07T10:00:00Z'},{id:'s2',taskId:'cross',date:'2026-11-14',seconds:2700,growth:0,endedAt:'2026-11-14T10:00:00Z'}];
+ const ledger=investmentByTask(s);
+ for(const [start,expected] of [['2026-11-09',45],['2026-11-01',105],['2026-11-15',0]]){
+  const result=timeDistribution(s.tasks.map(task=>({task,minutes:minutesInRange(ledger.get(task.id),start,'2026-11-15')})),[],'classification');
+  assert.equal(result.total,expected);assert.equal(result.rows.flatMap(r=>r.sources).reduce((n,r)=>n+r.minutes,0),expected);
+  if(expected)assert.equal(result.rows[0].sources[0].totalMinutes,105);else assert.equal(result.rows.length,0);
+ }
+});
