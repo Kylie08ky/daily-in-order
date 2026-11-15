@@ -1,5 +1,9 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+"当日事项区分当天用时与任务累计；历史归档可核对完成日期，保留原投入和操作时间。":"Tageseinträge unterscheiden Tagesaufwand und Gesamtaufwand der Aufgabe. Historische Abschlussdaten lassen sich prüfen, ohne Aufwand oder Aktionszeitpunkte zu verändern.",
+"当日投入与任务累计，分开查看":"Tagesaufwand und Gesamtaufwand getrennt sehen",
+"任务累计":"Aufgabe insgesamt",
+"当日投入":"Aufwand an diesem Tag",
 "建议使用电脑打开":"Am besten am Computer nutzen",
 "当前版本优先支持电脑端，手机布局仍在完善中。使用电脑安排任务、查看时间轴，会有更完整的体验。":"Diese Version ist vor allem für Computer ausgelegt. Die mobile Ansicht wird noch verbessert. Am Computer lassen sich Aufgaben und Zeitpläne übersichtlicher verwalten.",
 "你仍可以在手机上继续使用，已有记录会保留。":"Du kannst die App weiterhin auf dem Smartphone nutzen. Deine bisherigen Einträge bleiben erhalten.",

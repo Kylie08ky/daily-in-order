@@ -69,3 +69,23 @@ test('schema upgrade preserves legacy records without speculative migration, and
  s=run(s,'task.progress',{id:'demo',progress:100,date:'2026-11-14',actual:30});
  const restored=decodeState(encodeState(s));assert.equal(calendarTasks(restored).length,0);assert.equal(mins(restored,'2026-11-14'),30);
 });
+
+
+test('confirmed archive-operation date correction removes only duplicate display, preserving every actual day and audit timestamp',()=>{
+ let s=run(base(),'task.record',{id:'demo',date:'2026-11-14',minutes:10,progress:100});
+ s.tasks[0].completedAt='2026-11-15T10:00:00Z';delete s.tasks[0].completedDate;
+ const before=structuredClone(s);assert.equal(tasksForDay(s,'2026-11-15').length,1);
+ s=run(s,'task.dates.correct',{id:'demo',expected:datesSignature(s.tasks[0]),completedDate:'2026-11-14'});
+ assert.equal(tasksForDay(s,'2026-11-14').length,1);assert.equal(tasksForDay(s,'2026-11-15').length,0);
+ assert.equal(s.tasks[0].completedAt,before.tasks[0].completedAt);assert.deepEqual(s.sessions,before.sessions);
+ for(const day of ['2026-11-14','2026-11-15'])assert.equal(mins(s,day),mins(before,day));
+ assert.equal(s.tasks[0].actual,10);
+});
+
+test('legacy completed plans are ended in projection without rewriting raw flags or speculative dates',()=>{
+ const s=base();Object.assign(s.tasks[0],{actual:60,progress:100,completedAt:'2026-11-15T09:00:00Z',plans:[{id:'legacy',date:'2026-11-14',start:'',minutes:60}]});
+ const before=structuredClone(s);
+ const metrics=planningMetrics(s,s.tasks[0]);assert.deepEqual([metrics.remaining,metrics.scheduled,metrics.unallocated,metrics.review.length],[0,0,0,0]);
+ assert.deepEqual(calendarTasks(s),[]);tasksForDay(s,'2026-11-14');tasksForDay(s,'2026-11-15');assert.deepEqual(s,before);
+ assert.equal(completionDate(s.tasks[0],s.settings.timezone),'2026-11-15');
+});

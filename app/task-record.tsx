@@ -15,9 +15,9 @@ import {localInstant,localParts,progressSource} from '../lib/task-investment';
 import DurationInput from './duration-input';
 import './task-record.css';
 type Mutate=(c:Command,message?:string)=>Promise<boolean>;
-export function TaskProgress({task}:{task:Task}){
+export function TaskProgress({task,dayMinutes}:{task:Task;dayMinutes?:number}){
  const time=progressSource(task)==='time',percent=time&&currentEstimate(task)?Math.min(100,Math.round((task.actual||0)/currentEstimate(task)*100)):task.progress;
- return <div className="task-investment"><span>{time?ui("时长投入"):ui("完成进度")} <b>{percent}%</b> {ui("· 累计")}{fmt(task.actual||0)}{currentEstimate(task)?ui(" / 预计 ")+fmt(currentEstimate(task)):''}</span>{task.remainingEstimate&&<small>{ui('剩余计划')} {fmt(remainingMinutes(task))} · {ui('初始预计')} {fmt(task.remainingEstimate.initialMinutes)}</small>}<progress max={100} value={percent} aria-label={task.title+ui("进度")}/>{time&&percent>=100&&task.progress<100&&<small>{ui("已达到预计用时，做完后可标记整项完成。")}</small>}</div>;
+ return <div className="task-investment"><span>{time?ui("时长投入"):ui("完成进度")} <b>{percent}%</b> {dayMinutes!==undefined?<> · {ui("当日投入")} {fmt(dayMinutes)} · {ui("任务累计")} </>:ui("· 累计")}{fmt(task.actual||0)}{currentEstimate(task)?ui(" / 预计 ")+fmt(currentEstimate(task)):''}</span>{task.remainingEstimate&&<small>{ui('剩余计划')} {fmt(remainingMinutes(task))} · {ui('初始预计')} {fmt(task.remainingEstimate.initialMinutes)}</small>}<progress max={100} value={percent} aria-label={task.title+ui("进度")}/>{time&&percent>=100&&task.progress<100&&<small>{ui("已达到预计用时，做完后可标记整项完成。")}</small>}</div>;
 }
 export default function TaskRecord({task,state,busy,mutate,close,edit,focus,error,initialSessionId,progressRef,initialTab,hideQuickActions}:{hideQuickActions?:boolean;initialTab?:'progress'|'history'|'add';progressRef?:ActivityLink;initialSessionId?:string;task:Task;state:State;busy:boolean;mutate:Mutate;close:()=>void;edit:()=>void;focus:()=>void;error:string}){
  const dialog=useRef<HTMLDialogElement>(null),[minutes,setMinutes]=useState<number|null>(null),[date,setDate]=useState(localParts(Date.now(),state.settings.timezone).date),[timed,setTimed]=useState(false),[start,setStart]=useState(''),[end,setEnd]=useState(''),[mode,setMode]=useState(progressSource(task)),[percent,setPercent]=useState(task.progress),[note,setNote]=useState(''),[issue,setIssue]=useState('');

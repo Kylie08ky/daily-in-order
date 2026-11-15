@@ -1,5 +1,9 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+"当日事项区分当天用时与任务累计；历史归档可核对完成日期，保留原投入和操作时间。":"Daily items distinguish effort on the selected day from the task total. Historical completion dates can be reviewed without changing effort or operation timestamps.",
+"当日投入与任务累计，分开查看":"Daily effort and task totals, shown separately",
+"任务累计":"Task total",
+"当日投入":"Effort on this day",
 "建议使用电脑打开":"Best experienced on a computer",
 "当前版本优先支持电脑端，手机布局仍在完善中。使用电脑安排任务、查看时间轴，会有更完整的体验。":"This version is designed primarily for desktop. The mobile layout is still being improved. For the full task-planning and timeline experience, use a computer.",
 "你仍可以在手机上继续使用，已有记录会保留。":"You can still continue on your phone. Your existing records will be kept.",

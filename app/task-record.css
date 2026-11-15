@@ -24,3 +24,5 @@
 .project-outcome{display:flex;gap:16px;align-items:center;padding:16px 0;border-top:1px solid #c5d1b9}.project-outcome>div{flex:1;min-width:0}.project-outcome small,.project-outcome strong{display:block;margin-bottom:6px}.project-outcome p{margin:5px 0;overflow-wrap:anywhere}.project-outcome button{flex:none;font-size:13px}
 
 .activity-progress-form .detail-description{margin-bottom:6px}.activity-progress-form .progress-time-summary{padding:10px 12px;margin:10px 0}.activity-progress-form .progress-time-summary strong{font-size:21px;margin-top:3px}.task-detail-scroll:has(.activity-progress-form){padding-top:12px}.task-detail-scroll:has(.activity-progress-form)>.detail-tabs{margin-bottom:10px}.activity-progress-form .detail-save{position:sticky;bottom:-22px;background:#f3f5ec;padding:12px 0;margin-top:12px;border-top:1px solid #cbd5c1;z-index:2}
+
+.task-body .task-investment>span{white-space:normal;overflow-wrap:anywhere;line-height:1.6}
