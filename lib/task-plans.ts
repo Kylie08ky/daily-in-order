@@ -2,15 +2,16 @@ import {z} from 'zod';
 import {type Task,type State,type Command,dateString,idString,optionalTime,minuteOf,liveTasks,validateState,businessDate,formatTime} from './model.ts';
 export type TaskPlan=NonNullable<Task['plans']>[number];
 export function rawPlans(t:Task):TaskPlan[]{return t.plans??(t.date?[{id:'legacy',date:t.date,start:t.start,minutes:t.minutes}]:[]);}
-export function remainingMinutes(t:Task){return Math.max(0,t.remainingEstimate?t.remainingEstimate.minutes-((t.actual||0)-t.remainingEstimate.actualAtSet):t.minutes-(t.actual||0));}
+export function remainingMinutes(t:Task){return t.progress===100?0:Math.max(0,t.remainingEstimate?t.remainingEstimate.minutes-((t.actual||0)-t.remainingEstimate.actualAtSet):t.minutes-(t.actual||0));}
 export function currentEstimate(t:Task){return t.remainingEstimate?(t.actual||0)+remainingMinutes(t):t.minutes;}
 export function planSeconds(s:State,t:Task,p:TaskPlan){return s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt&&(x.planId===p.id||!x.planId&&p.id==='legacy')).reduce((n,x)=>n+x.seconds,0);}
 export function planLedger(s:State,t:Task,today=businessDate(s.settings)){
  const unlocated=Math.max(0,(t.actual||0)-Math.round(s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0)/60));
- return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,seconds,used,left,needsReview:!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
+ return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,closed:p.closed||t.progress===100,seconds,used,left,needsReview:t.progress!==100&&!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
 }
 /** Without state this is a structural lookup, with state it projects remaining planned work. */
 export function taskPlans(t:Task,s?:State):TaskPlan[]{
+ if(t.progress===100)return [];
  if(!s||!t.remainingEstimate)return rawPlans(t).filter(p=>!p.closed);
  return planLedger(s,t).filter(p=>!p.closed&&p.left>0).map(p=>({id:p.id,date:p.date,start:p.used>0?'':p.start,minutes:p.left}));
 }
@@ -49,6 +50,7 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
   if(index<0||old.closed)return input;
   if(t.remainingEstimate)old.closed=true;else plans.splice(index,1);
  }else if(command.type==='task.plan.save'){
+  if(t.progress===100)throw Error('请先将任务改为未完成，再安排剩余工作。');
   if(!p.date||p.start===undefined||!p.minutes)throw Error('请填写本段日期和时长。');
   if(old?.closed)throw Error('这段安排已结束，请添加新的未做分段。');
   if(t.remainingEstimate&&old&&planSeconds(s,t,old)>0)throw Error('请使用调整剩余计划，只重新安排未做部分。');

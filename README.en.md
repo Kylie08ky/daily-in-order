@@ -83,7 +83,7 @@ Plan two hours of a six-hour task this week and four hours next week, without cr
 - **Halfway through and need more time?** Re-estimate the remaining work and schedule what is left.
 - **Have a regular practice you return to?** Keep a reusable entry and add it to a day when needed. Course-related tasks can stay available for a limited phase, too.
 
-Moving future plans does not change past effort. Spending longer than estimated does not automatically mark a task complete.
+Moving future plans does not change past effort. Spending longer than estimated does not automatically mark a task complete. When you explicitly finish the whole task, its unfinished plans close automatically while past effort stays on the dates it happened. You can correct the completion date and the actual date of a legacy time record separately.
 
 ### Record once, see progress where it belongs
 

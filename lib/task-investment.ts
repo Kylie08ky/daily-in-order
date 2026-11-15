@@ -51,7 +51,7 @@ export function investmentByTask(state:State){
   const credited=Math.min(actual,Math.round(seconds/60)),factor=seconds?credited/seconds:0;
   const add=(date:string,n:number)=>{if(date&&n)dates.set(date,(dates.get(date)||0)+n);};
   for(const x of sessions){const blocks=sessionBlocks(x,state.settings.timezone);let timed=0;for(const b of blocks){add(b.date,b.seconds*factor);timed+=b.seconds;}add(x.date,Math.max(0,x.seconds-timed)*factor);}
-  add(t.date,Math.max(0,actual-credited));result.set(t.id,dates);
+  add(t.actualDate||t.date,Math.max(0,actual-credited));result.set(t.id,dates);
  }
  return result;
 }

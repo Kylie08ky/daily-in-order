@@ -28,6 +28,7 @@ test('same-entry same-day duplicates including completed tasks and dated split s
  let s=run(base(),'template.save',{id:'entry',task:input});s=run(s,'template.use',{id:'entry',newId:'first',date:'2026-11-10'});
  s=run(s,'task.progress',{id:'first',progress:100});const before=JSON.stringify(s);
  assert.equal(residentOccurrence(s,s.templates[0],'2026-11-10').id,'first');assert.throws(()=>run(s,'template.use',{id:'entry',newId:'second',date:'2026-11-10'}),/当天已有/);assert.equal(JSON.stringify(s),before);
+ assert.throws(()=>run(s,'task.plan.save',{id:'first',planId:'future',date:'2026-11-12',minutes:60,start:''}),/未完成/);s=run(s,'task.progress',{id:'first',progress:50});
  s=run(s,'task.plan.save',{id:'first',planId:'legacy',date:'2026-11-12',minutes:60,start:''});assert.equal(residentOccurrence(s,s.templates[0],'2026-11-12').id,'first');
  s=run(s,'task.delete',{id:'first'});s=run(s,'template.use',{id:'entry',newId:'replacement',date:'2026-11-10'});assert.equal(liveTasks(s).length,1);
 });
