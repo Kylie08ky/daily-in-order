@@ -100,7 +100,17 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'target.refresh':s.targets[today]=recommendations(s,today);break;
   case 'tasks.arrange':{const p=z.object({ids:z.array(idString).max(2000),from:dateString,mode:z.enum(['today','balanced'])}).parse(command.payload),moving=p.ids.map(task).filter(t=>!finished(t)&&!t.deletedAt);if(moving.some(t=>t.plans))throw Error('此任务已拆分，请在分段安排中调整日期和时间。');let day=p.from;for(let i=0;i<moving.length;i++){const t=moving[i];if(p.mode==='balanced'){let tries=0;while(tries<366){const occupied=calendarTasks(s).filter(x=>x.date===day&&!moving.slice(i).some(m=>m.id===x.id)).reduce((n,x)=>n+x.minutes,0);if(capacity(s,day)>0&&capacity(s,day)*60-occupied>=t.minutes)break;day=offsetDate(day,1);tries++;}if(tries>=366)throw new Error('未来一年容量不足，请调整可投入时间。');}t.date=day;t.start='';}break;}
   case 'focus.start':{const p=z.object({planId:idString.optional(),taskId:idString,mode:z.enum(['countdown','countup']).optional(),minutes:z.number().int().min(1).max(1440).optional()}).parse(command.payload),t=task(p.taskId);if(p.planId&&!t.plans?.some(x=>x.id===p.planId&&!x.closed))throw Error('这段安排已不存在，请刷新后重试。');if(t.deletedAt||finished(t))throw new Error('请选择未完成事项。');if(s.focus&&s.focus.taskId!==p.taskId)throw new Error('请先结束或取消当前专注。');if(s.focus?.startedAt)throw new Error('已有计时正在运行。');if(s.focus?.mode==='countdown'&&focusSeconds(s.focus,instant.valueOf())>=s.focus.target)throw new Error('本段倒计时已到点，请先记录或取消，再开始新一段。');s.focus=s.focus?.taskId===p.taskId?{...s.focus,startedAt:now}:{...((p.planId??planForDate(t,today))?{planId:p.planId??planForDate(t,today)}:{}),taskId:p.taskId,startedAt:now,seconds:0,spans:[],target:(p.minutes||s.settings.focusMinutes)*60,...(p.mode?{mode:p.mode}:{})};break;}
-  case 'focus.pause':if(s.focus?.startedAt){s.focus.spans=closeFocusSpan(s.focus,instant.valueOf());s.focus.seconds=focusSeconds(s.focus,instant.valueOf());s.focus.startedAt=null;}break;
+  case 'focus.continue':{
+   const p=z.object({taskId:idString,anchor:z.string().nullable(),target:z.number().positive()}).parse(command.payload),f=s.focus;
+   if(!f||f.taskId!==p.taskId||f.target!==p.target||(f.spans?.[0]?.startedAt||f.startedAt||null)!==p.anchor)throw Error('当前专注已变化，请重新打开后继续。');
+   if(f.mode==='countup')break; // Retry must not reset the running clock.
+   if(f.mode!=='countdown'||focusSeconds(f,instant.valueOf())<f.target)throw Error('倒计时尚未结束。');
+   const t=task(f.taskId);if(t.deletedAt||finished(t))throw Error('请选择未完成事项。');
+   // Close at the original deadline before changing mode. Waiting is not work.
+   const spans=closeFocusSpan(f,instant.valueOf()),seconds=focusSeconds(f,instant.valueOf());
+   s.focus={...f,spans,seconds,mode:'countup',startedAt:now};break;
+  }
+  case 'focus.pause':if(s.focus?.startedAt&&(!(command.payload as {expectedMode?:string}|undefined)?.expectedMode||(command.payload as {expectedMode?:string}).expectedMode===s.focus.mode)){s.focus.spans=closeFocusSpan(s.focus,instant.valueOf());s.focus.seconds=focusSeconds(s.focus,instant.valueOf());s.focus.startedAt=null;}break;
   case 'focus.finish':if(s.focus){
    const supplied=z.object({sessionId:idString.optional()}).parse(command.payload||{});if(supplied.sessionId&&s.sessions.some(x=>x.id===supplied.sessionId))throw Error('这段投入已经记录，请重新打开进度。');
    const f=s.focus,seconds=focusSeconds(f,instant.valueOf());if(seconds>86400)throw new Error('计时超过 24 小时，请取消后手动填写用时。');

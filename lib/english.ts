@@ -1,5 +1,11 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const english:Record<string,string> = {
+  "倒计时结束。可以结束并记录，或继续专注，从原定时长开始正向累加；等待期间不计时。": "Countdown finished. Save this session, or continue counting up from the planned duration. Waiting time is excluded.",
+  "当前专注已变化，请重新打开后继续。": "The focus session changed. Reopen it to continue.",
+  "倒计时尚未结束。": "The countdown has not ended yet.",
+  "倒计时结束，继续向前": "Keep focusing after the countdown",
+  "到点后可继续专注，从原定时长转为正向计时；等待不计时，结束后合并记录一次真实投入。": "Continue after the countdown by counting up from the planned duration. Waiting is excluded; finishing records the combined effort once.",
+
 "当日事项区分当天用时与任务累计；历史归档可核对完成日期，保留原投入和操作时间。":"Daily items distinguish effort on the selected day from the task total. Historical completion dates can be reviewed without changing effort or operation timestamps.",
 "当日投入与任务累计，分开查看":"Daily effort and task totals, shown separately",
 "任务累计":"Task total",

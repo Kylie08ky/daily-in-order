@@ -1,5 +1,11 @@
 /** Interface text only. Preserve all user-authored content verbatim. */
 export const german:Record<string,string> = {
+  "倒计时结束。可以结束并记录，或继续专注，从原定时长开始正向累加；等待期间不计时。": "Countdown beendet. Speichere diese Einheit oder zähle ab der geplanten Dauer vorwärts weiter. Wartezeit zählt nicht.",
+  "当前专注已变化，请重新打开后继续。": "Die Fokuseinheit hat sich geändert. Öffne sie erneut, um fortzufahren.",
+  "倒计时尚未结束。": "Der Countdown ist noch nicht beendet.",
+  "倒计时结束，继续向前": "Nach dem Countdown weiter fokussieren",
+  "到点后可继续专注，从原定时长转为正向计时；等待不计时，结束后合并记录一次真实投入。": "Nach dem Countdown ab der geplanten Dauer vorwärts weiterzählen. Wartezeit zählt nicht; beim Beenden wird der gesamte Einsatz einmal erfasst.",
+
 "当日事项区分当天用时与任务累计；历史归档可核对完成日期，保留原投入和操作时间。":"Tageseinträge unterscheiden Tagesaufwand und Gesamtaufwand der Aufgabe. Historische Abschlussdaten lassen sich prüfen, ohne Aufwand oder Aktionszeitpunkte zu verändern.",
 "当日投入与任务累计，分开查看":"Tagesaufwand und Gesamtaufwand getrennt sehen",
 "任务累计":"Aufgabe insgesamt",
