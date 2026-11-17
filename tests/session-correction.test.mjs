@@ -15,15 +15,15 @@ test('correct, remove and restore one session recalculates totals, progress and 
 test('manual percentage and explicit completion survive session corrections',()=>{
  let s=base(),id=s.sessions[0].id;s=apply(s,'task.progress',{id:'t',progress:70});s=update(s,id,5);assert.equal(s.tasks[0].progress,70);s=apply(s,'session.delete',{id});assert.equal(s.tasks[0].progress,70);s=apply(s,'task.progress',{id:'t',progress:100});s=apply(s,'session.restore',{id});assert.equal(s.tasks[0].progress,100);assert.ok(s.tasks[0].completedAt);
 });
-test('same calendar renders real segments instead of duplicate original plan; moving one interval keeps pauses and duration',()=>{
+test('same calendar preserves original plans alongside real segments; moving one interval keeps pauses and duration',()=>{
  let s=base(),id=s.sessions[0].id;const spans=[{startedAt:'2026-11-04T08:00:00.000Z',endedAt:'2026-11-04T08:15:00.000Z'},{startedAt:'2026-11-04T10:00:00.000Z',endedAt:'2026-11-04T10:15:00.000Z'}];s=update(s,id,0,{spans});
- assert.equal(timelineItems(s,'2026-11-03',s.tasks).length,0);let items=timelineItems(s,'2026-11-04',s.tasks);assert.equal(items.length,2);assert.equal(items[0].begin,540);assert.equal(items[1].begin,660);
+ assert.equal(timelineItems(s,'2026-11-03',s.tasks,'actual').length,0);let items=timelineItems(s,'2026-11-04',s.tasks);assert.equal(items.length,2);assert.equal(items[0].begin,540);assert.equal(items[1].begin,660);
  s=apply(s,'session.move',{id,spanIndex:1,startedAt:'2026-11-03T22:45:00.000Z'});assert.equal(s.tasks[0].actual,95);assert.equal(s.tasks[0].start,'08:00');assert.equal(s.sessions[0].seconds,1800);assert.equal(minutesInRange(investmentByTask(s).get('t'),'2026-11-03'),35);assert.equal(minutesInRange(investmentByTask(s).get('t'),'2026-11-04'),60);
- assert.deepEqual(s.sessions[0].spans[1],spans[0]);assert.equal(timelineItems(s,'2026-11-03',s.tasks).length,1);
- s=apply(s,'session.delete',{id});assert.equal(sessionBlocks(s.sessions[0],s.settings.timezone).length,0);assert.equal(timelineItems(s,'2026-11-03',s.tasks).length,0); // another duration-only record still has no clock position
+ assert.deepEqual(s.sessions[0].spans[1],spans[0]);assert.equal(timelineItems(s,'2026-11-03',s.tasks,'actual').length,1);
+ s=apply(s,'session.delete',{id});assert.equal(sessionBlocks(s.sessions[0],s.settings.timezone).length,0);assert.equal(timelineItems(s,'2026-11-03',s.tasks,'actual').length,0); // another duration-only record still has no clock position
 });
 test('unknown times remain unknown; midnight corrections distribute statistics to real dates',()=>{
- let s=base(),id=s.sessions[0].id;assert.equal(timelineItems(s,'2026-11-03',s.tasks).length,0);s=update(s,id,0,{spans:[{startedAt:'2026-11-03T22:45:00.000Z',endedAt:'2026-11-03T23:15:00.000Z'}]});assert.equal(timelineItems(s,'2026-11-03',s.tasks).length,1);assert.equal(timelineItems(s,'2026-11-04',s.tasks).length,1);assert.equal(minutesInRange(investmentByTask(s).get('t'),'2026-11-03'),35);
+ let s=base(),id=s.sessions[0].id;assert.equal(timelineItems(s,'2026-11-03',s.tasks,'actual').length,0);s=update(s,id,0,{spans:[{startedAt:'2026-11-03T22:45:00.000Z',endedAt:'2026-11-03T23:15:00.000Z'}]});assert.equal(timelineItems(s,'2026-11-03',s.tasks,'actual').length,1);assert.equal(timelineItems(s,'2026-11-04',s.tasks).length,1);assert.equal(minutesInRange(investmentByTask(s).get('t'),'2026-11-03'),35);
 });
 test('invalid corrections fail atomically, deleted records must first be restored',()=>{
  const s=base(),id=s.sessions[0].id;

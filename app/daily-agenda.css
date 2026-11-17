@@ -106,3 +106,14 @@
 :root .app-shell .agenda-list-scroll .task-investment>small{display:none}
 
 :root .app-shell .home-dashboard .dashboard-overview{grid-row:auto}
+
+/* Original plans remain readable beside real recorded spans. */
+.unified-timeline .timeline-filters{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0 12px}
+.unified-timeline .timeline-filters button{font-size:12px;padding:6px 12px;min-height:30px;border-radius:8px;background:transparent}
+.unified-timeline .timeline-filters button[aria-pressed=true]{background:#e3ead9;color:#293d31}
+.unified-timeline .agenda-event.planned{background:#e9eddf;color:#354532;border:1px dashed #a2af92;border-left:3px solid var(--task-color)}
+.unified-timeline .agenda-event.planned.complete{background:#e1e7d7;color:#41503b;opacity:1}
+.unified-timeline .agenda-event.planned.cancelled{background:#f0eee8;color:#66675f;border-color:#a7a79c}
+.unified-timeline .agenda-event.recorded{background:#445c4c;color:#f6f8f0}
+.unified-timeline .agenda-event.recorded button,.unified-timeline .agenda-event.recorded small{color:inherit}
+.unified-timeline .agenda-event small{white-space:normal;line-height:1.4}

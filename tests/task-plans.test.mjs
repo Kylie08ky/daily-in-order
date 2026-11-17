@@ -25,10 +25,10 @@ test('converting, resizing and removing legacy plan preserves all actual history
  assert.equal(minutesInRange(investmentByTask(s).get('t'),'2026-10-31'),60);assert.equal(calendarTasks(s).some(t=>t.date==='2026-10-31'),false);
  s=run(s,'task.plan.delete',{id:'t',planId:'legacy'});s=run(s,'task.plan.delete',{id:'t',planId:'b'});assert.deepEqual(taskPlans(s.tasks[0]),[]);assert.equal(s.tasks[0].actual,60);assert.equal(s.tasks[0].progress,25);assert.equal(s.tasks[0].date,'2026-10-31');assert.equal(monthlyMetrics(s,s.monthlyPlans[0]).scheduled,0);
 });
-test('focus and manual actuals accumulate on original task, replacing only the linked calendar slot',()=>{
+test('focus and manual actuals accumulate on original task, preserving original calendar slots',()=>{
  let s=slot(base(),'a','2026-11-09',120,'09:00');s=slot(s,'b','2026-11-16',240,'10:00');
  s=run(s,'focus.start',{taskId:'t',planId:'a',mode:'countup'},new Date('2026-11-10T10:00:00Z'));
- s=run(s,'focus.finish',{},new Date('2026-11-10T10:30:00Z'));assert.equal(s.tasks[0].actual,30);assert.equal(s.sessions[0].planId,'a');assert.equal(s.sessions[0].date,'2026-11-10');assert.equal(timelineItems(s,'2026-11-09',s.tasks).length,0);assert.equal(timelineItems(s,'2026-11-16',s.tasks).length,1);
+ s=run(s,'focus.finish',{},new Date('2026-11-10T10:30:00Z'));assert.equal(s.tasks[0].actual,30);assert.equal(s.sessions[0].planId,'a');assert.equal(s.sessions[0].date,'2026-11-10');assert.equal(timelineItems(s,'2026-11-09',s.tasks).length,1);assert.equal(timelineItems(s,'2026-11-16',s.tasks).length,1);
  s=run(s,'task.record',{id:'t',date:'2026-11-16',minutes:90});assert.equal(s.tasks[0].actual,120);assert.equal(s.tasks[0].progress,33);assert.equal(s.tasks[0].minutes,360);assert.equal(s.tasks.length,1);assert.equal(s.sessions.length,2);assert.equal(s.sessions[1].planId,'b');assert.equal(monthlyMetrics(s,s.monthlyPlans[0]).actual,120);
  const session=s.sessions[0];s=run(s,'session.delete',{id:session.id});assert.equal(s.tasks[0].actual,90);assert.equal(timelineItems(s,'2026-11-09',s.tasks).length,1);
  s=run(s,'session.restore',{id:session.id});s=run(s,'task.plan.delete',{id:'t',planId:'a'});assert.equal(s.tasks[0].actual,120);assert.equal(s.sessions.length,2);assert.equal(timelineItems(s,'2026-11-10',s.tasks).length,1);

@@ -5,9 +5,24 @@ export function rawPlans(t:Task):TaskPlan[]{return t.plans??(t.date?[{id:'legacy
 export function remainingMinutes(t:Task){return t.progress===100?0:Math.max(0,t.remainingEstimate?t.remainingEstimate.minutes-((t.actual||0)-t.remainingEstimate.actualAtSet):t.minutes-(t.actual||0));}
 export function currentEstimate(t:Task){return t.remainingEstimate?(t.actual||0)+remainingMinutes(t):t.minutes;}
 export function planSeconds(s:State,t:Task,p:TaskPlan){return s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt&&(x.planId===p.id||!x.planId&&p.id==='legacy')).reduce((n,x)=>n+x.seconds,0);}
+export type PlanStatus='planned'|'completed'|'cancelled'|'closed_with_task';
+/** A read-only compatibility view. Never infer actual clock times from duration. */
+export function planStatus(s:State,t:Task,p:TaskPlan):PlanStatus{
+ if(p.endReason)return p.endReason;
+ const seconds=planSeconds(s,t,p);
+ if(t.progress===100){
+  if(seconds>=p.minutes*60)return 'completed';
+  const sessions=s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt),residual=(t.actual||0)-Math.round(sessions.reduce((n,x)=>n+x.seconds,0)/60),day=t.actualDate||t.date;
+  // Only a single matching dated plan can represent duration-only completion.
+  if((residual>0&&p.date===day||!t.actual&&p.date===(t.completedDate||t.date))&&rawPlans(t).filter(x=>x.date===p.date).length===1)return 'completed';
+  return 'closed_with_task';
+ }
+ return p.closed?'cancelled':'planned';
+}
+export const planStatusLabel=(status:PlanStatus,hasActual=false)=>status==='closed_with_task'&&hasActual?'已执行部分保留，未做余项已关闭':({planned:'未完成计划',completed:'已完成',cancelled:'已取消',closed_with_task:'随任务关闭（未执行）'} as const)[status];
 export function planLedger(s:State,t:Task,today=businessDate(s.settings)){
  const unlocated=Math.max(0,(t.actual||0)-Math.round(s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0)/60));
- return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,closed:p.closed||t.progress===100,seconds,used,left,needsReview:t.progress!==100&&!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
+ return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,status:planStatus(s,t,p),closed:p.closed||t.progress===100,seconds,used,left,needsReview:t.progress!==100&&!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
 }
 /** Without state this is a structural lookup, with state it projects remaining planned work. */
 export function taskPlans(t:Task,s?:State):TaskPlan[]{
@@ -30,6 +45,17 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
  const {id}=z.object({id:idString}).parse(command.payload),s=structuredClone(input),t=s.tasks.find(t=>t.id===id&&!t.deletedAt);if(!t)throw Error('事项不存在。');
  if(t.parentId||liveTasks(s).some(x=>x.parentId===t.id))throw Error('请先解除包含或并行关系，再拆分安排。');
  if(s.focus?.taskId===id)throw Error('请先结束当前专注，再调整剩余计划。');
+ if(command.type==='task.plan.history'){
+  const p=z.object({id:idString,planId:idString,expected:z.string(),date:dateString,start:optionalTime,minutes:z.number().int().min(1).max(1440)}).parse(command.payload);
+  const plans=rawPlans(t),old=plans.find(x=>x.id===p.planId);if(!old)throw Error('安排不存在。');
+  if(old.date===p.date&&old.start===p.start&&old.minutes===p.minutes)return input;
+  if(p.expected!==planningSignature(t))throw Error('记录已更新，请重新打开剩余计划后核对。');
+  if(p.start&&minuteOf(p.start)+p.minutes>1440)throw Error('安排不能跨越当天。');
+  const status=planStatus(s,t,old);
+  if(!old.closed&&t.progress!==100&&planSeconds(s,t,old)===0)throw Error('请使用调整剩余计划。');
+  t.plans=plans.map(x=>x.id===p.planId?{...x,date:p.date,start:p.start,minutes:p.minutes,...(status!=='planned'?{endReason:status}:{} )}:x);
+  return validateState(s);
+ }
  if(command.type==='task.plan.reestimate'){
   const p=z.object({id:idString,expected:z.string(),remaining:z.number().int().min(0).max(100000),plans:z.array(slot()).max(366)}).parse(command.payload);
   if(p.expected!==planningSignature(t))throw Error('记录已更新，请重新打开剩余计划后核对。');
@@ -41,14 +67,14 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
   checkSlots(t,p.plans);
   t.remainingEstimate={initialMinutes:t.remainingEstimate?.initialMinutes??t.minutes,minutes:p.remaining,actualAtSet:t.actual||0};
   // Close old slots rather than deleting history. Submitted slots are the entire new plan, not an increment.
-  t.plans=[...old.filter(x=>!p.plans.some(y=>y.id===x.id)).map(x=>({...x,closed:true})),...p.plans];
+  t.plans=[...old.filter(x=>!p.plans.some(y=>y.id===x.id)).map(x=>({...x,closed:true,endReason:x.endReason||'cancelled' as const})),...p.plans];
   return validateState(s);
  }
  const p=z.object({id:idString,planId:idString,date:dateString.optional(),start:optionalTime.optional(),minutes:z.number().int().min(1).max(1440).optional()}).parse(command.payload);
  const plans=rawPlans(t).map(p=>({...p})),index=plans.findIndex(x=>x.id===p.planId),old=plans[index];
  if(command.type==='task.plan.delete'){
   if(index<0||old.closed)return input;
-  if(t.remainingEstimate)old.closed=true;else plans.splice(index,1);
+  old.closed=true;old.endReason='cancelled';
  }else if(command.type==='task.plan.save'){
   if(t.progress===100)throw Error('请先将任务改为未完成，再安排剩余工作。');
   if(!p.date||p.start===undefined||!p.minutes)throw Error('请填写本段日期和时长。');
@@ -56,7 +82,7 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
   if(t.remainingEstimate&&old&&planSeconds(s,t,old)>0)throw Error('请使用调整剩余计划，只重新安排未做部分。');
   const next={id:p.planId,date:p.date,start:p.start,minutes:p.minutes};if(index<0)plans.push(next);else plans[index]=next;
   if(t.remainingEstimate){const total=plans.filter(x=>!x.closed).reduce((n,x)=>n+Math.max(0,x.minutes-Math.max(0,planSeconds(s,t,x)-(x.accountedSeconds||0))/60),0);if(total>remainingMinutes(t))throw Error('未做分段超出剩余计划 '+formatTime(total-remainingMinutes(t))+'，请调整分段。');}
-  else if(plans.reduce((n,x)=>n+x.minutes,0)>t.minutes)throw Error('分段合计超过任务总预计，请使用调整剩余计划。');
+  else if(plans.filter(x=>!x.closed).reduce((n,x)=>n+x.minutes,0)>t.minutes)throw Error('分段合计超过任务总预计，请使用调整剩余计划。');
   checkSlots(t,plans.filter(x=>!x.closed));
  }else throw Error('未知安排操作。');
  t.plans=plans.sort((a,b)=>a.date.localeCompare(b.date)||(a.start||'99').localeCompare(b.start||'99'));

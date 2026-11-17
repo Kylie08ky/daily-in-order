@@ -31,7 +31,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   if(!t)throw Error('事项不存在。');if(p.expected!==datesSignature(t))throw Error('记录已更新，请重新打开后核对。');
   const today=localParts(instant.valueOf(),s.settings.timezone).date;
   if([p.completedDate,p.actualDate].some(d=>d&&d>today))throw Error('实际记录不能填写未来日期。');
-  if(p.completedDate){if(t.progress!==100)throw Error('任务尚未完成。');t.completedDate=p.completedDate;closeCompletedPlans(t);}
+  if(p.completedDate){if(t.progress!==100)throw Error('任务尚未完成。');t.completedDate=p.completedDate;closeCompletedPlans(t,s);}
   if(p.actualDate)t.actualDate=p.actualDate;
   return validateState(s);
  }
@@ -146,7 +146,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   case 'tasks.import':{const p=z.array(taskInput.extend({id:idString})).max(2000).parse(command.payload);for(const item of p){assertTask(s,item);if(s.tasks.some(t=>t.id===item.id))continue;s.tasks.push({...item,seriesId:'',occurrence:'',createdAt:now,completedAt:item.progress===100?now:null,deletedAt:null,order:s.tasks.length});}break;}
   default:throw new Error('不支持的操作。');
  }
- if(['task.progress','task.record','task.save'].includes(command.type)){const id=(command.payload as {id:string}).id,t=s.tasks.find(x=>x.id===id);if(t&&finished(t)){t.completedDate ||= completionDate(t,s.settings.timezone)||today;closeCompletedPlans(t);}else if(t)delete t.completedDate;}
+ if(['task.progress','task.record','task.save'].includes(command.type)){const id=(command.payload as {id:string}).id,t=s.tasks.find(x=>x.id===id);if(t&&finished(t)){t.completedDate ||= completionDate(t,s.settings.timezone)||today;closeCompletedPlans(t,s);}else if(t)delete t.completedDate;}
  for(const t of s.tasks)if(t.progressSource==='time')refreshTimeProgress(t);
  moveRelatedChildren(s,input);
  initializeDay(s,instant);

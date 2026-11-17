@@ -11,5 +11,5 @@ test('focus start, pause, reload, resume and finish retain actual spans through 
  run('task.save',{id:'t',task:{title:'播客',date:'2026-11-04',start:'09:00',minutes:30}},'2026-11-04T06:00:00Z');
  run('focus.start',{taskId:'t',mode:'countup'},'2026-11-04T10:10:00Z');run('focus.pause',undefined,'2026-11-04T10:20:00Z');run('focus.start',{taskId:'t'},'2026-11-04T10:35:00Z');run('focus.finish',undefined,'2026-11-04T10:55:00Z');
  assert.equal(s.tasks[0].actual,30);assert.deepEqual(s.sessions[0].spans,[{startedAt:'2026-11-04T10:10:00.000Z',endedAt:'2026-11-04T10:20:00.000Z'},{startedAt:'2026-11-04T10:35:00.000Z',endedAt:'2026-11-04T10:55:00.000Z'}]);
- assert.deepEqual(timelineItems(s,'2026-11-04',s.tasks).map(x=>[x.begin,x.length]),[[670,10],[695,20]]);
+ assert.deepEqual(timelineItems(s,'2026-11-04',s.tasks,'actual').map(x=>[x.begin,x.length]),[[670,10],[695,20]]);
 });
