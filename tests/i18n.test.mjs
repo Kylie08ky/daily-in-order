@@ -34,3 +34,12 @@ test('German routing, catalog completeness and interpolation preserve user conte
 test('German installation keeps the same app identity with a German entry point',()=>{
  const zh=JSON.parse(fs.readFileSync('public/manifest.webmanifest','utf8')),de=JSON.parse(fs.readFileSync('public/manifest-de.webmanifest','utf8'));assert.equal(de.id,zh.id);assert.equal(de.scope,zh.scope);assert.equal(de.lang,'de');assert.equal(de.start_url,'/?lang=de');
 });
+
+test('timeline filter and plan status labels passed through variables have English and German copy',async()=>{
+ const {planStatusLabel}=await import('../lib/task-plans.ts');
+ const source=fs.readFileSync('app/unified-timeline.tsx','utf8'),block=source.slice(source.indexOf('timeline-filters'),source.indexOf('.map(([value,label])'));
+ const filters=[...block.matchAll(/\["(\w+)","([^"]+)"\]/g)].map(m=>m[2]);assert.deepEqual(filters,['全部','计划','实际','已完成','已取消']);
+ const statuses=['planned','completed','cancelled','closed_with_task'].flatMap(s=>[planStatusLabel(s),planStatusLabel(s,true)]);
+ for(const key of new Set([...filters,...statuses,'安排不存在。'])){assert.ok(english[key],'EN '+key);assert.ok(german[key],'DE '+key);}
+ setLanguage('en');assert.equal(t('已取消'),'Cancelled');setLanguage('de');assert.equal(t('已取消'),'Abgebrochen');setLanguage('zh');assert.equal(t('已取消'),'已取消');
+});
