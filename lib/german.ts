@@ -2320,7 +2320,7 @@ export const german:Record<string,string> = {
   "{0} · {1} · {2} 件": "{0} · {1} · {2} Einträge",
   "{0} 完成 {1} 件": "{0}: {1} erledigt",
   "{0} · {1} 件": "{0} · {1} Einträge",
-  "占用参考 {0} · 固定 {1} ＋ 待定位 {2}": "Zeitschätzung {0} · Geplant {1} + Flexibel {2}",
+  "当天计划 {0} · 固定 {1} ＋ 待定位 {2}": "Tagesplan {0} · Geplant {1} + Flexibel {2}",
   "已记录用时 · {0} 项完成记录待补录": "Erfasste Zeit · {0} erledigte Aufgaben ohne Zeiteintrag",
   "{0} 项待同步": "{0} ausstehende Änderungen",
   "每年 {0} 本": "{0} Bücher pro Jahr",
@@ -2728,3 +2728,4 @@ Object.assign(german,{"原计划钟点缺失": "Ursprüngliche Uhrzeit fehlt", "
 Object.assign(german,{"已取消": "Abgebrochen", "安排不存在。": "Diese Planung existiert nicht mehr.", "时间轴筛选补全英文和德文": "Zeitleistenfilter vollständig übersetzt", "英文和德文界面中的“已取消”筛选与状态标签显示为对应语言；计划、实际投入和日期不变。": "Filter und Statuslabel „Abgebrochen“ erscheinen jetzt auf Englisch und Deutsch. Pläne, tatsächlicher Aufwand und Datum bleiben unverändert."});
 Object.assign(german,{"请先结束当前专注，再调整剩余计划。": "Beende zuerst die laufende Fokuszeit, bevor du den Restaufwand anpasst.", "请使用调整剩余计划。": "Bitte „Restaufwand anpassen“ verwenden.", "请先将任务改为未完成，再安排剩余工作。": "Setze die Aufgabe zuerst auf „nicht erledigt“, bevor du Restarbeit planst.", "未做分段超出剩余计划 {0}，请调整分段。": "Offene Abschnitte überschreiten den Restaufwand um {0}. Bitte Abschnitte anpassen.", "安排 ID 重复。": "Doppelte Planungs-ID.", "有投入的旧分段请结束剩余安排，再新建未做分段；原投入保留。": "Beende bei einem Abschnitt mit erfasstem Aufwand zuerst die Restplanung und lege dann einen neuen offenen Abschnitt an. Der bisherige Aufwand bleibt erhalten.", "这段安排已结束，请添加新的未做分段。": "Dieser Abschnitt ist beendet. Lege einen neuen offenen Abschnitt an.", "请使用调整剩余计划，只重新安排未做部分。": "Verwende „Restaufwand anpassen“, um nur den offenen Teil neu zu planen.", "分段合计超过任务总预计，请使用调整剩余计划。": "Die Abschnitte überschreiten die Gesamtschätzung der Aufgabe. Bitte „Restaufwand anpassen“ verwenden.", "未知安排操作。": "Unbekannte Planungsaktion."});
 Object.assign(german,{"提前完成的分段也算已完成": "Früher beendete Abschnitte gelten als erledigt", "有实际投入的分段在任务完成时归入“已完成”，当天预计投入保留已完成的原计划；分段相关提示补全英文和德文。": "Ein Abschnitt mit tatsächlichem Aufwand gilt beim Abschluss der Aufgabe als erledigt, und die Tagesschätzung behält erledigte ursprüngliche Pläne. Hinweise zu Abschnitten sind jetzt auf Englisch und Deutsch verfügbar."});
+Object.assign(german,{"预计投入卡片改称“当天计划”": "Karte „Geschätzte Zeit“ zeigt jetzt den Tagesplan", "首页“预计投入”卡片下的明细改称“当天计划”，与上方数字口径一致，包含已完成的原计划；日历占用参考仍只计未完成的安排。": "Die Aufschlüsselung unter „Geschätzte Zeit“ heißt jetzt „Tagesplan“ und passt zur Zahl darüber, einschließlich erledigter ursprünglicher Pläne. Die geschätzte Kalenderbelegung zählt weiterhin nur offene Pläne."});

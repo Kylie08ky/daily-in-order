@@ -2320,7 +2320,7 @@ export const english:Record<string,string> = {
   "{0} · {1} · {2} 件": "{0} · {1} · {2} items",
   "{0} 完成 {1} 件": "{0}: {1} completed",
   "{0} · {1} 件": "{0} · {1} items",
-  "占用参考 {0} · 固定 {1} ＋ 待定位 {2}": "Time estimate {0} · Scheduled {1} + Flexible {2}",
+  "当天计划 {0} · 固定 {1} ＋ 待定位 {2}": "Day plan {0} · Scheduled {1} + Flexible {2}",
   "已记录用时 · {0} 项完成记录待补录": "Recorded time · {0} completed tasks without time entries",
   "{0} 项待同步": "{0} pending changes",
   "每年 {0} 本": "{0} books per year",
@@ -2728,3 +2728,4 @@ Object.assign(english,{"原计划钟点缺失": "Original planned time missing",
 Object.assign(english,{"已取消": "Cancelled", "安排不存在。": "This schedule no longer exists.", "时间轴筛选补全英文和德文": "Timeline filters fully translated", "英文和德文界面中的“已取消”筛选与状态标签显示为对应语言；计划、实际投入和日期不变。": "The Cancelled filter and status label now appear in English and German. Plans, actual effort and dates are unchanged."});
 Object.assign(english,{"请先结束当前专注，再调整剩余计划。": "Finish the current focus session before adjusting the remaining work.", "请使用调整剩余计划。": "Use Adjust remaining work instead.", "请先将任务改为未完成，再安排剩余工作。": "Mark the task as not completed before scheduling remaining work.", "未做分段超出剩余计划 {0}，请调整分段。": "Unstarted segments exceed the remaining work by {0}. Adjust the segments.", "安排 ID 重复。": "Duplicate schedule ID.", "有投入的旧分段请结束剩余安排，再新建未做分段；原投入保留。": "For a segment that already has effort, end its remaining schedule, then add a new unstarted segment. Existing effort is kept.", "这段安排已结束，请添加新的未做分段。": "This segment has ended. Add a new unstarted segment.", "请使用调整剩余计划，只重新安排未做部分。": "Use Adjust remaining work to reschedule only the unfinished part.", "分段合计超过任务总预计，请使用调整剩余计划。": "Segments exceed the task total estimate. Use Adjust remaining work.", "未知安排操作。": "Unknown schedule action."});
 Object.assign(english,{"提前完成的分段也算已完成": "Segments finished early count as completed", "有实际投入的分段在任务完成时归入“已完成”，当天预计投入保留已完成的原计划；分段相关提示补全英文和德文。": "A segment with real effort counts as Completed when its task is finished, and the day's estimate keeps completed original plans. Segment messages are now translated into English and German."});
+Object.assign(english,{"预计投入卡片改称“当天计划”": "Estimated time card now shows the day plan", "首页“预计投入”卡片下的明细改称“当天计划”，与上方数字口径一致，包含已完成的原计划；日历占用参考仍只计未完成的安排。": "The breakdown under Estimated time on Today is now called Day plan and matches the figure above, including completed original plans. The calendar occupancy estimate still counts only unfinished plans."});

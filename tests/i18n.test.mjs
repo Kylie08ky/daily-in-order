@@ -52,3 +52,11 @@ test('every task-plan error has English and German copy, including the duration 
  setLanguage('en');assert.equal(t('未做分段超出剩余计划 1h 30m，请调整分段。'),'Unstarted segments exceed the remaining work by 1h 30m. Adjust the segments.');assert.equal(t('用户原文 2h 备注'),'用户原文 2h 备注');
  setLanguage('de');assert.equal(t('未做分段超出剩余计划 45m，请调整分段。'),'Offene Abschnitte überschreiten den Restaufwand um 45m. Bitte Abschnitte anpassen.');setLanguage('zh');
 });
+
+test('Today card breakdown is labelled Day plan and uses the day estimate; the calendar hint keeps unfinished plans only',()=>{
+ const source=fs.readFileSync('app/workbench.tsx','utf8'),card=source.slice(source.indexOf("['预计投入'"),source.indexOf("['实际投入'")),hint=source.slice(source.indexOf('ui("日历占用参考")'),source.indexOf('ui("日历占用参考")')+120);
+ assert.ok(card.includes('tr("当天计划 {0} · 固定 {1} ＋ 待定位 {2}"'));assert.ok(!card.includes('占用参考'));assert.ok(!card.includes('calendarOccupancy(dayPlans)'));assert.equal(card.match(/calendarOccupancy\(dayEstimate\)/g).length,4);
+ assert.ok(hint.includes('calendarOccupancy(dayPlans)'));
+ setLanguage('en');assert.equal(tr('当天计划 {0} · 固定 {1} ＋ 待定位 {2}','10h 7m','7h 52m','2h 15m'),'Day plan 10h 7m · Scheduled 7h 52m + Flexible 2h 15m');
+ setLanguage('de');assert.equal(tr('当天计划 {0} · 固定 {1} ＋ 待定位 {2}','10h 7m','7h 52m','2h 15m'),'Tagesplan 10h 7m · Geplant 7h 52m + Flexibel 2h 15m');setLanguage('zh');
+});
