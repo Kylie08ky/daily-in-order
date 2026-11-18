@@ -87,7 +87,7 @@ Plan two hours of a six-hour task this week and four hours next week, without cr
 
 Moving future plans does not change past effort. Spending longer than estimated does not automatically mark a task complete. When you explicitly finish the whole task, its unfinished plans close automatically while past effort stays on the dates it happened. You can correct the completion date and the actual date of a legacy time record separately.
 
-Completed tasks keep their original plans on the timeline, shown separately from actual effort. Filter by All, Planned, Actual, Completed or Cancelled; plans cancelled without any effort are hidden by default. When only a total duration was recorded, the plan is marked “Actual start/end not recorded” instead of inventing start and end times. (v0.25.5 preview)
+Completed tasks keep their original plans on the timeline, shown separately from actual effort. Filter by All, Planned, Actual, Completed or Cancelled; plans cancelled without any effort are hidden by default. When only a total duration was recorded, the plan is marked “Actual start/end not recorded” instead of inventing start and end times. (v0.25.5 preview) A segment with real effort counts as Completed when its task is finished, even if shorter than planned; the day’s Estimated time keeps completed original plans and leaves out cancelled or unexecuted ones. (v0.25.7 preview)
 
 Daily lists show both effort on the selected day and the task total, so a multi-day task does not make each day look like the full total. If a historical archive action happened after the actual completion, you can review and correct the completion date separately while preserving effort and the operation timestamp.
 

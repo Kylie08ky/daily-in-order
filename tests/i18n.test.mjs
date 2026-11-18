@@ -39,7 +39,16 @@ test('timeline filter and plan status labels passed through variables have Engli
  const {planStatusLabel}=await import('../lib/task-plans.ts');
  const source=fs.readFileSync('app/unified-timeline.tsx','utf8'),block=source.slice(source.indexOf('timeline-filters'),source.indexOf('.map(([value,label])'));
  const filters=[...block.matchAll(/\["(\w+)","([^"]+)"\]/g)].map(m=>m[2]);assert.deepEqual(filters,['全部','计划','实际','已完成','已取消']);
- const statuses=['planned','completed','cancelled','closed_with_task'].flatMap(s=>[planStatusLabel(s),planStatusLabel(s,true)]);
+ const statuses=['planned','completed','cancelled','closed_with_task'].flatMap(s=>[planStatusLabel(s)]);
  for(const key of new Set([...filters,...statuses,'安排不存在。'])){assert.ok(english[key],'EN '+key);assert.ok(german[key],'DE '+key);}
  setLanguage('en');assert.equal(t('已取消'),'Cancelled');setLanguage('de');assert.equal(t('已取消'),'Abgebrochen');setLanguage('zh');assert.equal(t('已取消'),'已取消');
+});
+
+test('every task-plan error has English and German copy, including the duration template',()=>{
+ const source=fs.readFileSync('lib/task-plans.ts','utf8');
+ const literals=[...source.matchAll(/Error\('([^']+)'\)/g)].map(m=>m[1]),templates=[...source.matchAll(/Error\('([^']+)'\+.*?\+'([^']+)'\)/g)].map(m=>m[1]+'{0}'+m[2]);
+ assert.ok(literals.length>=15);assert.deepEqual([...new Set(templates)],['未做分段超出剩余计划 {0}，请调整分段。']);
+ for(const key of new Set([...literals,...templates])){assert.ok(english[key],'EN '+key);assert.ok(german[key],'DE '+key);}
+ setLanguage('en');assert.equal(t('未做分段超出剩余计划 1h 30m，请调整分段。'),'Unstarted segments exceed the remaining work by 1h 30m. Adjust the segments.');assert.equal(t('用户原文 2h 备注'),'用户原文 2h 备注');
+ setLanguage('de');assert.equal(t('未做分段超出剩余计划 45m，请调整分段。'),'Offene Abschnitte überschreiten den Restaufwand um 45m. Bitte Abschnitte anpassen.');setLanguage('zh');
 });

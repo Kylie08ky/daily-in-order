@@ -8,10 +8,12 @@ export function planSeconds(s:State,t:Task,p:TaskPlan){return s.sessions.filter(
 export type PlanStatus='planned'|'completed'|'cancelled'|'closed_with_task';
 /** A read-only compatibility view. Never infer actual clock times from duration. */
 export function planStatus(s:State,t:Task,p:TaskPlan):PlanStatus{
- if(p.endReason)return p.endReason;
  const seconds=planSeconds(s,t,p);
+ // A segment with real effort was executed: when its task closes it reads as completed, even if shorter than planned.
+ // Stored closed_with_task from v0.25.5 is reinterpreted on read only; no record is rewritten.
+ if(p.endReason)return p.endReason==='closed_with_task'&&seconds>0?'completed':p.endReason;
  if(t.progress===100){
-  if(seconds>=p.minutes*60)return 'completed';
+  if(seconds>0)return 'completed';
   const sessions=s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt),residual=(t.actual||0)-Math.round(sessions.reduce((n,x)=>n+x.seconds,0)/60),day=t.actualDate||t.date;
   // Only a single matching dated plan can represent duration-only completion.
   if((residual>0&&p.date===day||!t.actual&&p.date===(t.completedDate||t.date))&&rawPlans(t).filter(x=>x.date===p.date).length===1)return 'completed';
@@ -19,7 +21,7 @@ export function planStatus(s:State,t:Task,p:TaskPlan):PlanStatus{
  }
  return p.closed?'cancelled':'planned';
 }
-export const planStatusLabel=(status:PlanStatus,hasActual=false)=>status==='closed_with_task'&&hasActual?'已执行部分保留，未做余项已关闭':({planned:'未完成计划',completed:'已完成',cancelled:'已取消',closed_with_task:'随任务关闭（未执行）'} as const)[status];
+export const planStatusLabel=(status:PlanStatus)=>({planned:'未完成计划',completed:'已完成',cancelled:'已取消',closed_with_task:'随任务关闭（未执行）'} as const)[status];
 export function planLedger(s:State,t:Task,today=businessDate(s.settings)){
  const unlocated=Math.max(0,(t.actual||0)-Math.round(s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0)/60));
  return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,status:planStatus(s,t,p),closed:p.closed||t.progress===100,seconds,used,left,needsReview:t.progress!==100&&!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
@@ -37,6 +39,12 @@ export function planningMetrics(s:State,t:Task,today=businessDate(s.settings)){
 }
 export function planningSignature(t:Task){return JSON.stringify({actual:t.actual,minutes:t.minutes,estimate:t.remainingEstimate,plans:rawPlans(t)});}
 export function calendarTasks(s:State){return liveTasks(s).flatMap(t=>taskPlans(t,s).map(p=>({...t,date:p.date,start:p.start,minutes:p.minutes,planId:p.id,entryId:t.id+':'+p.id})));}
+/** A day's estimate: open plans plus segments actually completed there. Cancelled or never-executed closures are excluded. */
+export function dayPlanEntries(s:State,date:string){
+ const open=calendarTasks(s).filter(t=>t.date===date),seen=new Set(open.map(t=>t.entryId));
+ const done=liveTasks(s).flatMap(t=>rawPlans(t).filter(p=>p.date===date&&!seen.has(t.id+':'+p.id)&&planStatus(s,t,p)==='completed').map(p=>({...t,date:p.date,start:p.start,minutes:p.minutes,planId:p.id,entryId:t.id+':'+p.id})));
+ return [...open,...done];
+}
 export function taskOnDate(t:Task,date:string,s?:State){return taskPlans(t,s).some(p=>p.date===date);}
 export function planForDate(t:Task,date:string){const plans=t.plans?.filter(p=>!p.closed&&p.date===date);return plans?.length===1?plans[0].id:undefined;}
 const slot=()=>z.object({id:idString,date:dateString,start:optionalTime,minutes:z.number().int().min(1).max(1440)});

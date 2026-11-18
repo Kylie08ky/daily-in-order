@@ -16,7 +16,7 @@ test('explicit completion closes all open slots, including partial and future, p
  let s=plan(base(),'legacy','2026-11-14',60);s=plan(s,'later','2026-11-19',60);
  s=run(s,'task.record',{id:'demo',date:'2026-11-14',minutes:40});const sessions=structuredClone(s.sessions),slots=structuredClone(s.tasks[0].plans);
  s=run(s,'task.progress',{id:'demo',date:'2026-11-14',progress:100});
- assert.deepEqual(s.sessions,sessions);assert.deepEqual(s.tasks[0].plans,slots.map(p=>({...p,closed:true,endReason:'closed_with_task'})));
+ assert.deepEqual(s.sessions,sessions);assert.deepEqual(s.tasks[0].plans,slots.map(p=>({...p,closed:true,endReason:p.id==='legacy'?'completed':'closed_with_task'})));
  const m=planningMetrics(s,s.tasks[0]);assert.deepEqual([m.actual,m.remaining,m.scheduled,m.unallocated,m.review.length],[40,0,0,0,0]);
  assert.equal(calendarTasks(s).length,0);assert.equal(completionDate(s.tasks[0],'Europe/Berlin'),'2026-11-14');assert.equal(tasksForDay(s,'2026-11-19').length,0);
  assert.equal(s.tasks[0].note,'Preserve note');assert.equal(s.tasks.length,1);

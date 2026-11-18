@@ -31,6 +31,9 @@ export function t(value:string):string{
  if(Object.prototype.hasOwnProperty.call(catalog,value))return catalog[value];
  const key=value.trim().replace(/\s+/g,' ');
  if(Object.prototype.hasOwnProperty.call(catalog,key))return catalog[key];
+ // Messages carrying one formatted duration (e.g. "1h 30m") match an explicit {0} template only.
+ const duration=key.match(/\d+h \d+m|\d+h|\d+m/);
+ if(duration){const template=key.replace(duration[0],'{0}');if(Object.prototype.hasOwnProperty.call(catalog,template))return catalog[template].replace('{0}',duration[0]);}
  return value;
 }
 export function tr(template:string,...values:unknown[]){return t(template).replace(/\{(\d+)\}/g,(_,index)=>String(values[Number(index)]??''));}
