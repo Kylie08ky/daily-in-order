@@ -5,13 +5,14 @@ export function rawPlans(t:Task):TaskPlan[]{return t.plans??(t.date?[{id:'legacy
 export function remainingMinutes(t:Task){return t.progress===100?0:Math.max(0,t.remainingEstimate?t.remainingEstimate.minutes-((t.actual||0)-t.remainingEstimate.actualAtSet):t.minutes-(t.actual||0));}
 export function currentEstimate(t:Task){return t.remainingEstimate?(t.actual||0)+remainingMinutes(t):t.minutes;}
 export function planSeconds(s:State,t:Task,p:TaskPlan){return s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt&&(x.planId===p.id||!x.planId&&p.id==='legacy')).reduce((n,x)=>n+x.seconds,0);}
-export type PlanStatus='planned'|'completed'|'cancelled'|'closed_with_task';
+/** 'partial' is display-only: a closed segment with real effort on an unfinished task (remainder rescheduled or dropped). Never stored. */
+export type PlanStatus='planned'|'completed'|'cancelled'|'closed_with_task'|'partial';
 /** A read-only compatibility view. Never infer actual clock times from duration. */
 export function planStatus(s:State,t:Task,p:TaskPlan):PlanStatus{
  const seconds=planSeconds(s,t,p);
  // A segment with real effort was executed: when its task closes it reads as completed, even if shorter than planned.
  // Stored closed_with_task from v0.25.5 is reinterpreted on read only; no record is rewritten.
- if(p.endReason)return p.endReason==='closed_with_task'&&seconds>0?'completed':p.endReason;
+ if(p.endReason){if(seconds>0&&p.endReason==='closed_with_task')return 'completed';if(seconds>0&&p.endReason==='cancelled')return t.progress===100?'completed':'partial';return p.endReason;}
  if(t.progress===100){
   if(seconds>0)return 'completed';
   const sessions=s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt),residual=(t.actual||0)-Math.round(sessions.reduce((n,x)=>n+x.seconds,0)/60),day=t.actualDate||t.date;
@@ -21,7 +22,7 @@ export function planStatus(s:State,t:Task,p:TaskPlan):PlanStatus{
  }
  return p.closed?'cancelled':'planned';
 }
-export const planStatusLabel=(status:PlanStatus)=>({planned:'未完成计划',completed:'已完成',cancelled:'已取消',closed_with_task:'随任务关闭（未执行）'} as const)[status];
+export const planStatusLabel=(status:PlanStatus)=>({planned:'未完成计划',completed:'已完成',cancelled:'已取消',closed_with_task:'随任务关闭（未执行）',partial:'已做部分，此段已结束'} as const)[status];
 export function planLedger(s:State,t:Task,today=businessDate(s.settings)){
  const unlocated=Math.max(0,(t.actual||0)-Math.round(s.sessions.filter(x=>x.taskId===t.id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0)/60));
  return rawPlans(t).map(p=>{const seconds=planSeconds(s,t,p),used=Math.max(0,(seconds-(p.accountedSeconds||0))/60),left=Math.max(0,p.minutes-used);return {...p,status:planStatus(s,t,p),closed:p.closed||t.progress===100,seconds,used,left,needsReview:t.progress!==100&&!p.closed&&left>0&&(p.date<today||!t.remainingEstimate&&unlocated>0)};});
@@ -42,7 +43,7 @@ export function calendarTasks(s:State){return liveTasks(s).flatMap(t=>taskPlans(
 /** A day's estimate: open plans plus segments actually completed there. Cancelled or never-executed closures are excluded. */
 export function dayPlanEntries(s:State,date:string){
  const open=calendarTasks(s).filter(t=>t.date===date),seen=new Set(open.map(t=>t.entryId));
- const done=liveTasks(s).flatMap(t=>rawPlans(t).filter(p=>p.date===date&&!seen.has(t.id+':'+p.id)&&planStatus(s,t,p)==='completed').map(p=>({...t,date:p.date,start:p.start,minutes:p.minutes,planId:p.id,entryId:t.id+':'+p.id})));
+ const done=liveTasks(s).flatMap(t=>rawPlans(t).filter(p=>p.date===date&&!seen.has(t.id+':'+p.id)&&['completed','partial'].includes(planStatus(s,t,p))).map(p=>({...t,date:p.date,start:p.start,minutes:p.minutes,planId:p.id,entryId:t.id+':'+p.id})));
  return [...open,...done];
 }
 export function taskOnDate(t:Task,date:string,s?:State){return taskPlans(t,s).some(p=>p.date===date);}
@@ -61,7 +62,7 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
   if(p.start&&minuteOf(p.start)+p.minutes>1440)throw Error('安排不能跨越当天。');
   const status=planStatus(s,t,old);
   if(!old.closed&&t.progress!==100&&planSeconds(s,t,old)===0)throw Error('请使用调整剩余计划。');
-  t.plans=plans.map(x=>x.id===p.planId?{...x,date:p.date,start:p.start,minutes:p.minutes,...(status!=='planned'?{endReason:status}:{} )}:x);
+  t.plans=plans.map(x=>x.id===p.planId?{...x,date:p.date,start:p.start,minutes:p.minutes,...(status!=='planned'?{endReason:status==='partial'?'cancelled' as const:status}:{} )}:x);
   return validateState(s);
  }
  if(command.type==='task.plan.reestimate'){

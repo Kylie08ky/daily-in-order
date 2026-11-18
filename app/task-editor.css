@@ -23,3 +23,7 @@
 .modal.task-editor-modal input::placeholder,
 .modal.task-editor-modal textarea::placeholder { color: #63705d; opacity: 1; }
 .modal.task-editor-modal .task-plans-summary b { font-size: 16px; }
+/* Completion dialog: choose duration or from–to */
+.completion-mode{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.completion-mode button{font-size:13px;padding:6px 14px;min-height:32px;border-radius:8px}
+.completion-mode button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#8aa17a;font-weight:600}

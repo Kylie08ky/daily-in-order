@@ -3,7 +3,7 @@ import {useEffect,useRef,useState,type CSSProperties,type PointerEvent} from 're
 import {GripVertical,Play} from 'lucide-react';
 import {type State,type Task,type Command,minuteOf,clock,finished,formatTime as fmt} from '../lib/model';
 import {localInstant} from '../lib/task-investment';
-import {planningSignature,planStatusLabel,rawPlans} from '../lib/task-plans';
+import {planningSignature,planStatusLabel} from '../lib/task-plans';
 import {timelineItems,layoutTimeline,type TimelineFilter,type TimelineItem} from '../lib/timeline-items';
 type Props={useResident?:(id:string,date:string,start:string)=>void;compact?:boolean;date:string;tasks:Task[];state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;edit:(t:Task,sessionId?:string)=>void;complete:(t:Task)=>void;arrange?:(t:Task)=>void;focus:(t:Task,planId?:string)=>void};
 type Drag={item:TimelineItem;kind:'move'|'resize';originY:number;scrollTop:number;start:number;duration:number;next:number;moved:boolean};
@@ -37,7 +37,6 @@ export default function Timeline({date,tasks,state,busy,mutate,edit,complete,foc
  const cancel=()=>{dragRef.current=null;setDrag(null);};
  return <div className={'timeline-shell unified-timeline'+(compact?' dashboard-clock':'')}>
   <div className="timeline-filters" role="group" aria-label={ui("时间轴筛选")}>{([["all","全部"],["planned","计划"],["actual","实际"],["completed","已完成"],["cancelled","已取消"]] as const).map(([value,label])=><button key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{ui(label)}</button>)}</div><div className="timeline-intro"><small>{ui("拖动调整时间 · 点击事项查看进展")}</small></div>{issue&&<p role="alert">{ui(issue)}</p>}
-  {state.tasks.some(t=>!t.deletedAt&&t.progress===100&&rawPlans(t).some(p=>p.date===date&&!p.start))&&<p className="hint">{ui("部分已完成事项缺少原计划钟点，可在列表查看；不会推测时间位置。")}</p>}
   <div className={compact?'dashboard-time-scroll':undefined} ref={scrollRef} tabIndex={compact?0:undefined} role="region" aria-label={date+ui(" 全天时间轴")}>
    <div className="timeline" ref={gridRef} style={{height:(last-first)*scale+60}} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();const entry=state.templates.find(t=>t.id===e.dataTransfer.getData('text/template-id'));if(entry){const start=time(Math.max(first,Math.min(1425,Math.round((first+(e.clientY-gridRef.current!.getBoundingClientRect().top)/scale)/15)*15)));useResident?.(entry.id,date,start);return;}const id=e.dataTransfer.getData('text/task-id'),t=state.tasks.find(t=>t.id===id);if(!t)return;
     if(t.plans){const planId=e.dataTransfer.getData('text/plan-id'),p=t.plans.find(p=>p.id===planId);if(p){const start=Math.max(first,Math.min(1440-p.minutes,Math.round((first+(e.clientY-gridRef.current!.getBoundingClientRect().top)/scale)/15)*15));void mutate({type:'task.plan.save',payload:{id,planId,date,start:time(start),minutes:p.minutes}},ui('分段安排已保存。'));}else(arrange||edit)(t);return;}
@@ -51,7 +50,7 @@ export default function Timeline({date,tasks,state,busy,mutate,edit,complete,foc
      <button className="agenda-event-title" onClick={()=>edit(t,item.block?.sessionId)} title={t.title}>{(recorded?finished(t):item.status==='completed')?'✓ ':''}{t.title}</button>
      {item.length>=45&&<small>{recorded?ui("本段 ")+fmt(item.actualMinutes||0):ui("计划")+" "+fmt(item.length)} · {ui("任务累计实际投入")} {fmt(t.actual||0)}{!recorded&&item.untimedActual&&<> · {ui("实际起止未记录")}</>}</small>}
      {!finished(t)&&!item.historical&&<button className="agenda-event-focus" title={ui("开始专注：自动记录实际起止")} aria-label={ui("开始专注：")+t.title} disabled={busy} onClick={()=>focus(t,item.planId)}><Play size={14}/></button>}
-     {item.length>=75&&!(['cancelled','closed_with_task'].includes(item.status||''))&&<button className="agenda-event-done" disabled={busy} onClick={()=>complete(t)}>{finished(t)?ui("撤销完成"):ui("标记完成")}</button>}
+     {item.length>=75&&!(['cancelled','closed_with_task','partial'].includes(item.status||''))&&<button className="agenda-event-done" disabled={busy} onClick={()=>complete(t)}>{finished(t)?ui("撤销完成"):ui("标记完成")}</button>}
      {!recorded&&<button className="agenda-event-resize" disabled={busy} aria-label={ui("调整时长：")+t.title} onPointerDown={e=>pointerStart(e,item,'resize')} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={cancel} onKeyDown={e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();void save(item,item.begin,Math.max(15,Math.min(1440-item.begin,item.length+(e.key==='ArrowDown'?15:-15))));}}}/>}
     </article>;})}
    </div>
