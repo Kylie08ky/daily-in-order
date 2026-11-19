@@ -24,14 +24,16 @@ test('duration-only completion retains original 08:30–16:22 plan without inven
  for(let n=0;n<2;n++){s=decodeState(encodeState(run(s,'task.progress',{id:'demo',date:day,progress:100})));assert.equal(actual(s),480);assert.equal(items(s).length,1);assert.equal(s.sessions.length,0);}
 });
 
-test('planned 08:30–10:30 and actual 09:00–10:00 coexist, while statistics count only 60 minutes',()=>{
+test('a completed task with real 09:00–10:00 time shows only the actual block; the 08:30–10:30 plan stays under Planned',()=>{
  let s=run(base(),'task.save',{id:'demo',task:{...base().tasks[0],minutes:120}});
  s=run(s,'task.record',{id:'demo',date:day,minutes:60,start:'09:00',end:'10:00'});
  // Use the public session editor to attach verified real clock times.
  s=run(s,'session.update',{id:s.sessions[0].id,date:day,spans:[{startedAt:day+'T08:00:00.000Z',endedAt:day+'T09:00:00.000Z'}],untimedSeconds:0,note:''});
  const history=structuredClone(s.sessions);s=run(s,'task.progress',{id:'demo',date:day,progress:100});
- assert.deepEqual(items(s).map(x=>[x.begin,x.length,!!x.block]),[[510,120,false],[540,60,true]]);
- assert.equal(actual(s),60);assert.deepEqual(s.sessions,history);assert.equal(items(s,day,'planned').length,1);assert.equal(items(s,day,'actual').length,1);assert.deepEqual(items(s,day,'completed').map(x=>[x.begin,!!x.block]),[[510,false],[540,true]]);
+ assert.deepEqual(items(s).map(x=>[x.begin,x.length,!!x.block]),[[540,60,true]]);
+ assert.equal(actual(s),60);assert.deepEqual(s.sessions,history);assert.equal(items(s,day,'planned').length,1);assert.equal(items(s,day,'actual').length,1);assert.deepEqual(items(s,day,'completed').map(x=>[x.begin,!!x.block]),[[540,true]]);assert.deepEqual(items(s,day,'planned').map(x=>[x.begin,x.length,x.plannedStart]),[[510,120,'08:30']]);
+ // Undo completion: the plan returns next to the actual block.
+ const reopened=run(s,'task.progress',{id:'demo',date:day,progress:0});assert.equal(items(reopened).filter(x=>!x.block).length,1);
 });
 
 test('multi-day completion preserves two executed segments and separately closes the unused third',()=>{
@@ -97,4 +99,11 @@ test('day estimate keeps completed plans, excludes cancelled or unexecuted closu
  assert.deepEqual(entries.map(t=>t.entryId).sort(),['demo:legacy','open:legacy','study:legacy']);
  assert.equal(calendarOccupancy(entries).effort,472+120+45);
  assert.deepEqual(calendarTasks(s).filter(t=>t.date===day).map(t=>t.entryId),['open:legacy']);assert.deepEqual(s,before);
+});
+
+test('completed via a from–to range shows only the actual block; duration-only completion keeps the plan with untimed note',()=>{
+ let s=base();s=applyCommand(s,{type:'task.record',payload:{id:'demo',date:day,startedAt:day+'T06:55:00.000Z',endedAt:day+'T17:45:00.000Z',progress:100}},now);
+ assert.deepEqual(items(s).map(x=>[!!x.block,x.length]),[[true,650]]);assert.equal(items(s,day,'planned').length,1);
+ let d=run(base(),'task.save',{id:'demo',task:{...base().tasks[0],actual:480,actualDate:day}});d=run(d,'task.progress',{id:'demo',date:day,progress:100});
+ assert.deepEqual(items(d).map(x=>[!!x.block,x.untimedActual]),[[false,true]]);
 });

@@ -62,3 +62,9 @@ test('Today card breakdown is labelled Day plan and uses the day estimate; the c
 });
 
 test('the timeline no longer shows the missing-clock notice',()=>{assert.ok(!fs.readFileSync('app/unified-timeline.tsx','utf8').includes('部分已完成事项缺少原计划钟点'));});
+
+test('actual timeline blocks use dark text on their light background',()=>{
+ const css=fs.readFileSync('app/daily-agenda.css','utf8'),rules=[...css.matchAll(/([^{}]*\.agenda-event\.recorded)\{([^}]*)\}/g)].map(m=>m[2]);
+ assert.ok(rules.some(r=>/background:#d5e3c5/.test(r)));for(const r of rules){const c=r.match(/(?:^|;)color:#([0-9a-f]{6})/i);if(c)assert.ok(parseInt(c[1].slice(0,2),16)<0x60,'recorded text colour too light: #'+c[1]);}
+ assert.ok(!/agenda-event\.recorded\{[^}]*#f6f8f0/.test(css));
+});

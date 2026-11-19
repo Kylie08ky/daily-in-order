@@ -68,9 +68,9 @@
 :root .unified-timeline .agenda-event.dragging{z-index:10;box-shadow:0 4px 16px #0003}
 :root .unified-timeline .agenda-event button{background:transparent;border:0;color:#293a2a;min-height:0;border-radius:0;box-shadow:none}
 :root .unified-timeline .agenda-event-time{display:flex;align-items:center;gap:4px;width:100%;height:19px;padding:0 28px 0 0;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;cursor:grab;touch-action:none;text-align:left}
-:root .unified-timeline .agenda-event-time .recorded-label{margin-left:auto;font-size:10px;color:#4a5e40}
+:root .unified-timeline .agenda-event-time .recorded-label{margin-left:auto;font-size:10px;color:#34452f}
 :root .unified-timeline .agenda-event-title{display:block;width:100%;text-align:left;padding:0 26px 0 0;font-size:13px;font-weight:600;line-height:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-:root .unified-timeline .agenda-event>small{font-size:11px;display:block;margin-top:3px;color:#4a5e40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root .unified-timeline .agenda-event>small{font-size:11px;display:block;margin-top:3px;color:#34452f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 :root .unified-timeline .agenda-event .agenda-event-focus{position:absolute;right:5px;top:5px;padding:3px;width:24px;height:24px;display:flex;justify-content:center;align-items:center;border-radius:6px}
 :root .unified-timeline .agenda-event-focus:hover{background:#b5c9a0}
 :root .unified-timeline .agenda-event-done{padding:3px 0;font-size:11px;margin-top:7px}
@@ -112,8 +112,8 @@
 .unified-timeline .timeline-filters button{font-size:12px;padding:6px 12px;min-height:30px;border-radius:8px;background:transparent}
 .unified-timeline .timeline-filters button[aria-pressed=true]{background:#e3ead9;color:#293d31}
 .unified-timeline .agenda-event.planned{background:#e9eddf;color:#354532;border:1px dashed #a2af92;border-left:3px solid var(--task-color)}
-.unified-timeline .agenda-event.planned.complete{background:#e1e7d7;color:#41503b;opacity:1}
-.unified-timeline .agenda-event.planned.cancelled{background:#f0eee8;color:#66675f;border-color:#a7a79c}
-.unified-timeline .agenda-event.recorded{background:#445c4c;color:#f6f8f0}
+.unified-timeline .agenda-event.planned.complete{background:#e1e7d7;color:#2c3a28;opacity:1}
+.unified-timeline .agenda-event.planned.cancelled{background:#f0eee8;color:#55564f;border-color:#a7a79c}
+.unified-timeline .agenda-event.recorded{color:#1f2e20}
 .unified-timeline .agenda-event.recorded button,.unified-timeline .agenda-event.recorded small{color:inherit}
 .unified-timeline .agenda-event small{white-space:normal;line-height:1.4}

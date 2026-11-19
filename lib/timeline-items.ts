@@ -21,13 +21,15 @@ export function timelineItems(state:State,date:string,_tasks:Task[],filter:Timel
   return {id:'plan:'+t.id+':'+p.id,planId:p.id,task:t,begin:minuteOf(p.start),length:p.minutes,status,historical:!!p.closed||t.progress===100||seconds>0,plannedStart:p.start,plannedEnd:clock(minuteOf(p.start)+p.minutes),plannedMinutes:p.minutes,actualMinutes:seconds/60,untimedActual:(t.actual||0)>0&&!blocks.some(b=>b.taskId===t.id)};
  }));
  const actual:TimelineItem[]=blocks.filter(b=>b.date===date).map(b=>({id:b.id,task:lookup.get(b.taskId)!,begin:b.start,length:b.end-b.start,block:b,actualStart:b.start,actualEnd:b.end,actualMinutes:b.seconds/60}));
+ // A completed task with real start–end times that day is shown by its actual blocks; its plan stays under "Planned".
+ const realDone=new Set(actual.filter(x=>x.task.progress===100).map(x=>x.task.id));
  return [...plans,...actual].filter(item=>{
-  const cancelled=item.status==='cancelled'||item.status==='closed_with_task';
+  const cancelled=item.status==='cancelled'||item.status==='closed_with_task',superseded=!item.block&&realDone.has(item.task.id);
   if(filter==='cancelled')return cancelled;
   if(filter==='actual')return !!item.block;
-  if(filter==='completed')return item.block?item.task.progress===100:item.status==='completed';
+  if(filter==='completed')return item.block?item.task.progress===100:item.status==='completed'&&!superseded;
   if(filter==='planned')return !item.block;
-  return !cancelled||(item.actualMinutes||0)>0;
+  return !superseded&&(!cancelled||(item.actualMinutes||0)>0);
  }).sort((a,b)=>a.begin-b.begin||a.id.localeCompare(b.id));
 }
 
