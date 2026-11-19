@@ -117,3 +117,7 @@
 .unified-timeline .agenda-event.recorded{color:#1f2e20}
 .unified-timeline .agenda-event.recorded button,.unified-timeline .agenda-event.recorded small{color:inherit}
 .unified-timeline .agenda-event small{white-space:normal;line-height:1.4}
+/* Timeline filters: unselected buttons stay readable on light (calendar) and dark (Today) panels */
+:root .app-shell .unified-timeline .timeline-filters button{color:#2e3d2c;border:1px solid #b7c3a8;background:transparent}
+:root .app-shell .unified-timeline .timeline-filters button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#e3ead9;font-weight:600}
+:root .app-shell .home-dashboard .unified-timeline .timeline-filters button:not([aria-pressed=true]){color:#e4ebdb;border-color:#ffffff4d;background:#ffffff0f}

@@ -68,3 +68,9 @@ test('actual timeline blocks use dark text on their light background',()=>{
  assert.ok(rules.some(r=>/background:#d5e3c5/.test(r)));for(const r of rules){const c=r.match(/(?:^|;)color:#([0-9a-f]{6})/i);if(c)assert.ok(parseInt(c[1].slice(0,2),16)<0x60,'recorded text colour too light: #'+c[1]);}
  assert.ok(!/agenda-event\.recorded\{[^}]*#f6f8f0/.test(css));
 });
+
+test('unselected timeline filters set an explicit readable colour on the dark Today panel',()=>{
+ const css=fs.readFileSync('app/daily-agenda.css','utf8');
+ assert.match(css,/\.home-dashboard \.unified-timeline \.timeline-filters button:not\(\[aria-pressed=true\]\)\{color:#e4ebdb/);
+ assert.match(css,/\.unified-timeline \.timeline-filters button\{color:#2e3d2c/);
+});
