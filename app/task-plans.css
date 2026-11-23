@@ -12,12 +12,20 @@
 .quick-reschedule{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-4px 0 6px 32px;font-size:12px;color:#34452f}
 .quick-reschedule button{min-height:30px;padding:4px 12px;font-size:12px;border-radius:8px}
 .quick-reschedule>span{font-weight:600}.quick-reschedule button{color:#2e3d2c;border:1px solid #b7c3a8;background:#fff}.quick-reschedule label{display:flex;flex-direction:row;align-items:center;gap:6px;margin:0;font-size:12px;color:#34452f;white-space:nowrap}.quick-reschedule input[type=date]{min-height:30px;padding:2px 8px;font-size:12px}
-/* Edit task: unified "Which day?" control at the top */
-.task-date-move{padding:14px 16px;margin:4px 0 18px;border:1px solid #b9c7ad;border-radius:14px;background:#f2f6ec;color:#2c3a28}
-.task-date-move-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.task-date-move-head strong{font-size:15px;margin-right:auto}
-.task-date-move-head .chips{display:flex;gap:6px}.task-date-move-head input[type=date]{width:auto;min-height:34px}
-.task-date-move-option{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:12px}.task-date-move-option small{flex-basis:100%;color:#3d4d38;line-height:1.5}
-.task-date-move .hint{margin:10px 0 0}
+/* Edit task: date control at the top — pick an intent, then a day, then one clear button */
+.task-date-move{display:grid;gap:12px;padding:16px;margin:0 0 18px;border:1px solid #c9d4bd;border-radius:14px;background:#f6f8f2;color:#2c3a28}
+.tdm-head{display:flex;align-items:baseline;gap:10px}.tdm-head strong{font-size:15px}.tdm-status{font-size:13px;color:#56654f}
+.tdm-modes{display:inline-flex;justify-self:start;padding:3px;border-radius:10px;background:#e3e9da}
+.tdm-modes button{min-height:32px;padding:4px 14px;border:0;border-radius:8px;background:transparent;color:#4a5a44;font-size:13px;box-shadow:none}
+.tdm-modes button[aria-pressed=true]{background:#fff;color:#22301f;font-weight:600;box-shadow:0 1px 2px #0000001f}
+.tdm-pick{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.tdm-pick button,.tdm-pick input[type=date]{height:36px;min-height:36px;margin:0;font-size:13px;border-radius:9px}
+.tdm-pick button{padding:0 14px;border:1px solid #c3ceb5;background:#fff;color:#2e3d2c}
+.tdm-pick button[aria-pressed=true]{background:#e3ead9;border-color:#8aa17a;font-weight:600}
+.tdm-pick input[type=date]{width:auto;flex:0 1 170px;padding:0 10px}
+.tdm-duration{max-width:340px}.tdm-duration label{font-size:13px}
+.tdm-action{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}.tdm-action button{min-height:38px;padding:0 18px}
+.tdm-hint{color:#56654f;font-size:12px;line-height:1.5;margin:0}
 /* Schedule page: one plain sentence first; detailed figures folded */
 .task-plans-headline{margin:2px 0 2px;font-size:16px;font-weight:600;line-height:1.45;color:#2c3a28}
 .task-plans-subline{display:block;margin:0 0 10px;color:#4a5a44}

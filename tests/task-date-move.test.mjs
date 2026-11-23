@@ -50,8 +50,11 @@ test('Edit task opens with one "Which day?" control and ticking a past item asks
  const wb=fs.readFileSync('app/workbench.tsx','utf8'),move=fs.readFileSync('app/task-date-move.tsx','utf8');
  const top=wb.indexOf('{live&&<TaskDateMove'),classification=wb.indexOf('<TaskClassification state={state} task={t}');
  assert.ok(top>0&&top<classification,'"Which day?" sits above the other fields');
- assert.ok(wb.includes('dirty={dirty} onDone={close}/>'));assert.ok(move.includes("{dirty?<p className=\"hint\">{ui('请先保存或放弃下面的修改，再改日期。')}"));
- assert.ok(move.includes("type:'task.finish.on'"));assert.ok(move.includes("ui('这件事是在这天做完的')"));
+ assert.ok(wb.includes('dirty={dirty} onDone={close}/>'));assert.ok(move.includes("{dirty?<p className=\"tdm-hint\">{ui('请先保存或放弃下面的修改，再改日期。')}"));
+ assert.ok(move.includes("type:'task.finish.on'"));assert.ok(move.includes("ui('改计划日期')")&&move.includes("ui('补记完成')"));assert.ok(move.includes("tr('记为 {0} 完成',md(date))")&&move.includes("tr('改到 {0}',md(date))"));
+ // One action at a time: a single primary button whose handler follows the chosen mode.
+ assert.equal((move.match(/className="primary"/g)||[]).length,1);assert.ok(move.includes("onClick={()=>void(mode==='plan'?move():finish())}"));
+ assert.ok(move.includes("min={mode==='plan'?today:undefined} max={mode==='done'?today:undefined}"));
  assert.ok(wb.includes('||overduePlanDay(s,t,today)){setCompletion(t)'));assert.ok(wb.includes('setDoneDay(defaultCompletionDay(s,t,date,today))'));
  assert.ok(wb.includes('name="completedDate" type="date" required value={doneDay}'));
 });
@@ -90,4 +93,13 @@ test('both completion forms take the default from the shared rule, show Planned 
  assert.ok(!wb.includes('pastPlanDay'));
  assert.ok(course.includes('[day,setDay]=useState(planDay||(date>today?today:date))'));
  for(const src of [wb,course])assert.ok(src.includes("tr('计划那天 {0}',")&&src.includes("ui('今天')"));
+});
+
+test('Edit task reads top-down: title, date, schedule/duration, then folded category and more settings',()=>{
+ const wb=fs.readFileSync('app/workbench.tsx','utf8');
+ const at=k=>{const i=wb.indexOf(k);assert.ok(i>0,k);return i;};
+ const order=[at('<label>{ui("事项标题 *")}'),at('{live&&<TaskDateMove'),at('{live?.plans?<TaskScheduleSummary'),at('<details className="task-editor-extra task-editor-classify" open={entryKind!==\'once\'||undefined}>'),at('<details className="task-editor-extra">')];
+ assert.deepEqual([...order].sort((a,b)=>a-b),order);
+ assert.ok(at('<TaskClassification state={state} task={t}')>order[3]&&at("<label>{ui('任务类型')}")>order[3]);
+ assert.ok(!wb.includes('日期在最上方「改到哪天」修改'));
 });
