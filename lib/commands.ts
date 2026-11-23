@@ -138,11 +138,18 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   }break;
   case 'session.update':case 'session.move':case 'session.delete':case 'session.restore': changeSession(s,command,instant);break;
   case 'task.record':{
-   const p=z.object({id:idString,minutes:z.number().int().min(0).max(1440).default(0),date:dateString,startedAt:z.string().datetime().optional(),endedAt:z.string().datetime().optional(),progress:z.number().int().min(0).max(100).optional(),progressSource:z.enum(['time','manual']).optional(),note:z.string().max(1000).default('')}).parse(command.payload),t=task(p.id);
+   const p=z.object({id:idString,minutes:z.number().int().min(0).max(1440).default(0),date:dateString,startedAt:z.string().datetime().optional(),endedAt:z.string().datetime().optional(),spans:z.array(z.object({startedAt:z.string().datetime(),endedAt:z.string().datetime()})).min(1).max(20).optional(),progress:z.number().int().min(0).max(100).optional(),progressSource:z.enum(['time','manual']).optional(),note:z.string().max(1000).default('')}).parse(command.payload),t=task(p.id);
    if(t.deletedAt)throw new Error('请先恢复此事项。');
    if(!!p.startedAt!==!!p.endedAt)throw new Error('请同时填写实际开始和结束时间。');
-   let seconds=p.minutes*60;const spans=p.startedAt&&p.endedAt?[{startedAt:p.startedAt,endedAt:p.endedAt}]:[];
-   if(spans.length){seconds=(Date.parse(p.endedAt!)-Date.parse(p.startedAt!))/1000;if(seconds<=0||seconds>86400)throw new Error('本段结束须晚于开始，且不超过 24 小时。');if(Date.parse(p.endedAt!)>instant.valueOf()+60000)throw new Error('实际记录不能填写未来时间。');}
+   if(p.spans&&p.startedAt)throw new Error('请只用一种方式填写实际时间段。');
+   let seconds=p.minutes*60;
+   // Several ranges (e.g. 9:00–10:00 and 14:00–14:30) become one record with several spans, like a paused focus session.
+   const spans=(p.spans||(p.startedAt&&p.endedAt?[{startedAt:p.startedAt,endedAt:p.endedAt}]:[])).map(x=>({startedAt:x.startedAt,endedAt:x.endedAt})).sort((a,b)=>Date.parse(a.startedAt)-Date.parse(b.startedAt));
+   if(spans.length){
+    seconds=0;let end=0;
+    for(const x of spans){const a=Date.parse(x.startedAt),b=Date.parse(x.endedAt);if(b<=a)throw new Error('本段结束须晚于开始，且不超过 24 小时。');if(a<end)throw new Error('几段时间不能重叠。');if(b>instant.valueOf()+60000)throw new Error('实际记录不能填写未来时间。');seconds+=(b-a)/1000;end=b;}
+    if(seconds>86400)throw new Error('本段结束须晚于开始，且不超过 24 小时。');
+   }
    if(p.date>localParts(instant.valueOf(),s.settings.timezone).date)throw new Error('实际记录不能填写未来日期。');
    if(p.progress===100)t.completedDate=t.progress===100?completionDate(t,s.settings.timezone)||p.date:p.date;else if(p.progress!==undefined)delete t.completedDate;
    if(!seconds&&p.progress===undefined&&p.progressSource===undefined)throw new Error('请填写本次投入或当前进度。');
@@ -151,7 +158,7 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
    if(p.progress!==undefined){t.progress=p.progress;t.progressSource='manual';t.completedAt=p.progress===100?t.completedAt||now:null;}
    else refreshTimeProgress(t);
    if(!t.date)t.date=p.date;
-   if(seconds||p.progress!==undefined)s.sessions.push({id:newId(),taskId:t.id,...(planForDate(t,p.date)?{planId:planForDate(t,p.date)}:{}),date:p.date,seconds,growth:0,endedAt:p.endedAt||now,spans,source:'manual',note:p.note,progressAfter:t.progress});
+   if(seconds||p.progress!==undefined)s.sessions.push({id:newId(),taskId:t.id,...(planForDate(t,p.date)?{planId:planForDate(t,p.date)}:{}),date:p.date,seconds,growth:0,endedAt:spans.at(-1)?.endedAt||now,spans,source:'manual',note:p.note,progressAfter:t.progress});
    break;
   }
   case 'tasks.unschedule':{const p=z.object({ids:z.array(idString).max(2000)}).parse(command.payload),ids=new Set(p.ids);for(const id of ids){const t=task(id);if(t.parentId&&!ids.has(t.parentId))throw new Error('请同时选择父时段，或先在编辑中解除包含关系。');}for(const t of s.tasks.filter(t=>ids.has(t.parentId)))ids.add(t.id);for(const id of ids){const t=task(id);if(t.deletedAt)continue;if(finished(t)){if(t.parentId&&ids.has(t.parentId))t.parentId='';continue;}if(t.plans)t.plans=t.remainingEstimate?t.plans.map(p=>({...p,closed:true})):[];else{t.date='';t.start='';}t.parentId='';}break;}

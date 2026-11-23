@@ -87,7 +87,7 @@ test('overdue split tasks use their latest unfinished segment; current and futur
 
 test('both completion forms take the default from the shared rule, show Planned day / Today, and reset on every open',()=>{
  const wb=fs.readFileSync('app/workbench.tsx','utf8'),course=fs.readFileSync('app/course-completion.tsx','utf8');
- assert.equal((wb.match(/setCompletion\(t\)/g)||[]).length,1,'single entry point');assert.ok(wb.includes('setCompletion(t);setActual(t.actual);setDoneBy(\'duration\');setDoneStart(\'\');setDoneEnd(\'\');setDoneDay(defaultCompletionDay(s,t,date,today));'));
+ assert.equal((wb.match(/setCompletion\(t\)/g)||[]).length,1,'single entry point');assert.ok(wb.includes('setCompletion(t);setActual(t.actual);setDoneBy(\'duration\');setDoneRanges([{start:\'\',end:\'\'}]);setDoneDay(defaultCompletionDay(s,t,date,today));'));
  assert.ok(wb.includes('{completion&&<Dialog key={completion.id} title='));
  assert.ok(wb.includes('<CourseCompletion key={completion.id} planDay={overduePlanDay(s,completion,today)}'));
  assert.ok(!wb.includes('pastPlanDay'));

@@ -30,3 +30,13 @@
 /* Shortcut chips inside dialogs show which one is selected */
 .modal .chips button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#8aa17a;font-weight:600}
 .focus-duration-chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+/* Completion by "from – to": one row per range, ＋ beside the last row adds another. */
+.done-ranges{display:grid;gap:8px;margin:2px 0 6px}
+.done-range-head,.done-range{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr) 76px;gap:8px;align-items:center}
+.done-range-head span{font-size:14px;color:inherit}
+.done-range input{width:100%;min-width:0}
+.done-range-dash{text-align:center;color:#6b7a6c}
+.done-range-tools{display:flex;gap:4px}
+.done-range-tools .icon-btn{width:34px;height:34px;display:inline-grid;place-items:center;border-radius:8px;border:1px solid #cfd8c6;background:#fafbf6;color:#2f4436}
+.done-range-tools .done-range-add{background:#e3ead9;border-color:#8aa17a}
+.done-range-total{margin:0}
