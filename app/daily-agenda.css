@@ -121,3 +121,7 @@
 :root .app-shell .unified-timeline .timeline-filters button{color:#2e3d2c;border:1px solid #b7c3a8;background:transparent}
 :root .app-shell .unified-timeline .timeline-filters button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#e3ead9;font-weight:600}
 :root .app-shell .home-dashboard .unified-timeline .timeline-filters button:not([aria-pressed=true]){color:#e4ebdb;border-color:#ffffff4d;background:#ffffff0f}
+/* Row actions show a short text label under each icon so their purpose is visible without hovering */
+:root .app-shell .task-row .task-actions .icon-btn.with-label{flex-direction:column;gap:2px;width:auto;min-width:40px;height:auto;min-height:42px;padding:4px 5px}
+:root .app-shell .task-row .task-actions .icon-btn.with-label .action-label{font-size:10px;line-height:1.1;white-space:nowrap;opacity:.92}
+:root .app-shell .task-row .task-actions .icon-btn.with-label:disabled .action-label{opacity:.6}

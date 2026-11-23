@@ -27,3 +27,6 @@
 .completion-mode{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
 .completion-mode button{font-size:13px;padding:6px 14px;min-height:32px;border-radius:8px}
 .completion-mode button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#8aa17a;font-weight:600}
+/* Shortcut chips inside dialogs show which one is selected */
+.modal .chips button[aria-pressed=true]{background:#e3ead9;color:#293d31;border-color:#8aa17a;font-weight:600}
+.focus-duration-chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}

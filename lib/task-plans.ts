@@ -123,3 +123,16 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
  t.plans=plans.sort((a,b)=>a.date.localeCompare(b.date)||(a.start||'99').localeCompare(b.start||'99'));
  return validateState(s);
 }
+/** Plain-language summary of what is left and when, for the schedule page headline. Read-only. */
+export type PlanSummary={kind:'done'|'none'|'overdue'|'unscheduled'|'partly'|'one'|'many';remaining:number;scheduled:number;unallocated:number;count:number;review:number;first?:string;last?:string;start?:string};
+export function planSummary(t:Task,m:ReturnType<typeof planningMetrics>):PlanSummary{
+ const open=m.ledger.filter(p=>!p.closed&&p.left>0&&!p.needsReview).sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start));
+ const base={remaining:m.remaining,scheduled:m.scheduled,unallocated:Math.max(0,m.unallocated),count:open.length,review:m.review.length,first:open[0]?.date,last:open.at(-1)?.date};
+ if(t.progress===100)return {...base,kind:'done'};
+ if(m.remaining<=0)return {...base,kind:'none'};
+ if(m.review.length)return {...base,kind:'overdue'};
+ if(m.scheduled<=0)return {...base,kind:'unscheduled'};
+ if(m.unallocated>0)return {...base,kind:'partly'};
+ if(open.length===1)return {...base,kind:'one',start:open[0].used>0?'':open[0].start};
+ return {...base,kind:'many'};
+}

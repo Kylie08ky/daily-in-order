@@ -1,13 +1,17 @@
 import {useEffect,useState} from 'react';
 import {type Task,type State,type Command,businessDate,formatTime as fmt,offsetDate,clock,minuteOf} from '../lib/model';
-import {planningMetrics,planningSignature,rawPlans,planStatusLabel} from '../lib/task-plans';
+import {planningMetrics,planningSignature,rawPlans,planStatusLabel,planSummary} from '../lib/task-plans';
 import {recommendSlot} from '../lib/planning-workflow';
 import {localParts} from '../lib/task-investment';
-import {t as ui} from '../lib/i18n';
+import {t as ui,tr} from '../lib/i18n';
 import DurationInput from './duration-input';
 import './task-plans.css';
 type Props={task:Task;state:State;busy:boolean;mutate:(c:Command,message?:string)=>Promise<boolean>;from?:string;to?:string;windowStart?:string;windowEnd?:string;initiallyEditing?:boolean;onEditingChange?:(editing:boolean)=>void};
 type Draft={id:string;date:string;start:string;minutes:number};
+/** One sentence a person can act on, instead of six accounting figures. */
+function planHeadline(task:Task,m:ReturnType<typeof planningMetrics>){const p=planSummary(task,m),left=fmt(p.remaining),day=(d?:string)=>(d||'').slice(5);
+ switch(p.kind){case 'done':return ui('这件事已完成。');case 'none':return ui('没有剩余要做的时间。');case 'overdue':return tr('还要做 {0}；有 {1} 段安排已过期，需要重新安排。',left,p.review);case 'unscheduled':return tr('还要做 {0}，还没有安排日期。',left);case 'partly':return tr('还要做 {0}：已安排 {1}，还有 {2} 没定日期。',left,fmt(p.scheduled),fmt(p.unallocated));case 'one':return p.start?tr('还要做 {0}，安排在 {1} {2} 开始。',left,day(p.first),p.start):tr('还要做 {0}，安排在 {1}（灵活时间）。',left,day(p.first));default:return tr('还要做 {0}，分 {1} 段安排在 {2} 至 {3}。',left,p.count,day(p.first),day(p.last));}}
+
 export default function TaskPlanEditor({task,state,busy,mutate,from=businessDate(state.settings),to=offsetDate(from,6),windowStart='09:00',windowEnd='21:00',initiallyEditing=false,onEditingChange}:Props){
  const metrics=planningMetrics(state,task),today=businessDate(state.settings);
  const [editing,setEditing]=useState(false),[remaining,setRemaining]=useState<number|null>(null),[drafts,setDrafts]=useState<Draft[]>([]),[expected,setExpected]=useState(''),[error,setError]=useState(''),[history,setHistory]=useState<(Draft&{expected:string})|null>(null);
@@ -18,7 +22,8 @@ export default function TaskPlanEditor({task,state,busy,mutate,from=businessDate
  const suggest=(p:Draft)=>{const copy=structuredClone(state),item=copy.tasks.find(x=>x.id===task.id)!;item.plans=drafts.filter(x=>x.id!==p.id);const slot=recommendSlot(copy,{...task,id:'suggestion-only'},from<today?today:from,to,p.minutes,windowStart,windowEnd,localParts(Date.now(),state.settings.timezone));if(slot){patch(p.id,{date:slot.date,start:slot.start});setError('');}else setError(ui('没有足够的连续空档，请调整时长、可安排时间或手动选择。'));};
  const add=()=>setDrafts(v=>[...v,{id:crypto.randomUUID(),date:from<today?today:from,start:'',minutes:Math.min(1440,Math.max(1,(remaining||0)-total))}]);
  return <section className="task-plans" aria-label={ui('分段安排')}>
- <div className="task-plans-summary">{[['已投入',metrics.actual],['剩余计划',metrics.remaining],['已安排剩余',metrics.scheduled],['待分配',metrics.unallocated],['当前预计总投入',metrics.total],['初始预计',metrics.initial]].map(([label,value])=><span key={label}>{ui(String(label))}<b>{fmt(Number(value))}</b></span>)}</div>
+ <p className="task-plans-headline">{planHeadline(task,metrics)}</p><small className="task-plans-subline">{tr('已投入 {0} · 预计共 {1}',fmt(metrics.actual),fmt(metrics.total))}</small>
+ <details className="task-plans-numbers"><summary>{ui('详细数字')}</summary><div className="task-plans-summary">{[['已投入',metrics.actual],['剩余计划',metrics.remaining],['已安排剩余',metrics.scheduled],['待分配',metrics.unallocated],['当前预计总投入',metrics.total],['初始预计',metrics.initial]].map(([label,value])=><span key={label}>{ui(String(label))}<b>{fmt(Number(value))}</b></span>)}</div></details>
  {metrics.unallocated<0&&<p role="alert">{ui('未做分段超出剩余计划')} {fmt(-metrics.unallocated)}{ui('，请调整分段。')}</p>}
  {!editing?<><div className="row between wrap"><p className="hint">{ui('实际投入保留在原日期；这里只调整尚未完成的工作。')}</p><button className="primary" disabled={busy||task.progress===100} onClick={begin}>{ui('调整剩余计划')}</button></div>
  {metrics.review.length>0&&<p role="status">{ui('旧分段待核对：请确认未做部分要继续安排，还是结束安排；不会自动标记任务完成。')}</p>}

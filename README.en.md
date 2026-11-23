@@ -106,7 +106,7 @@ Use **Classification review** in Settings to inspect evidence, unresolved record
 
 When a countdown ends, choose **Resume** to count up from its planned duration—for example, 25:00, 25:01, and so on. Waiting time is excluded. Ending the session records the combined effort once; completing the task remains your choice.
 
-Start a count-up or countdown timer from today's task and enter full-screen focus. Afterward, add the videos you completed, the page you reached, or a project outcome. You can also log progress manually without using the timer.
+Start a count-up or countdown timer from today's task and enter full-screen focus. Afterward, add the videos you completed, the page you reached, or a project outcome. You can also log progress manually without using the timer. Each task’s buttons are labelled: “Log” opens on “Log time”, where you only enter how long this session took; “Focus” offers 25, 45, 60 and 90-minute shortcuts; “Schedule” starts with one sentence on how much is left and when, with detailed figures on demand; “Edit” and “Tomorrow” edit or defer the task. (v0.28.0 preview)
 
 **An activity's time is counted once.** Daily tasks, learning, reading and projects display linked records. Adding a page number or an outcome does not add another copy of the time.
 
