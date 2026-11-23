@@ -1,4 +1,5 @@
 import {t as ui,tr,locale} from '../lib/i18n';
+import {askConfirm} from './confirm-dialog';
 import {useState,type CSSProperties} from 'react';
 import {Plus,Pencil,Trash2,Archive,CalendarPlus,Check} from 'lucide-react';
 import {type State,type Command,businessDate,offsetDate} from '../lib/model';
@@ -23,7 +24,7 @@ export default function FinancePage({state:s,mutate,busy,error,openDay}:Props){
  const [editor,setEditor]=useState<Editor|null>(null),[month,setMonth]=useState(today.slice(0,7)),[tab,setTab]=useState('all'),[trash,setTrash]=useState(false),[incomeFactor,setIncomeFactor]=useState(100);
  const fmt=(n:number,c:Currency=currency)=>formatMoney(n,c),accounts=alive(l.accounts),budgets=financeBudgets(s);
  const save=(table:LifeTable,record:unknown)=>mutate({type:'life.save',payload:{table,record}},ui("已保存，余额和预算已更新。"));
- const remove=(table:LifeTable,id:string)=>{if(confirm(table==='transactions'?ui("移除此流水？余额与预算会同步回退，可在回收站恢复。"):ui("归档此项？历史记录保留，可在回收站恢复。")))void mutate({type:'life.remove',payload:{table,id}},ui("已移入财务回收站。"));};
+ const remove=(table:LifeTable,id:string)=>{void askConfirm({message:table==='transactions'?ui("移除此流水？余额与预算会同步回退，可在回收站恢复。"):ui("归档此项？历史记录保留，可在回收站恢复。"),confirmLabel:table==='transactions'?ui("移除"):ui("归档"),danger:true}).then(ok=>{if(ok)void mutate({type:'life.remove',payload:{table,id}},ui("已移入财务回收站。"));});};
  const actions=(table:LifeTable,id:string,edit:()=>void)=><div className="row"><button className="icon-btn" aria-label={ui("编辑")} onClick={edit}><Pencil size={14}/></button><button className="icon-btn" aria-label={ui("归档")} onClick={()=>remove(table,id)}><Trash2 size={14}/></button></div>;
  const accountOptions=()=>[opt('',ui("请选择")),...accounts.map(a=>opt(a.id,a.name+' · '+a.currency+(a.kind==='external'?' · 他人代付':a.kind==='blocked'?' · 冻结':'')))];
  const budgetOptions=(existing='')=>[opt('other',ui("不分配预算")),...budgets.map(b=>opt(b.id,b.name+' · '+b.currency)),...l.budgets.filter(b=>b.deletedAt&&b.id===existing).map(b=>opt(b.id,b.name+ui(" · 已归档")))];

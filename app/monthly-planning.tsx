@@ -1,4 +1,5 @@
 import {dialogBackdrop} from './dialog-backdrop';
+import {askConfirm} from './confirm-dialog';
 import {useMemo,useRef,useEffect,useState,type FormEvent} from 'react';
 import {Plus,Pencil,Trash2,ChevronLeft,ChevronRight,X,CalendarDays,ArrowRight} from 'lucide-react';
 import {type State,type Task,type TaskInput,type Command,formatTime as fmt,finished} from '../lib/model';
@@ -21,7 +22,7 @@ function GoalEditor({state,plan,goal,busy,error,save,close}:{state:State;plan:Mo
  const weeks=monthWeeks(plan.month,plan.weekStart),allocated=Object.values(draft.weeks).reduce((a,b)=>a+b,0),difference=draft.minutes-allocated;
  const projects=state.projects.filter(p=>!p.deletedAt&&(p.id===goal?.projectId||!plan.goals.some(g=>g.projectId===p.id)));
  useEffect(()=>{ref.current?.showModal();return()=>ref.current?.close();},[]);
- const dismiss=()=>{if(!dirty||confirm(ui('放弃尚未保存的月度目标修改？')))close();};
+ const dismiss=()=>{if(!dirty){close();return;}void askConfirm({message:ui('放弃尚未保存的月度目标修改？'),confirmLabel:ui('放弃修改'),danger:true}).then(ok=>{if(ok)close();});};
  const change=(value:Partial<MonthlyGoal>)=>{setDraft(d=>({...d,...value}));setDirty(true);};
  const submit=async(e:FormEvent)=>{e.preventDefault();if(await save(draft))close();};
  return <dialog {...dialogBackdrop} ref={ref} className="modal wide monthly-goal-editor" aria-label={ui(goal?'调整月度目标':'添加月度目标')} onCancel={e=>{e.preventDefault();dismiss();}}>
@@ -57,7 +58,7 @@ export default function MonthlyPlanning({state,month,setMonth,busy,error,mutate,
     {!review.projects.length&&!review.independent.length&&<p>{ui('上月没有待续项目或未完成事项。')}</p>}
    </details>
    {!plan.goals.length?<div className="panel monthly-empty"><CalendarDays size={32}/><h2>{ui('这个月，想推进哪些项目？')}</h2><p>{ui('先选择已有项目并设定投入时长，系统会分到每周。')}</p><button className="primary" onClick={()=>canAdd?setEditing(null):createProject()}>{ui(canAdd?'选择本月项目':'先创建项目')}</button></div>:<div className="monthly-goal-list">{metrics.goals.map(g=>{const p=project(g.projectId),pending=state.tasks.filter(t=>!t.deletedAt&&!finished(t)&&t.projectId===g.projectId);return <article className="panel monthly-goal-card" key={g.projectId}>
-   <header><div><button className="text-btn monthly-project-title" disabled={!!p?.deletedAt} onClick={()=>openProject(g.projectId)}><i style={{background:p?.color}}/>{p?.name||ui('已删除项目')}<ArrowRight size={15}/></button>{p?.deletedAt&&<small>{ui('项目已删除')}</small>}{g.outcome&&<p>{g.outcome}</p>}</div><div className="monthly-goal-actions"><button aria-label={tr('调整目标：{0}',p?.name)} disabled={busy||!!p?.deletedAt} onClick={()=>setEditing(g)}><Pencil size={15}/>{ui('调整目标')}</button><button className="icon-btn" aria-label={tr('移除月度目标：{0}',p?.name)} disabled={busy} onClick={()=>{if(confirm(ui('只移除本月目标，不删除项目、任务或投入记录。继续吗？')))void mutate({type:'monthly.goal.remove',payload:{month,projectId:g.projectId}},ui('月度目标已移除。'));}}><Trash2 size={16}/></button></div></header>
+   <header><div><button className="text-btn monthly-project-title" disabled={!!p?.deletedAt} onClick={()=>openProject(g.projectId)}><i style={{background:p?.color}}/>{p?.name||ui('已删除项目')}<ArrowRight size={15}/></button>{p?.deletedAt&&<small>{ui('项目已删除')}</small>}{g.outcome&&<p>{g.outcome}</p>}</div><div className="monthly-goal-actions"><button aria-label={tr('调整目标：{0}',p?.name)} disabled={busy||!!p?.deletedAt} onClick={()=>setEditing(g)}><Pencil size={15}/>{ui('调整目标')}</button><button className="icon-btn" aria-label={tr('移除月度目标：{0}',p?.name)} disabled={busy} onClick={()=>{void askConfirm({message:ui('只移除本月目标，不删除项目、任务或投入记录。继续吗？'),confirmLabel:ui('移除'),danger:true}).then(ok=>{if(ok)void mutate({type:'monthly.goal.remove',payload:{month,projectId:g.projectId}},ui('月度目标已移除。'));});}}><Trash2 size={16}/></button></div></header>
    <div className="monthly-goal-numbers"><strong>{fmt(g.actual)} <small>/ {fmt(g.minutes)}</small></strong><span>{ratio(g.actual,g.minutes)}% · {ui('实际投入')}</span></div><Bar actual={g.actual} target={g.minutes}/>
    <div className="monthly-goal-bottom"><small>{tr('已安排 {0} · 待分配 {1}',fmt(g.scheduled),fmt(g.minutes-g.allocated))}</small><button className="text-btn" onClick={()=>setStage('week')}>{ui('查看每周计划')} <ArrowRight size={15}/></button></div>
    <div className="monthly-mini-weeks">{g.weekly.map((w,i)=><button key={w.key} onClick={()=>{setWeek(w.key);setStage('week');}}><span>{tr('第 {0} 周',i+1)}</span><strong>{fmt(w.target)}</strong><Bar actual={w.actual} target={w.target}/></button>)}</div>

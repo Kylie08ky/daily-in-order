@@ -1,4 +1,5 @@
 import WeReadDialog,{WeReadStatus} from './weread';
+import {askConfirm} from './confirm-dialog';
 import {BookCover} from './book-cover';
 import TaskRecord from './task-record';
 import type {ActivityLink} from '../lib/life-schema';
@@ -34,7 +35,7 @@ export default function LifePage({view,state:s,mutate,busy,error,plan,openDay,fo
  const today=businessDate(s.settings),l=s.life,week=startOfWeek(today,s.settings.weekStart),weekEnd=offsetDate(week,6),year=today.slice(0,4),from=month+'-01',to=offsetDate(new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(5)),1,12)).toISOString().slice(0,10),-1);
  useEffect(()=>{setEditor(null);setWereadOpen(false);setTab('all');setTrash(false);setSection('main');setHistoryLimit(30);},[view]);
  const save=(table:LifeTable,record:unknown)=>mutate({type:'life.save',payload:{table,record}},ui("已保存，相关进度和统计已更新。"));
- const remove=(table:LifeTable,id:string)=>{const message=table==='entries'?'移除此进度？实际用时保留，可以在回收站恢复。':table==='accounts'?'归档后不再计入账户总余额，历史流水保留。确认归档此账户？':table==='transactions'?'移除这笔流水？余额与预算会同步回退。':'移到本模块回收站？历史数据可恢复。';if(confirm(message))void mutate({type:'life.remove',payload:{table,id,preserveTime:table==='entries'}},ui("已移到回收站。"));};
+ const remove=(table:LifeTable,id:string)=>{const message=table==='entries'?'移除此进度？实际用时保留，可以在回收站恢复。':table==='accounts'?'归档后不再计入账户总余额，历史流水保留。确认归档此账户？':table==='transactions'?'移除这笔流水？余额与预算会同步回退。':'移到本模块回收站？历史数据可恢复。';void askConfirm({message:ui(message),confirmLabel:table==='accounts'?ui("归档"):ui("移除"),danger:true}).then(ok=>{if(ok)void mutate({type:'life.remove',payload:{table,id,preserveTime:table==='entries'}},ui("已移到回收站。"));});};
  const projectField=(value=''):Field=>({key:'projectId',label:ui("关联项目（可选）"),type:'select',value,options:[opt('',ui("不关联")),...s.projects.filter(p=>!p.deletedAt).map(p=>opt(p.id,p.name))]});
  const actions=(table:LifeTable,id:string,edit:()=>void)=><div className="row"><button className="icon-btn" aria-label={ui("编辑")} onClick={edit}><Pencil size={14}/></button><button className="icon-btn" aria-label={ui("移除")} onClick={()=>remove(table,id)}><Trash2 size={14}/></button></div>;
  const heading=(eyebrow:string,title:string,description:string,addLabel:string,add:()=>void)=><header className="life-head"><div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{description}</p></div><div className="row wrap"><button className="icon-btn" aria-label={ui("查看本模块回收站")} onClick={()=>setTrash(v=>!v)}><Archive size={17}/></button><button className="primary" onClick={add}><Plus size={16}/>{addLabel}</button></div></header>;
