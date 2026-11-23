@@ -1,5 +1,5 @@
 import type {State,Task} from './model.ts';
-import {rawPlans,taskOnDate,planStatus} from './task-plans.ts';
+import {rawPlans,taskOnDate,planStatus,taskPlans} from './task-plans.ts';
 import {localParts,investmentByTask,minutesInRange} from './task-investment.ts';
 /** Completion dates describe the event, never the date of each invested segment. */
 export function completionDate(t:Task,timezone:string){
@@ -18,3 +18,10 @@ export function tasksForDay(s:State,date:string){
  return s.tasks.filter(t=>!t.deletedAt&&!t.templateOnly&&(minutesInRange(actual.get(t.id),date)>0||completionDate(t,s.settings.timezone)===date||taskOnDate(t,date,s)));
 }
 export function datesSignature(t:Task){return JSON.stringify([t.completedAt,t.completedDate,t.actualDate,t.actual,t.progress]);}
+/** Latest planned date of an unfinished task when it lies before today ("overdue"); otherwise ''. */
+export function overduePlanDay(s:State,t:Task,today:string){
+ const last=[...taskPlans(t,s).map(p=>p.date),t.plans?'':t.date].filter(Boolean).sort().at(-1)||'';
+ return last&&last<today?last:'';
+}
+/** Default "actual completion date" for a completion dialog: an overdue task's own planned day, else the viewed day (never in the future). */
+export function defaultCompletionDay(s:State,t:Task,viewDate:string,today:string){return overduePlanDay(s,t,today)||(viewDate>today?today:viewDate);}

@@ -52,6 +52,42 @@ test('Edit task opens with one "Which day?" control and ticking a past item asks
  assert.ok(top>0&&top<classification,'"Which day?" sits above the other fields');
  assert.ok(wb.includes('dirty={dirty} onDone={close}/>'));assert.ok(move.includes("{dirty?<p className=\"hint\">{ui('请先保存或放弃下面的修改，再改日期。')}"));
  assert.ok(move.includes("type:'task.finish.on'"));assert.ok(move.includes("ui('这件事是在这天做完的')"));
- assert.ok(wb.includes('||pastPlanDay(t)){setCompletion(t)'));assert.ok(wb.includes('setDoneDay(pastPlanDay(t)||(date>today?today:date))'));
+ assert.ok(wb.includes('||overduePlanDay(s,t,today)){setCompletion(t)'));assert.ok(wb.includes('setDoneDay(defaultCompletionDay(s,t,date,today))'));
  assert.ok(wb.includes('name="completedDate" type="date" required value={doneDay}'));
+});
+
+import {overduePlanDay,defaultCompletionDay} from '../lib/task-completion.ts';
+test('completing two overdue items in a row: each dialog defaults to that item’s own planned day, whatever day is being viewed',()=>{
+ let s=run(emptyState(),'task.save',{id:'a',task:{title:'Synthetic errand',date:'2026-11-20',minutes:30}},new Date('2026-11-15T08:00:00Z'));
+ s=run(s,'task.save',{id:'b',task:{title:'Synthetic weekly review',date:'2026-11-22',minutes:30}},new Date('2026-11-15T08:00:00Z'));
+ const today='2026-11-23',find=id=>s.tasks.find(t=>t.id===id);
+ // First completion while viewing 11-20 (the reported sequence), then the next item is opened from the same view.
+ for(const view of ['2026-11-20',today,'2026-11-21']){
+  assert.equal(defaultCompletionDay(s,find('a'),view,today),'2026-11-20',view);
+  assert.equal(defaultCompletionDay(s,find('b'),view,today),'2026-11-22',view);
+ }
+ s=run(s,'task.progress',{id:'a',date:defaultCompletionDay(s,find('a'),'2026-11-20',today),progress:100});
+ assert.equal(find('a').completedDate,'2026-11-20');
+ assert.equal(overduePlanDay(s,find('b'),today),'2026-11-22');assert.equal(defaultCompletionDay(s,find('b'),'2026-11-20',today),'2026-11-22');
+ s=run(s,'task.progress',{id:'b',date:defaultCompletionDay(s,find('b'),'2026-11-20',today),progress:100});
+ assert.equal(find('b').completedDate,'2026-11-22');
+});
+
+test('overdue split tasks use their latest unfinished segment; current and future items keep the viewed day',()=>{
+ let s=run(emptyState(),'task.save',{id:'t',task:{title:'Synthetic split',minutes:90}},new Date('2026-11-15T08:00:00Z'));
+ for(const [planId,date] of [['x','2026-11-18'],['y','2026-11-21']])s=run(s,'task.plan.save',{id:'t',planId,date,start:'',minutes:45},new Date('2026-11-15T08:00:00Z'));
+ assert.equal(defaultCompletionDay(s,s.tasks[0],'2026-11-19','2026-11-23'),'2026-11-21');
+ const due=run(emptyState(),'task.save',{id:'t',task:{title:'Due today',date:'2026-11-23',minutes:30}});
+ assert.equal(overduePlanDay(due,due.tasks[0],'2026-11-23'),'');assert.equal(defaultCompletionDay(due,due.tasks[0],'2026-11-20','2026-11-23'),'2026-11-20');
+ assert.equal(defaultCompletionDay(due,due.tasks[0],'2026-11-25','2026-11-23'),'2026-11-23');
+});
+
+test('both completion forms take the default from the shared rule, show Planned day / Today, and reset on every open',()=>{
+ const wb=fs.readFileSync('app/workbench.tsx','utf8'),course=fs.readFileSync('app/course-completion.tsx','utf8');
+ assert.equal((wb.match(/setCompletion\(t\)/g)||[]).length,1,'single entry point');assert.ok(wb.includes('setCompletion(t);setActual(t.actual);setDoneBy(\'duration\');setDoneStart(\'\');setDoneEnd(\'\');setDoneDay(defaultCompletionDay(s,t,date,today));'));
+ assert.ok(wb.includes('{completion&&<Dialog key={completion.id} title='));
+ assert.ok(wb.includes('<CourseCompletion key={completion.id} planDay={overduePlanDay(s,completion,today)}'));
+ assert.ok(!wb.includes('pastPlanDay'));
+ assert.ok(course.includes('[day,setDay]=useState(planDay||(date>today?today:date))'));
+ for(const src of [wb,course])assert.ok(src.includes("tr('计划那天 {0}',")&&src.includes("ui('今天')"));
 });
