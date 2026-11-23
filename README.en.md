@@ -133,7 +133,7 @@ Scheduling and projects are the core. Add other modules to suit the way you work
 
 | What you want to do | Features |
 | --- | --- |
-| Follow your learning and course progress | Custom modules and activities, separate time and quantity tracking, weekly, monthly and all-time views |
+| Follow your learning and course progress | Custom modules and activities, separate time and quantity tracking, weekly, monthly and all-time views; step back to earlier weeks or months with ‹ ›, or click the dates to jump to any week |
 | Remember where you left off in a book | A bookshelf, covers, current page and session history, with reading time and progress |
 | Build routines and keep moving | Habit, sleep and workout logs, with optional daily intake and nutrition targets |
 | Manage everyday spending | Custom accounts, budgets and currencies, with separate totals for each currency |

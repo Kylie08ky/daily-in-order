@@ -12,6 +12,18 @@ export function learningRange(date:string,period:LearningPeriod,weekStart:'monda
  if(period==='year')return {from:date.slice(0,4)+'-01-01',to:date.slice(0,4)+'-12-31'};
  return {from:date.slice(0,7)+'-01',to:offsetDate(new Date(Date.UTC(Number(date.slice(0,4)),Number(date.slice(5,7)),1,12)).toISOString().slice(0,10),-1)};
 }
+/** Step to the previous (-1) or next (+1) week/month/year; returns a date inside that period. Never past the period containing today. */
+export function shiftLearningPeriod(date:string,period:LearningPeriod,dir:-1|1,today:string,weekStart:'monday'|'sunday'){
+ if(period==='all')return date;
+ const start=learningRange(date,period,weekStart).from;
+ const next=period==='week'?offsetDate(start,7*dir):period==='year'?String(Number(start.slice(0,4))+dir)+'-01-01'
+  :new Date(Date.UTC(Number(start.slice(0,4)),Number(start.slice(5,7))-1+dir,1,12)).toISOString().slice(0,10);
+ return next>=learningRange(today,period,weekStart).from?today:next;
+}
+/** True when the shown period is the one containing today ("This week"/"This month"). */
+export function isCurrentLearningPeriod(date:string,period:LearningPeriod,today:string,weekStart:'monday'|'sunday'){
+ return period==='all'||learningRange(date,period,weekStart).from===learningRange(today,period,weekStart).from;
+}
 // Count recorded investment even before a task is marked complete. Linked entries
 // and focus sessions describe the same task actual, so never add them twice.
 export function learningInvestment(s:State,from:string,to:string){
