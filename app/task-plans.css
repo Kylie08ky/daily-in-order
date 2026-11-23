@@ -5,3 +5,10 @@
 .task-editor-schedule{padding:16px;margin:16px 0;border:1px solid var(--border,#cdd6c3);border-radius:14px;background:#eef2e7;color:#303d32}.task-editor-schedule-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.task-editor-schedule-heading button{white-space:nowrap}.task-editor-schedule-list{max-height:210px;overflow:auto;margin:12px 0}.task-editor-schedule-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #d6decd;font-variant-numeric:tabular-nums}.task-editor-schedule small{color:#52634f}.task-editor-schedule-view>h3{margin:18px 0 8px}.task-editor-schedule-view>.hint{margin:8px 0 16px}@media(max-width:550px){.task-editor-schedule-row{grid-template-columns:1fr 1fr;gap:6px}.task-editor-schedule-row>span:last-child{grid-column:2}.task-editor-schedule-heading{flex-wrap:wrap}}
 
 .task-plan-history{padding:14px 0;border-bottom:1px solid #d3dcc9}.task-plan-history p{margin:6px 0}.task-plan-history small{display:block}.history-plan-editor{margin-top:16px;padding:16px;border:1px solid #bccbad;border-radius:12px}
+/* Reschedule unfinished segments: editor control and quick buttons in the "needs rescheduling" list */
+.plan-reschedule{padding:14px 16px;margin:-4px 0 16px;border:1px solid var(--border,#cdd6c3);border-radius:14px;background:#f5f7f0;color:#303d32}
+.plan-reschedule .fields{align-items:end}.plan-reschedule .chips{display:flex;gap:6px;margin-bottom:4px}.plan-reschedule .hint{margin:8px 0 10px}
+.selectable-task:has(.quick-reschedule){flex-wrap:wrap}
+.quick-reschedule{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-4px 0 6px 32px;font-size:12px;color:#34452f}
+.quick-reschedule button{min-height:30px;padding:4px 12px;font-size:12px;border-radius:8px}
+.quick-reschedule>span{font-weight:600}.quick-reschedule button{color:#2e3d2c;border:1px solid #b7c3a8;background:#fff}.quick-reschedule label{display:flex;flex-direction:row;align-items:center;gap:6px;margin:0;font-size:12px;color:#34452f;white-space:nowrap}.quick-reschedule input[type=date]{min-height:30px;padding:2px 8px;font-size:12px}

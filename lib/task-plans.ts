@@ -65,6 +65,32 @@ export function applyTaskPlan(input:State,command:Command,instant=new Date()){
   t.plans=plans.map(x=>x.id===p.planId?{...x,date:p.date,start:p.start,minutes:p.minutes,...(status!=='planned'?{endReason:status==='partial'?'cancelled' as const:status}:{} )}:x);
   return validateState(s);
  }
+ if(command.type==='task.plan.reschedule'){
+  // Move only the unfinished part to one date. Worked segments stay (ended) on their dates; unworked ones are removed.
+  const p=z.object({id:idString,expected:z.string(),date:dateString}).parse(command.payload);
+  if(t.progress===100)throw Error('请先将任务改为未完成，再安排剩余工作。');
+  const raw=rawPlans(t),open=planLedger(s,t).filter(x=>!x.closed&&x.left>0);
+  if(!open.length)throw Error('这个任务没有可改期的未做安排。');
+  if(open.length===1&&open[0].date===p.date)return input; // already there: retries are no-ops
+  if(p.expected!==planningSignature(t))throw Error('记录已更新，请重新打开剩余计划后核对。');
+  if(p.date<businessDate(s.settings,instant))throw Error('请将未做分段安排到今天或以后，或移除这段未做安排。');
+  const single=open.length===1&&open[0].used===0&&planSeconds(s,t,open[0])===0;
+  let next:TaskPlan[];
+  if(single)next=raw.map(x=>x.id===open[0].id?{...x,date:p.date}:{...x});
+  else{
+   const moving=new Set(open.map(x=>x.id)),total=Math.min(Math.round(open.reduce((n,x)=>n+x.left,0)),remainingMinutes(t));
+   if(total<1)throw Error('这段安排的时间已用完；请用调整剩余计划设定还需多久。');
+   const used=new Set([...raw.map(x=>x.id),...s.sessions.filter(x=>x.taskId===t.id).map(x=>x.planId)]);let n=0,planId;do{planId=`reschedule:${p.date}:${n++}`;}while(used.has(planId));
+   const kept=raw.filter(x=>!moving.has(x.id)||planSeconds(s,t,x)>0).map(x=>moving.has(x.id)?{...x,closed:true,endReason:'cancelled' as const}:{...x});
+   // Ended history no longer counts against the estimate, as with "adjust remaining work".
+   if(kept.some(x=>moving.has(x.id)))t.remainingEstimate={initialMinutes:t.remainingEstimate?.initialMinutes??t.minutes,minutes:remainingMinutes(t),actualAtSet:t.actual||0};
+   next=[...kept,{id:planId,date:p.date,start:open.length===1?open[0].start:'',minutes:total}];
+  }
+  checkSlots(t,next.filter(x=>!x.closed));
+  if(t.deadline&&p.date>t.deadline)throw Error('安排日期晚于事项截止日期。');
+  t.plans=next.sort((a,b)=>a.date.localeCompare(b.date)||(a.start||'99').localeCompare(b.start||'99'));
+  return validateState(s);
+ }
  if(command.type==='task.plan.reestimate'){
   const p=z.object({id:idString,expected:z.string(),remaining:z.number().int().min(0).max(100000),plans:z.array(slot()).max(366)}).parse(command.payload);
   if(p.expected!==planningSignature(t))throw Error('记录已更新，请重新打开剩余计划后核对。');

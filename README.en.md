@@ -85,6 +85,7 @@ Plan two hours of a six-hour task this week and four hours next week, without cr
 - **Halfway through and need more time?** Re-estimate the remaining work and schedule what is left.
 - **Only got part of it done today?** Swipe it to the next day: the original plan stays on today, marked “Partly done; segment ended”, and only the remaining time moves. For example, planned 2 hours and worked 25 minutes leaves 1 hour 35 minutes for tomorrow. (v0.25.9 preview)
 - **Didn’t use the focus timer?** When completing, enter either how long it took or from when to when; a from–to range appears at that time on the timeline. (v0.25.9 preview)
+- **Need a split task on another day?** In Edit task, a single unfinished segment can take a new date directly; several can be merged into one day, combining the unfinished time into one segment. Segments with no time spent are removed and time already spent stays on its original date. Each item in “Needs rescheduling” can also move to today, tomorrow or a chosen date in one step. (v0.26.0 preview)
 - **Have a regular practice you return to?** Keep a reusable entry and add it to a day when needed. Course-related tasks can stay available for a limited phase, too.
 
 Moving future plans does not change past effort. Spending longer than estimated does not automatically mark a task complete. When you explicitly finish the whole task, its unfinished plans close automatically while past effort stays on the dates it happened. You can correct the completion date and the actual date of a legacy time record separately.
