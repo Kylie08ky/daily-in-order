@@ -70,9 +70,8 @@ test('stale sync version, completed tasks, deadlines and empty plans are refused
 });
 
 test('the editor and the "needs rescheduling" list both reschedule through the same versioned command',async()=>{
- const fs=await import('node:fs'),ui=fs.readFileSync('app/plan-reschedule.tsx','utf8'),wb=fs.readFileSync('app/workbench.tsx','utf8');
- assert.match(ui,/type:'task\.plan\.reschedule',payload:\{id:task\.id,expected:planningSignature\(task\),date\}/);
- assert.match(wb,/<PlanReschedule key=\{planningSignature\(live\)\} task=\{live\}/);
- assert.match(wb,/\{taskFilter==='late'&&<QuickReschedule task=\{t\}/);
- for(const label of ["ui('今天')","ui('明天')","ui('选日期')","ui('安排日期')","ui('合并到一天')"])assert.ok(ui.includes(label),label);
+ const fs=await import('node:fs'),quick=fs.readFileSync('app/plan-reschedule.tsx','utf8'),move=fs.readFileSync('app/task-date-move.tsx','utf8'),wb=fs.readFileSync('app/workbench.tsx','utf8');
+ for(const src of [quick,move])assert.ok(src.includes("type:'task.plan.reschedule',payload:{id:task.id,expected:planningSignature(task),date}"));
+ assert.ok(wb.includes("{taskFilter==='late'&&<QuickReschedule task={t}"));assert.ok(!wb.includes('PlanReschedule'));
+ for(const label of ["ui('今天')","ui('明天')","ui('选日期')"])assert.ok(quick.includes(label),label);
 });

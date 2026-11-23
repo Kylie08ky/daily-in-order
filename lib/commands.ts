@@ -35,6 +35,20 @@ export function applyCommand(input:State,command:Command,instant=new Date(),newI
   if(p.actualDate)t.actualDate=p.actualDate;
   return validateState(s);
  }
+ if(command.type==='task.finish.on'){
+  // "This was done on X": one step sets the completion date and the date of any untimed total.
+  // Focus and manually timed records keep the dates they actually happened on.
+  const p=z.object({id:idString,expected:z.string(),date:dateString,actual:z.number().int().min(0).max(100000).nullable().optional()}).parse(command.payload);
+  const before=input.tasks.find(t=>t.id===p.id&&!t.deletedAt);if(!before)throw Error('事项不存在。');
+  const untimed=(state:State,id:string)=>{const t=state.tasks.find(x=>x.id===id)!,actual=t.actual||0,seconds=state.sessions.filter(x=>x.taskId===id&&!x.deletedAt).reduce((n,x)=>n+x.seconds,0);return actual-Math.min(actual,Math.round(seconds/60));};
+  if(before.progress===100&&completionDate(before,input.settings.timezone)===p.date&&(untimed(input,p.id)<=0||before.actualDate===p.date))return input;
+  if(p.expected!==datesSignature(before))throw Error('记录已更新，请重新打开后核对。');
+  if(p.date>localParts(instant.valueOf(),input.settings.timezone).date)throw Error('实际记录不能填写未来日期。');
+  const s=structuredClone(before.progress===100?input:applyCommand(input,{type:'task.progress',payload:{id:p.id,date:p.date,progress:100,...(p.actual!==undefined?{actual:p.actual}:{})}},instant)),t=s.tasks.find(x=>x.id===p.id)!;
+  t.completedDate=p.date;closeCompletedPlans(t,s);
+  if(untimed(s,p.id)>0)t.actualDate=p.date;
+  return validateState(s);
+ }
  if(command.type==='task.save'){
   const p=command.payload as {id:string;task:unknown;scope?:string;repeat?:unknown},old=input.tasks.find(t=>t.id===p.id);
   if(old&&(!p.scope||p.scope==='one')){const next=taskInput.parse(p.task),before=taskInput.parse(old);const {classification:a,...restA}=before,{classification:b,...restB}=next;
