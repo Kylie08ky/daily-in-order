@@ -56,11 +56,17 @@
 @media(max-width:1100px){.study-module .study-goal-row{grid-template-columns:minmax(140px,1fr) minmax(230px,300px) 100px;gap:14px}.study-metrics{gap:14px}}
 @media(max-width:850px){.study-module-header{grid-template-columns:minmax(0,1fr) auto;gap:10px}.study-module-header>.row{grid-column:1/-1;justify-content:flex-end}.study-header{flex-wrap:wrap;gap:14px}.study-header>.row{flex-wrap:wrap}.study-module .study-goal-row{grid-template-columns:minmax(0,1fr) auto;gap:12px}.study-module .study-goal-name{grid-column:1;grid-row:1}.study-module .study-goal-actions{grid-column:2;grid-row:1}.study-module .study-metrics{grid-column:1/-1;grid-row:2;max-width:430px;width:100%;padding-left:18px}}
 @media(max-width:700px){.study-module-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.study-module-list{padding:8px;gap:10px}.study-module-header{padding:12px}.study-module-bar{padding:0 12px 10px}.study-module-toggle{flex-wrap:wrap;gap:6px}.study-module-toggle strong{font-size:16px}.study-module-total strong{font-size:15px}.study-module-total small{font-size:10px;max-width:130px}.study-module .study-goal{padding:0 12px}.study-module .study-goal-row{padding:13px 0}.study-module .study-goal-name strong{font-size:13px}.study-module .study-goal-name>i{width:6px;height:6px}.study-module .study-goal-name svg{display:none}.study-module .study-metrics{padding-left:15px;gap:16px}.study-metric>strong{font-size:16px}.study-period-bar{gap:10px}.study-period-bar .tabs{flex-wrap:wrap}}
-/* Period stepper: ‹ range › — the range doubles as a date picker; "Back to this week" appears only when looking elsewhere. */
-.study-period-nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.study-period-nav .icon-btn{width:32px;height:32px;display:inline-grid;place-items:center;border-radius:8px;border:1px solid #d4dccb;background:#fafbf6;color:#2f4436}
-.study-period-nav .icon-btn:disabled{opacity:.4;cursor:default}
-.study-period-range{position:relative;display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid #d4dccb;border-radius:8px;background:#fafbf6;color:#2f4436;font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer;margin:0}
-.study-period-range input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;padding:0;border:0}
+/* Period stepper: one pill matching the period tabs — ‹ [calendar · name · dates] ›; the middle opens a date picker. */
+.study-period-side{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.study-period-nav{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:10px;background:#e9eddf}
+.study-period-nav>button{width:32px;height:32px;min-height:0;padding:0;display:inline-grid;place-items:center;border:0;border-radius:7px;background:none;color:#3f5035}
+.study-period-nav>button:hover:not(:disabled){background:#fbfcf7}
+.study-period-nav>button:disabled{color:#b4bdaa;cursor:default}
+.study-period-nav label.study-period-range{position:relative;display:inline-flex;flex-direction:row;grid-auto-flow:column;align-items:center;gap:8px;height:32px;padding:0 14px;margin:0;border-radius:7px;background:#fbfcf7;box-shadow:0 1px 2px rgba(40,60,30,.12);color:#2f4436;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer}
+.study-period-range svg{color:#6f8262;flex:none}
+.study-period-range strong{font-weight:600}
+.study-period-range strong+span{color:#66755d}
+.study-period-range input{position:absolute;inset:0;width:100%;height:100%;opacity:0;padding:0;border:0;cursor:pointer}
 .study-period-range:focus-within{outline:2px solid #8aa17a;outline-offset:1px}
-.study-period-today{min-height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.study-period-today{font-size:13px;color:#4f6a3f;padding:4px 2px;min-height:0;background:none;border:0;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:700px){.study-period-side{width:100%;justify-content:space-between}.study-period-nav{flex:1}.study-period-range{flex:1;justify-content:center;padding:0 8px}}

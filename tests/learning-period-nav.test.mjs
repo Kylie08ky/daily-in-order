@@ -20,9 +20,14 @@ test('stepping back shows last week and last month; stepping forward stops at th
 
 test('the period bar has ‹ › buttons, a clickable date range and a way back to the current period',()=>{
  const src=fs.readFileSync('app/learning-workspace.tsx','utf8');
- assert.ok(src.includes("onClick={()=>setDate(shiftLearningPeriod(date,period,-1,today,s.settings.weekStart))}"));
- assert.ok(src.includes("disabled={current} onClick={()=>setDate(shiftLearningPeriod(date,period,1,today,s.settings.weekStart))}"));
+ assert.ok(src.includes("onClick={()=>setDate(d=>shiftLearningPeriod(d,period,-1,today,s.settings.weekStart))}"));
+ assert.ok(src.includes("disabled={current} onClick={()=>setDate(d=>shiftLearningPeriod(d,period,1,today,s.settings.weekStart))}"));
  assert.ok(src.includes('<input type="date" aria-label={ui(\'选择要查看的日期\')} value={date} max={today}'));
- assert.ok(src.includes("{!current&&<button type=\"button\" className=\"study-period-today\" onClick={()=>setDate(today)}>"));
+ assert.ok(src.includes("{!current&&<button type=\"button\" className=\"text-btn study-period-today\" onClick={()=>setDate(today)}>"));
  assert.ok(src.includes("ui(current?'本周实际时长':'该周实际时长')"));
+ // One pill: arrows around a single date button that names the period ("This week", "Last week" or the month).
+ assert.ok(src.includes("[['week','按周'],['month','按月'],['all','历史累计']]"));
+ assert.ok(src.includes("periodName=period==='all'?'':current?ui(period==='week'?'本周':'本月'):previous?ui(period==='week'?'上周':'上月'):period==='month'?range.from.slice(0,7):''"));
+ const nav=src.slice(src.indexOf('<div className="study-period-nav"'),src.indexOf('</div></div>}</div>'));
+ assert.deepEqual([nav.indexOf('<ChevronLeft'),nav.indexOf('<label className="study-period-range"'),nav.indexOf('<ChevronRight')].every((v,i,a)=>v>0&&(i===0||v>a[i-1])),true);
 });
